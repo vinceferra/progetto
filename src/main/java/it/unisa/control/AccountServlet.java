@@ -45,7 +45,7 @@ public class AccountServlet extends HttpServlet {
 		String nome = request.getParameter("nome");
 		String cognome = request.getParameter("cognome");
 		String telefono = request.getParameter("tel");
-		String citta = request.getParameter("citt�");
+		String citta = request.getParameter("citta");
 		String ind = request.getParameter("ind");
 		String cap = request.getParameter("cap");
 		String prov = request.getParameter("prov");	

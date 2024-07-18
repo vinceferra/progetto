@@ -39,9 +39,8 @@ public class CatalogoServlet extends HttpServlet {
 					bean.setQuantita(Integer.parseInt(request.getParameter("quantita")));
 					bean.setCategoria(request.getParameter("Categoria"));
 					if(request.getParameter("Categoria")=="abbigliamento")
-						bean.setTaglia(request.getParameter("Taglia"));
+						bean.setTaglie(request.getParameter("Taglia"));
 					bean.setImmagine(request.getParameter("img"));
-					bean.setDescrizioneDettagliata(request.getParameter("descDett"));
 					bean.setInVendita(true);
 					prodDao.doSave(bean);
 				}
@@ -56,9 +55,8 @@ public class CatalogoServlet extends HttpServlet {
 					bean.setQuantita(Integer.parseInt(request.getParameter("quantita")));
 					bean.setCategoria(request.getParameter("Categoria"));
 					if(request.getParameter("Categoria")=="abbigliamento")
-						bean.setTaglia(request.getParameter("Taglia"));
+						bean.setTaglie(request.getParameter("Taglia"));
 					bean.setImmagine(request.getParameter("img"));
-					bean.setDescrizioneDettagliata(request.getParameter("descDett"));
 					bean.setInVendita(true);
 					prodDao.doUpdate(bean);	
 				}

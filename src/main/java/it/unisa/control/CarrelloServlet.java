@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import it.unisa.model.Carrello;
 import it.unisa.model.ItemCarrello;
-import it.unisa.model.ProdottoBean;
 import it.unisa.model.ProdottoDao;
 
 @WebServlet("/carrello")
@@ -24,7 +23,6 @@ public class CarrelloServlet extends HttpServlet{
 			throws ServletException, IOException {
 		
 		ProdottoDao prodDao = new ProdottoDao();
-		ProdottoBean bean = new ProdottoBean();
 		Carrello cart = (Carrello)request.getSession().getAttribute("cart");
 		if(cart == null) {
 			cart = new Carrello();
@@ -40,20 +38,19 @@ public class CarrelloServlet extends HttpServlet{
 			if (action != null) {
 				if (action.equalsIgnoreCase("addC")) {
 					int id = Integer.parseInt(request.getParameter("id"));
-					cart.addProdotto(prodDao.doRetrieveByKey(id));	
+					cart.addProdotto(prodDao.doRetrieveByKey(id));
 				} else if (action.equalsIgnoreCase("deleteC")) {
 					int id = Integer.parseInt(request.getParameter("id"));
 					cart.deleteProdotto(prodDao.doRetrieveByKey(id));
 					
 				}
 			}
-			if(quantita!=null) {
-				int id = Integer.parseInt(request.getParameter("Id"));
-				ItemCarrello item = cart.getItem(id);
-				item.setQuantitaCarrello(Integer.parseInt(quantita));
-				
-			}
-
+				if(quantita!=null) {
+					int id = Integer.parseInt(request.getParameter("Id"));
+					ItemCarrello item = cart.getItem(id);
+					item.setQuantitaCarrello(Integer.parseInt(quantita));
+					
+				}
 			
 			
 		} catch (SQLException e) {

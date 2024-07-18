@@ -21,7 +21,7 @@ public class UserDao implements UserDaoInterfaccia {
 			Context initCtx = new InitialContext();
 			Context envCtx = (Context) initCtx.lookup("java:comp/env");
 
-			ds = (DataSource) envCtx.lookup("jdbc/storage");
+			ds = (DataSource) envCtx.lookup("jdbc/buy_intelligently");
 
 		} 
 		catch (NamingException e) {

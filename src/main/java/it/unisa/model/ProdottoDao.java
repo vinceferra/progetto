@@ -21,7 +21,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
             Context initCtx = new InitialContext();
             Context envCtx = (Context) initCtx.lookup("java:comp/env");
 
-            ds = (DataSource) envCtx.lookup("jdbc/storage");
+            ds = (DataSource) envCtx.lookup("jdbc/buy_intelligently");
 
         } catch (NamingException e) {
             throw new RuntimeException(e);
@@ -120,7 +120,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
     @Override
     public void doUpdate(ProdottoBean product) throws SQLException {
         String updateSQL = "UPDATE " + TABLE_NAME
-                + " SET NOME = ? , QUANTITA = ? , DESCRIZIONE = ?, PREZZO = ?, CATEGORIA = ?, IN_VENDITA = ?, IVA = ?, IMMAGINE = ?, DESCRIZIONE_DETTAGLIATA = ?"
+                + " SET NOME = ? , QUANTITA = ? , DESCRIZIONE = ?, PREZZO = ?, CATEGORIA = ?, IN_VENDITA = ?, IVA = ?, IMMAGINE = ?, TAGLIE = ?, NVENDITE = ?"
                 + " WHERE ID_PRODOTTO = ? ";
 
         try (Connection connection = ds.getConnection();

@@ -19,7 +19,7 @@ public class IndirizzoSpedizioneDao implements IndirizzoSpedizioneDaoInterfaccia
 			Context initCtx = new InitialContext();
 			Context envCtx = (Context) initCtx.lookup("java:comp/env");
 
-			ds = (DataSource) envCtx.lookup("jdbc/storage1");
+			ds = (DataSource) envCtx.lookup("jdbc/buy_intelligently");
 
 		} catch (NamingException e) {
 			System.out.println("Error:" + e.getMessage());

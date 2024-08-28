@@ -158,6 +158,42 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
             return prodotti;
         }
     }
+    
+    @Override
+    public ArrayList<ProdottoBean> doRetrieveBestSellers() throws SQLException {
+        String selectSQL = "SELECT * FROM " + TABLE_NAME + " ORDER BY NVENDITE";
+
+        try (Connection connection = ds.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            ArrayList<ProdottoBean> prodotti = new ArrayList<>();
+            while (rs.next()) {
+                prodotti.add(mapResultSetToBean(rs));
+            }
+            return prodotti;
+        }
+    }
+    
+	@Override
+	public ArrayList<ProdottoBean> doRetrieveRandomProducts(int numProducts) throws SQLException {
+	    String selectSQL = "SELECT * FROM " + TABLE_NAME + " ORDER BY RAND() LIMIT ?";
+
+	    try (Connection connection = ds.getConnection();
+	         PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
+
+	        preparedStatement.setInt(1, numProducts);
+
+	        ResultSet rs = preparedStatement.executeQuery();
+
+	        ArrayList<ProdottoBean> prodotti = new ArrayList<>();
+	        while (rs.next()) {
+	            prodotti.add(mapResultSetToBean(rs));
+	        }
+	        return prodotti;
+	    }
+	}
 
     private ProdottoBean mapResultSetToBean(ResultSet rs) throws SQLException {
         ProdottoBean bean = new ProdottoBean();

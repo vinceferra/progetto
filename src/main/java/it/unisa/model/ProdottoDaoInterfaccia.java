@@ -18,4 +18,8 @@ public interface ProdottoDaoInterfaccia {
 	public void doUpdate(ProdottoBean bean) throws SQLException;
 	
 	public ArrayList<ProdottoBean> doRetrieveByCategoria(String Categoria) throws SQLException;
+	
+	public ArrayList<ProdottoBean> doRetrieveBestSellers() throws SQLException;
+	
+	public ArrayList<ProdottoBean> doRetrieveRandomProducts(int numProducts) throws SQLException;
 }

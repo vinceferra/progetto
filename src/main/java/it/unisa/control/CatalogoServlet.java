@@ -38,7 +38,7 @@ public class CatalogoServlet extends HttpServlet {
 					bean.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
 					bean.setQuantita(Integer.parseInt(request.getParameter("quantita")));
 					bean.setCategoria(request.getParameter("Categoria"));
-					if(request.getParameter("Categoria")=="abbigliamento")
+					if (request.getParameter("Categoria").equals("abbigliamento"))
 						bean.setTaglie(request.getParameter("Taglia"));
 					bean.setImmagine(request.getParameter("img"));
 					bean.setInVendita(true);

@@ -18,6 +18,31 @@
 <body>
 <%@ include file="../fragments/header.jsp" %>
 	<%@ include file="../fragments/menu.jsp" %>
+	<!-- Prezzo -->
+        <div class="filter-group">
+            <label for="price">Prezzo massimo: <span id="price-value">5000</span>&#8364</label>
+            <input type="range" id="price" name="price" min="0" max="5000" value="5000" oninput="document.getElementById('price-value').innerText = this.value">
+        </div>
+
+        <!-- Marca -->
+        <div class="filter-group">
+            <label for="brand">Marca:</label>
+            <input type="text" id="brand" name="brand" placeholder="Inserisci marca">
+        </div>
+
+        <!-- Disponibilità -->
+        <div class="filter-group">
+            <input type="checkbox" id="available" name="available">
+            <label for="available">Solo prodotti disponibili</label>
+        </div>
+
+        <!-- Pulsante di ricerca -->
+        <div class="filter-group">
+            <input type="submit" value="Cerca">
+        </div>
+
+    </form>
+</div>
 	
 	<%
 	ArrayList<ProdottoBean> Accessori = categorie.get(1);%>
@@ -32,6 +57,7 @@
 				while (it.hasNext()) {
 					ProdottoBean bean = (ProdottoBean) it.next();
 		%>
+		
 		<div class="item">
 			<ul>
 			<li><a href="dettagli?id=<%=bean.getIdProdotto()%>"><img src="<%=bean.getImmagine()%>" height="130" width="130"></a></li>

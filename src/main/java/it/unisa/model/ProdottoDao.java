@@ -33,7 +33,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
     @Override
     public void doSave(ProdottoBean product) throws SQLException {
         String insertSQL = "INSERT INTO " + TABLE_NAME
-            + " (NOME, CATEGORIA, DESCRIZIONE, PREZZO, QUANTITA, IN_VENDITA, IVA, IMMAGINE, TAGLIE, NVENDITE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            + " (NOME, CATEGORIA, DESCRIZIONE, PREZZO, QUANTITA, IN_VENDITA, IVA, IMMAGINE, TAGLIE, N.VENDITE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = ds.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
@@ -120,7 +120,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
     @Override
     public void doUpdate(ProdottoBean product) throws SQLException {
         String updateSQL = "UPDATE " + TABLE_NAME
-                + " SET NOME = ? , QUANTITA = ? , DESCRIZIONE = ?, PREZZO = ?, CATEGORIA = ?, IN_VENDITA = ?, IVA = ?, IMMAGINE = ?, TAGLIE = ?, NVENDITE = ?"
+                + " SET NOME = ? , QUANTITA = ? , DESCRIZIONE = ?, PREZZO = ?, CATEGORIA = ?, IN_VENDITA = ?, IVA = ?, IMMAGINE = ?, TAGLIE = ?, N.VENDITE = ?"
                 + " WHERE ID_PRODOTTO = ? ";
 
         try (Connection connection = ds.getConnection();
@@ -160,21 +160,21 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
     }
     
     @Override
-    public ArrayList<ProdottoBean> doRetrieveBestSellers() throws SQLException {
-        String selectSQL = "SELECT * FROM " + TABLE_NAME + " ORDER BY NVENDITE";
+ public ArrayList<ProdottoBean> doRetrieveBestSellers() throws SQLException {
+    String selectSQL = "SELECT * FROM " + TABLE_NAME + " N ORDER BY N.VENDITE"; 
 
-        try (Connection connection = ds.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
+    try (Connection connection = ds.getConnection();
+         PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
 
-            ResultSet rs = preparedStatement.executeQuery();
+        ResultSet rs = preparedStatement.executeQuery();
 
-            ArrayList<ProdottoBean> prodotti = new ArrayList<>();
-            while (rs.next()) {
-                prodotti.add(mapResultSetToBean(rs));
-            }
-            return prodotti;
+        ArrayList<ProdottoBean> prodotti = new ArrayList<>();
+        while (rs.next()) {
+            prodotti.add(mapResultSetToBean(rs));
         }
+        return prodotti;
     }
+}
     
 	@Override
 	public ArrayList<ProdottoBean> doRetrieveRandomProducts(int numProducts) throws SQLException {
@@ -207,7 +207,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
         bean.setImmagine(rs.getString("IMMAGINE"));
         bean.setCategoria(rs.getString("CATEGORIA"));
         bean.setTaglie(rs.getString("TAGLIE"));
-        bean.setNvendite(rs.getInt("Nvendite"));
+        bean.setNvendite(rs.getInt("N.VENDITE"));
         
         return bean;
     }

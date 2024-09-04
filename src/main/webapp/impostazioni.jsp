@@ -6,7 +6,7 @@
 <meta charset="ISO-8859-1">
 	<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">
 
-<title>Account</title>
+<title>Impostazioni</title>
 </head>
 <body>
 
@@ -20,7 +20,7 @@
 	<div id="main" class="clear">
 	
 	<div>
-		<h2>Account</h2>
+		<h2>Impostazioni</h2>
 		
 		<h3>Dati Personali</h3>
 		<ul>
@@ -34,7 +34,7 @@
 		<h3>Indirizzo di spedizione predefinito</h3>
 			<form action="account" method="post">
 				<input type="hidden" name="action" value="addS">
-				<input type="hidden" name="page" value="Account.jsp">
+				<input type="hidden" name="page" value="impostazioni.jsp">
 				<div class="tableRow">
 				<p>Nome:</p>
 				<p><input type="text" name="nome" required/></p>

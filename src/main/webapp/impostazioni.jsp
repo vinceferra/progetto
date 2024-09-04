@@ -27,6 +27,10 @@
 			<li>Nome: <%=us.getNome() %></li>
 			<li>Cognome: <%= us.getCognome() %></li>
 			<li>Email: <%=us.getEmail() %></li>
+			<li>
+			     <form action="password.jsp" method="get">
+			     <button type="submit">CAMBIA PASSWORD</button>
+			</li>
 		</ul>
 	</div>
 	
@@ -37,31 +41,31 @@
 				<input type="hidden" name="page" value="impostazioni.jsp">
 				<div class="tableRow">
 				<p>Nome:</p>
-				<p><input type="text" name="nome" required/></p>
+				<p><input type="text" name="nome" /></p>
 				</div>	
 				<div class="tableRow">
 					<p>Cognome:</p>
-					<p><input type="text" name="cognome" required/></p>
+					<p><input type="text" name="cognome" /></p>
 				</div>
 				<div class="tableRow">
 					<p>telefono:</p>
-					<p><input type="text" name="tel" required/></p>
+					<p><input type="text" name="tel" /></p>
 				</div>
 				<div class="tableRow">
 					<p>Indirizzo:</p>
-					<p><input type="text"  name="ind" required/></p>
+					<p><input type="text"  name="ind" /></p>
 				</div>
 				<div class="tableRow">
 					<p>Cap:</p>
-					<p><input type="text" name="cap" required/></p>
+					<p><input type="text" name="cap" /></p>
 				</div>
 				<div class="tableRow">
 					<p>Provincia:</p>
-					<p><input type="text" name="prov" required/></p>
+					<p><input type="text" name="prov" /></p>
 				</div>
 				<div class="tableRow">
 					<p>Città:</p>
-					<p><input type="text" name="città" required/></p>
+					<p><input type="text" name="città" /></p>
 				</div>
 				<div class="tableRow">
 					<p></p>
@@ -76,15 +80,15 @@
 				<input type="hidden" name="action" value="addP">
 				<div class="tableRow">
 					<p>Titolare carta:</p>
-					<p><input type="text" name="tit" required/></p>
+					<p><input type="text" name="tit" /></p>
 				</div>	
 				<div class="tableRow">
 					<p>Numero:</p>
-					<p><input type="text" name="numC" required/></p>
+					<p><input type="text" name="numC" /></p>
 				</div>
 				<div class="tableRow">
 					<p>Scadenza:</p>
-					<p><input type="date"  name="scad" required/></p>
+					<p><input type="date"  name="scad" /></p>
 				</div>
 				<div class="tableRow">
 					<p></p>

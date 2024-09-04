@@ -29,7 +29,7 @@
 			<li>Email: <%=us.getEmail() %></li>
 			<li>
 			     <form action="password.jsp" method="get">
-			     <button type="submit">CAMBIA PASSWORD</button>
+			     <button type="submit">CAMBIA PASSWORD</button></form>
 			</li>
 		</ul>
 	</div>

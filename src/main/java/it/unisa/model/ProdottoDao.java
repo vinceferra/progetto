@@ -33,7 +33,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
     @Override
     public void doSave(ProdottoBean product) throws SQLException {
         String insertSQL = "INSERT INTO " + TABLE_NAME
-            + " (NOME, CATEGORIA, DESCRIZIONE, PREZZO, QUANTITA, IN_VENDITA, IVA, IMMAGINE, TAGLIE, N.VENDITE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            + " (NOME, CATEGORIA, DESCRIZIONE, PREZZO, QUANTITA, IN_VENDITA, IVA, IMMAGINE, TAGLIE, VENDITE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = ds.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
@@ -46,7 +46,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
             preparedStatement.setString(7, product.getIva());
             preparedStatement.setString(8, product.getImmagine());
             preparedStatement.setString(9, product.getTaglie());
-            preparedStatement.setInt(10, product.getNvendite());
+            preparedStatement.setInt(10, product.getvendite());
 
             preparedStatement.executeUpdate();
         }
@@ -120,7 +120,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
     @Override
     public void doUpdate(ProdottoBean product) throws SQLException {
         String updateSQL = "UPDATE " + TABLE_NAME
-                + " SET NOME = ? , QUANTITA = ? , DESCRIZIONE = ?, PREZZO = ?, CATEGORIA = ?, IN_VENDITA = ?, IVA = ?, IMMAGINE = ?, TAGLIE = ?, N.VENDITE = ?"
+                + " SET NOME = ? , QUANTITA = ? , DESCRIZIONE = ?, PREZZO = ?, CATEGORIA = ?, IN_VENDITA = ?, IVA = ?, IMMAGINE = ?, TAGLIE = ?, VENDITE = ?"
                 + " WHERE ID_PRODOTTO = ? ";
 
         try (Connection connection = ds.getConnection();
@@ -134,7 +134,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
              preparedStatement.setString(7, product.getIva());
              preparedStatement.setString(8, product.getImmagine());
              preparedStatement.setString(9, product.getTaglie());
-             preparedStatement.setInt(10, product.getNvendite());
+             preparedStatement.setInt(10, product.getvendite());
             
 
             preparedStatement.executeUpdate();
@@ -161,7 +161,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
     
     @Override
  public ArrayList<ProdottoBean> doRetrieveBestSellers() throws SQLException {
-    String selectSQL = "SELECT * FROM " + TABLE_NAME + " N ORDER BY N.VENDITE"; 
+    String selectSQL = "SELECT * FROM " + TABLE_NAME + " ORDER BY VENDITE"; 
 
     try (Connection connection = ds.getConnection();
          PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
@@ -207,7 +207,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
         bean.setImmagine(rs.getString("IMMAGINE"));
         bean.setCategoria(rs.getString("CATEGORIA"));
         bean.setTaglie(rs.getString("TAGLIE"));
-        bean.setNvendite(rs.getInt("N.VENDITE"));
+        bean.setvendite(rs.getInt("VENDITE"));
         
         return bean;
     }

@@ -92,12 +92,12 @@ private static final long serialVersionUID = 1L;
 		Taglie = taglie;
 	}
 
-	public int getNvendite() {
-		return nvendite;
+	public int getvendite() {
+		return vendite;
 	}
 
-	public void setNvendite(int nvendite) {
-		this.nvendite = nvendite;
+	public void setvendite(int vendite) {
+		this.vendite = vendite;
 	}
 	
 	
@@ -109,7 +109,7 @@ private static final long serialVersionUID = 1L;
 		return "idProdotto=" + idProdotto + ", nome=" + nome + ", descrizione=" + descrizione
 				+ ", quantita=" + quantita + ", inVendita=" + inVendita + ", iva=" + iva + ", prezzo=" + prezzo
 				+ ", immagine=" + immagine + ", Categoria=" + Categoria + ", Taglie=" + Taglie + ", nvendite="
-				+ nvendite;
+				+ vendite;
 	}
 
 
@@ -125,7 +125,7 @@ private static final long serialVersionUID = 1L;
 	private String immagine;
 	private String Categoria;
 	private String Taglie;
-	private int nvendite;
+	private int vendite;
 
 	
 }

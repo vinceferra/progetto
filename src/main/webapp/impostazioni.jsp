@@ -25,8 +25,8 @@
 		<h3>Dati Personali</h3>
 		<ul>
 			<li>Nome: <%=us.getNome() %></li>
-			<li>Cognome: <%= us.getCognome() %>
-			<li>Email: <%=us.getEmail() %>
+			<li>Cognome: <%= us.getCognome() %></li>
+			<li>Email: <%=us.getEmail() %></li>
 		</ul>
 	</div>
 	

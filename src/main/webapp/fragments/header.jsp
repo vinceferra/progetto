@@ -34,12 +34,10 @@
 							 		 <div class="dropdown-content">
 								    <a href="<%= request.getContextPath() %>/Ordine?action=mieiOrdini">I MIEI ORDINI</a>
 								    <a href="<%= request.getContextPath() %>/impostazioni.jsp">IMPOSTAZIONI</a>
-								    <a href="<%= request.getContextPath() %>/Aiuto.jsp">AIUTO</a>
 								    	<%if(user.isAmministratore()){ %>
 										    <a href="<%= request.getContextPath() %>/admin/GestioneCatalogo.jsp">GESTIONE CATALOGO</a>
 											<a href="<%= request.getContextPath() %>/admin/ViewOrdini.jsp">ORDINI</a>
-											<a href="<%= request.getContextPath() %>/impostazioni.jsp">IMPOSTAZIONI</a>
-											<a href="<%= request.getContextPath() %>/Aiuto.jsp">AIUTO</a>
+											<a href="<%= request.getContextPath() %>/admin/Aiuto.jsp">AIUTO</a>
 										<%} %>
 									<a href="<%= request.getContextPath() %>/Logout">LOGOUT</a>
 								  </div>

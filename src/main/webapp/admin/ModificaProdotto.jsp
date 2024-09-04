@@ -62,7 +62,7 @@
 		</div>
 		<div class="tableRow">
 			<p>Vendite:</p>
-			<p><input type="number" name="quantita" value="<%=bean.getVendite() %>"placeholder="quantita cifra intera senza virgola o punto" class="formInput" required></p>
+			<p><input type="number" name="quantita" value="<%=bean.getvendite() %>"placeholder="quantita cifra intera senza virgola o punto" class="formInput" required></p>
 		</div>
 		<div class="tableRow">
     <p>Categoria:</p>

@@ -1,0 +1,486 @@
+@CHARSET "UTF-8";
+
+html{
+	height: 100%;
+}
+
+body {
+ font-family: Verdana, Helvetica, sans-serif;
+ font-size: 9pt;
+ background: rgb(232, 232, 234);
+ color: rgb(0, 0, 0);
+ margin: 0;
+}
+
+h2 {
+ color: rgb(0, 0, 0);
+}
+
+a{
+	text-decoration: none;
+}
+
+table {
+	border: 2px solid rgb(255, 255, 255);                             /*cornice tabelle*/
+    border-radius: 5px;
+    border-spacing: 0;
+	margin: 10px;
+	width: 90%;
+}
+
+
+th {
+	background-color: rgb(255, 255, 255);
+	color: rgb(0, 0, 0);
+	text-align: left;
+	font-weight: bold;
+	padding: 4px 4px 2px 4px;
+	margin: 0;
+	font-style: italic;
+}
+
+
+td {
+	margin: 20;
+	padding: 5px;
+	height: auto;
+	color: black;
+}
+
+tr{
+	border-bottom: 1px solid rgb(128, 128, 128);
+}
+
+div.center{
+	text-align: center;
+}
+
+.clear {
+	clear: both;
+}
+
+button, input[type=submit]{
+	background-color:rgb(255,255,0);
+	border-radius: 5px;
+}
+
+#myform{
+	display: table;
+	padding: 0px;
+	border: 1px dotted grey;
+	border-radius: 5px;
+	background-color:#dfe6e9;
+	width: 90%;
+}
+
+p.heading{
+	font-weight: bold;
+}
+
+div.tableRow{
+	display: table-row;
+}
+
+div.tableRow p{
+	display: table-cell;
+	vertical-align: top;
+	padding: 3px;
+	}
+
+
+div.tableRow p:first-child{
+	text-align: right;
+}
+
+#main {
+	margin-left: 10%;
+	margin-right: 10%;
+	padding: 5px;
+	text-align: left;	
+}
+
+
+.header {
+	margin: 0;
+	overflow: hidden;
+    background-color: rgb(232, 232, 234);
+    padding: 10px 10px;
+}
+
+.left-header{
+	float:left;
+	margin-left: 10%;
+}
+
+.center-header{
+	position: absolute;
+	left:40%;
+	top: 20px;
+}
+
+#searchbar{
+	width:auto;
+	padding: 10px;
+	display: block;
+	border:1px solid rgb(132, 0, 255);
+	border-radius: 3px;
+}
+
+.risultati{                                                                    /* barra di ricerca */
+	position: absolute;
+	padding: 10px;
+	width:150%;
+
+	background-color: #ffffff;
+	border: 1px solid rgb(132, 0, 255);
+	border-radius: 3px;
+	display: none;
+	box-shadow: 0px 8px 16px 0px rgb(132, 0, 255);
+}
+
+#item-r{
+	margin: 3px;
+	padding:7px;
+	clear: both;
+}
+
+#pic{
+	vertical-align: middle;
+	padding-right: 10px;
+	float: left;
+}
+
+.right-header{
+	float: right;
+	margin-right: 10%;
+}
+
+.right-header li a {
+	text-decoration: none;
+}
+
+nav ul {                                                               /* blocco account , carrello*/
+  list-style-type: none;
+  padding: 0; 
+  margin: 0;
+  overflow: hidden;
+  background-color: #8000ff;
+  display: flex;
+  align-items: center;
+}
+
+nav li {
+  float: left;
+}
+
+nav li a, .dropbtn {
+  display: inline-block;
+  font-weight: bold;
+  color: rgb(255,255,255);
+  text-align: center;
+  padding: 14px 12px;
+  text-decoration: none;
+}
+
+nav li a:hover, .dropdown:hover .dropbtn {
+  background-color: rgb(255,255,0);
+  color: rgb(0, 0, 0);
+  border: 1px solid;
+  border-radius: 2px;
+
+}
+
+li.dropdown {
+  display: inline-block; 
+}
+
+.dropdown-content {                                                                                                                     /*menù a tendina*/
+  display: none;
+  position: absolute;
+  background-color:rgb(255,255,0);
+  max-width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index:2;
+}
+
+.dropdown-content a {                                                                /*menù a tendina*/                     
+  color: rgb(0, 0, 0);
+  padding: 10px 10px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown:hover .dropdown-content {                                                  /*menù a tendina*/
+  display: block;
+}
+
+.tabs{
+	background-color:#8000ff; 
+  list-style-type: none;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+}
+
+.tabs li {
+	display: inline-block;
+  padding: 20px;
+}
+
+.tabs li:first-child {
+	margin-left: 20%;
+	padding-left: 0;
+}
+
+.tabs li a {
+	text-decoration: none;
+}	
+
+.tabs li a:link {
+	color: black;
+	font-weight: bold;
+}
+
+.tabs li a:visited {                                           /*scritte colore barra 2 */
+	color: white;
+	font-weight: bold;
+}
+
+.tabs li a:hover {                                              /*selezione colore barra 2*/
+	color: yellow;
+	font-weight: bold;
+}
+
+.tabs li a:active {
+	color:rgb(0,0,0);
+	font-weight: bold;
+}
+
+div.account{
+    display: inline-block;
+    margin-right: 20%;
+}
+
+.item {
+	display: inline-block;
+	margin: 0 auto;
+  	max-width: 200px;
+  	max-height: 200px;
+}
+
+.item ul li{
+	list-style-type: none;
+	text-align: left;
+	line-height: 18px;
+}
+
+.price{
+	margin-left:10px;
+	font-weight: bold;
+	font-style:italic;
+	color: black;
+}
+
+#image{
+	float: left;
+	margin-right: 18%;
+	margin-top: 2%;
+}
+
+#listDettagli{
+	margin-top: 7%;
+}
+#listDettagli li{
+	list-style-type: none;
+	padding: 7px 10px;
+}
+
+.dettagli{
+	font-weight: bold;
+	font-style:italic;
+	color: rgb(132, 0, 255);
+}
+
+.error{
+	color: red;
+}
+
+#orange{
+	color: rgb(255, 136, 0);
+}
+
+#yellow{
+	color:   rgb(255, 255, 0);
+}
+#violet{
+	color: rgb(132, 0, 255);
+}
+
+#footer {                                                                /* barra finale */
+	position: sticky;
+	top: 100%;
+	background-color: rgb(132, 0, 255);
+	color: white;
+	margin-top: 5px;
+	padding: 25px;
+	text-align: center;
+	clear: both;
+}
+
+/*Tablet*/
+@media screen and (max-width: 1000px){
+	
+	.left-header{
+	margin-left: 5%;
+}
+
+.center-header{
+	left:35%;
+}
+
+.right-header{
+	margin-right: 5%;
+}
+
+.dropdown-content{
+	max-width: 150px;
+}
+
+.tabs li {
+  padding:8px;
+}
+.tabs li:first-child {
+	margin-left: 5%;
+}
+
+td, th{
+	padding-right: 25px;
+}
+
+nav li{
+	 font-size: 11px;
+}
+
+nav li a, .dropbtn {
+	 padding: 14px 8px;
+}
+#searchbar{
+	width:83%;
+}
+
+#main {
+	margin-left: 5%;
+	margin-right: 5%;
+}
+}
+
+/*Smartphone*/
+@media screen and (max-width: 540px){
+	
+.left-header{
+	margin-left: 0;
+}
+
+.center-header{
+	top:47px;
+	left: 3%;
+}
+
+.right-header{
+	margin-right: 2%;
+}
+
+.dropdown-content{
+	max-width: 120px;
+}
+.tabs li:first-child {
+	margin-left: 30%;
+	padding: 8px;
+}
+.tabs li {
+  display: block;
+  margin-left: 30%;
+}
+
+table img{
+	width: 50px;
+	height: 50px;
+}
+
+td, th{
+	padding-right: 5px;
+}
+
+nav li{
+	 font-size: 11px;
+}
+
+nav li a, .dropbtn {
+	 padding: 14px 5px;
+}
+#searchbar{
+	padding: 2px;
+}
+
+#main {
+	margin-left:2%;
+	margin-right: 2%;
+}
+
+.risultati{
+	width: 95%;
+}
+
+#listDettagli{
+	clear:both;
+}
+
+#image{
+	margin-left: 14%;
+}
+
+
+            font-family { 
+            Arial: sans-serif;
+            margin: 20px;
+         }
+        .filter-section {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .filter-section h2 {
+            text-align: center;
+        }
+        .filter-group {
+            margin-bottom: 20px;
+        }
+        .filter-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .filter-group input[type="text"],
+        .filter-group select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        .filter-group input[type="range"] {
+            width: 100%;
+        }
+        .filter-group input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .filter-group input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .filter-group input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+}

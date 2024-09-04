@@ -32,7 +32,6 @@
 	
 	<div class="account">
 		<h3>Indirizzo di spedizione predefinito</h3>
-		<%if(spedizione== null){ %>
 			<form action="account" method="post">
 				<input type="hidden" name="action" value="addS">
 				<input type="hidden" name="page" value="Account.jsp">
@@ -69,25 +68,10 @@
 					<p><input type="submit" value="aggiungi"></p>
 				</div>			
 			</form>
-			<%}else{ %>
-				<ul>
-					<li>Nome: <%=spedizione.getNome() %></li>
-					<li>Cognome: <%=spedizione.getCognome() %></li>
-					<li>Telefono: <%=spedizione.getTelefono() %></li>
-					<li>Indirizzo civico: <%=spedizione.getIndirizzo() %></li>
-					<li>Cap: <%=spedizione.getCap() %></li>
-					<li>Provincia: <%=spedizione.getProvincia() %></li>
-					<li>Città: <%=spedizione.getCitta() %></li>
-					<li><a href="account?action=removeS"><button>Rimuovi</button></a></li>
-				</ul>
-				
-				
-				<%}%>
 	</div>
 	
 	<div class="account">
 		<h3>Metodo di pagamento predefinito</h3>
-		<%if(pagamento == null){ %>
 			<form action="account" method="post">
 				<input type="hidden" name="action" value="addP">
 				<div class="tableRow">
@@ -107,15 +91,7 @@
 					<p><input type="submit" value="aggiungi"></p>		
 				</div>
 			</form>
-			<%}else{ %>
-				<ul>
-					<li>Titolare: <%=pagamento.getTitolare() %></li>
-					<li>Numero Carta: <%=pagamento.getNumero() %></li>
-					<li>Scadenza Carta: <%=pagamento.getScadenza() %></li>
-					<li><a href="account?action=removeP"><button>Rimuovi</button></a></li>
-				</ul>
-				
-				<%}%>
+
 	</div>
 	</div>
 		

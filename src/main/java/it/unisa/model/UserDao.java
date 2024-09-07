@@ -183,34 +183,34 @@ public class UserDao implements UserDaoInterfaccia {
 	}
 	
 	public synchronized void doUpdateSpedizione(String email, String indirizzo, String cap) throws SQLException {
-		
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
+	    String updateSQL = "UPDATE " + UserDao.TABLE_NAME
+	            + " SET INDIRIZZO = ?, CAP = ?"
+	            + " WHERE EMAIL = ?";
 
-		String updateSQL = "UPDATE " + UserDao.TABLE_NAME
-				+ " SET INDIRIZZO = ?, CAP = ?"
-				+ " WHERE EMAIL = ? ";
-		
-		try {
-			connection = ds.getConnection();
-			connection.setAutoCommit(false);
-			preparedStatement = connection.prepareStatement(updateSQL);
-			preparedStatement.setString(1, indirizzo);
-			preparedStatement.setString(2, cap);
-			preparedStatement.setString(3, email);
-			preparedStatement.executeUpdate();
+	    // Usa try-with-resources per garantire che le risorse siano chiuse correttamente
+	    try (Connection connection = ds.getConnection();
+	         PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
 
-			connection.commit();
-		} finally {
-			try {
-				if (preparedStatement != null)
-					preparedStatement.close();
-			} finally {
-				if (connection != null)
-					connection.close();
-			}
-		}
+	        connection.setAutoCommit(false); // Disabilita l'auto-commit
+
+	        preparedStatement.setString(1, indirizzo);
+	        preparedStatement.setString(2, cap);
+	        preparedStatement.setString(3, email);
+
+	        int rowsAffected = preparedStatement.executeUpdate();
+
+	        if (rowsAffected > 0) {
+	            connection.commit(); // Commit se l'aggiornamento ha successo
+	        } else {
+	            connection.rollback(); // Rollback se non sono state aggiornate righe
+	            throw new SQLException("Nessuna riga aggiornata. Verifica l'email.");
+	        }
+	    } catch (SQLException e) {
+	        // Gestione delle eccezioni con rollback
+	        throw new SQLException("Errore durante l'aggiornamento della spedizione.", e);
+	    }
 	}
+
 	
 	public synchronized void doUpdatePagamento(String email, String carta) throws SQLException {
 		
@@ -240,6 +240,52 @@ public class UserDao implements UserDaoInterfaccia {
 			}
 		}
 	}
+	
+	public synchronized void doUpdatePassword(String email, String newPassword) throws SQLException {
+	    String updateSQL = "UPDATE Cliente SET PWD = ? WHERE EMAIL = ?";
+
+	    try (Connection connection = ds.getConnection();
+	         PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) 
+	    {
+
+	        connection.setAutoCommit(false); // Disabilita l'auto-commit
+
+	        preparedStatement.setString(1, newPassword);
+	        preparedStatement.setString(2, email);
+
+	        int rowsAffected = preparedStatement.executeUpdate();
+
+	        if (rowsAffected > 0) {
+	            connection.commit(); // Commit se l'aggiornamento ha successo
+	        } else {
+	            connection.rollback(); // Rollback se non sono state aggiornate righe
+	            throw new SQLException("Nessuna riga aggiornata. Verifica l'email.");
+	        }
+	    } catch (SQLException e) {
+	        throw new SQLException("Errore durante l'aggiornamento della password.", e);
+	    }
+	}
+	
+	public Boolean checkPassword(String email, String password) throws SQLException 
+	{
+	    String query = "SELECT PASSWORD FROM users WHERE EMAIL = ?";
+
+	    try (Connection connection = ds.getConnection();
+	         PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+	        preparedStatement.setString(1, email);
+	        ResultSet rs = preparedStatement.executeQuery();
+
+	        if (rs.next()) {
+	            String storedPassword = rs.getString("PASSWORD");
+	            return storedPassword.equals(password); // Confronta gli hash
+	        }
+	    } catch (SQLException e) {
+	        throw new SQLException("Errore durante la verifica della password.", e);
+	    }
+
+	    return false; // Se l'utente non esiste o la password non corrisponde
 
 	}
+}
 

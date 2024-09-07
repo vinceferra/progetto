@@ -6,8 +6,16 @@
     <title>Cambio Password</title>
 </head>
 <body>
+	<!-- Display error message if present -->
+    <c:if test="${not empty errorMessage}">
+        <div style="color: red;">
+            ${errorMessage}
+        </div>
+    </c:if>
     <h2>Cambia la tua Password</h2>
-    <form action="changePasswordProcess.jsp" method="post">
+    <form action="account" method="post">
+    <input type="hidden" name="action" value="Cambia Password">
+	<input type="hidden" name="page" value="impostazioni.jsp">
         <label for="currentPassword">Password Attuale:</label><br>
         <input type="password" id="currentPassword" name="currentPassword" required><br><br>
         

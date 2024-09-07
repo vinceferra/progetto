@@ -35,6 +35,7 @@
 	</div>
 	
 	<div class="account">
+		<%if(us.getIndirizzo()==null && us.getCap()==null){%>
 		<h3>Indirizzo di spedizione predefinito</h3>
 			<form action="account" method="post">
 				<input type="hidden" name="action" value="addS">
@@ -69,14 +70,16 @@
 				</div>
 				<div class="tableRow">
 					<p></p>
-					<p><input type="submit" value="aggiungi"></p>
+					<p><input type="submit" value="Aggiungi"></p>
 				</div>			
 			</form>
 	</div>
-	
+	<%} %>
 	<div class="account">
+		<%if(us.getCartaDiCredito()==null){ %>
 		<h3>Metodo di pagamento predefinito</h3>
 			<form action="account" method="post">
+			<input type="hidden" name="page" value="impostazioni.jsp">
 				<input type="hidden" name="action" value="addP">
 				<div class="tableRow">
 					<p>Titolare carta:</p>
@@ -95,7 +98,7 @@
 					<p><input type="submit" value="aggiungi"></p>		
 				</div>
 			</form>
-
+	<%} %>
 	</div>
 	</div>
 		

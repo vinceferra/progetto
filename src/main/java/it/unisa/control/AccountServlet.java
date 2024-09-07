@@ -25,12 +25,8 @@ public class AccountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
-	}
-
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
 		
 		String redirectedPage = request.getParameter("page");
 		
@@ -40,26 +36,27 @@ public class AccountServlet extends HttpServlet {
 		IndirizzoSpedizioneDao daoSped = new IndirizzoSpedizioneDao();
 		MetodoPagamentoBean pag = new MetodoPagamentoBean();
 		MetodoPagamentoDao daoPag = new MetodoPagamentoDao();
-		String action = request.getParameter("action");
-		
-		String nome = request.getParameter("nome");
-		String cognome = request.getParameter("cognome");
-		String telefono = request.getParameter("tel");
-		String citta = request.getParameter("citta");
-		String ind = request.getParameter("ind");
-		String cap = request.getParameter("cap");
-		String prov = request.getParameter("prov");	
+		String action = request.getParameter("action");	
 		
 		String tit = request.getParameter("tit");
 		String numC = request.getParameter("numC");
 		String scad = request.getParameter("scad");
 		
-			
+		String nome = request.getParameter("nome");
+		String cognome = request.getParameter("cognome");
+		String telefono = request.getParameter("tel");
+		String citta = request.getParameter("città");
+		String ind = request.getParameter("ind");
+		String cap = request.getParameter("cap");
+		String prov = request.getParameter("prov");	
+		
+		String pwd = request.getParameter("newPassword");
+	
 		try {
-			if(action!=null) {
-				if(action.equalsIgnoreCase("addS")) {
-					
-					if(daoSped.doRetrieveByKey(ind, cap)==null) {
+		    if (action != null) 
+		    {
+		        if (action.equalsIgnoreCase("addS")) 
+		        {
 						
 						 sped.setNome(nome);
 						 sped.setCognome(cognome);
@@ -69,39 +66,29 @@ public class AccountServlet extends HttpServlet {
 						 sped.setProvincia(prov);
 						 sped.setCitta(citta);
 						 daoSped.doSave(sped);
-						 
-					}
-					
-					daoUser.doUpdateSpedizione(user.getEmail(), ind, cap);
+						 daoUser.doUpdateSpedizione(user.getEmail(), ind, cap);
+				}
 
-				}
-				
-				else if(action.equalsIgnoreCase("removeS")) {
-					daoUser.doUpdateSpedizione(user.getEmail(), null, null);
-					request.getSession().removeAttribute("spedizione");
-					
-				}
-				
-				else if(action.equalsIgnoreCase("addP")) {
-					if(daoPag.doRetrieveByKey(numC)==null) {
-						pag.setTitolare(tit);
-						pag.setNumero(numC);
-						pag.setScadenza(scad);
-						daoPag.doSave(pag);
-					
-				}
-					
-					daoUser.doUpdatePagamento(user.getEmail(),numC);
+		         else if (action.equalsIgnoreCase("addP")) 
+		         {
+		            pag.setTitolare(tit);
+		            pag.setNumero(numC);
+		            pag.setScadenza(scad);
+		            daoPag.doSave(pag);
+		            daoUser.doUpdatePagamento(user.getEmail(), numC);
 
-				}
-				else if(action.equalsIgnoreCase("removeP")) {
-					daoUser.doUpdatePagamento(user.getEmail(),null);
-					request.getSession().removeAttribute("pagamento");
-
-				}
-			}
-		}catch(SQLException e) {
-			e.printStackTrace();		}
+		        } 
+		        else if (action.equalsIgnoreCase("Cambia Password")) 
+		        {
+		        	        user.setPassword(pwd);
+		        	        daoUser.doUpdatePassword(user.getEmail(), pwd);
+		        	    
+		        }
+		  }
+		} catch (Exception e) {
+		    e.printStackTrace();  // Log the exception for debugging purposes
+		    // Handle the exception as needed
+		}
 			
 		if(user.getIndirizzo()!=null && user.getCap()!=null) {
 			try {
@@ -130,4 +117,10 @@ public class AccountServlet extends HttpServlet {
 
 	}
 
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		
+		doGet(request, response);
+	}
 }

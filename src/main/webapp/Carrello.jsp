@@ -10,8 +10,8 @@
 </head>
 <body>
 
-	<%@ include file="./fragments/header.jsp" %>
-	<%@ include file="./fragments/menu.jsp" %>
+	<%@ include file="../fragments/header.jsp" %>
+	<%@ include file="../fragments/menu.jsp" %>
 	
 	<div id="main" class="clear">
 	

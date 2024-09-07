@@ -7,12 +7,16 @@
 </head>
 <body>
 	<!-- Display error message if present -->
+	<meta charset="ISO-8859-1">
+	<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">	
     <c:if test="${not empty errorMessage}">
         <div style="color: red;">
             ${errorMessage}
         </div>
     </c:if>
+    <div id="main" class="clear">
     <h2>Cambia la tua Password</h2>
+    
     <form action="account" method="post">
     <input type="hidden" name="action" value="Cambia Password">
 	<input type="hidden" name="page" value="impostazioni.jsp">
@@ -27,5 +31,6 @@
         
         <input type="submit" value="Cambia Password">
     </form>
+    </div>
 </body>
 </html>

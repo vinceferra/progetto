@@ -17,8 +17,8 @@
 </head>
 <body>
 
-		<%@ include file="./fragments/header.jsp" %>
-		<%@ include file="./fragments/menu.jsp" %>
+		<%@ include file="../fragments/header.jsp" %>
+		<%@ include file="../fragments/menu.jsp" %>
 		
 		<div class="filter-section">
     <h2>Filtro ricerca</h2>

@@ -4,7 +4,7 @@
     <%
 	ArrayList<ArrayList<ProdottoBean>> categorie = (ArrayList<ArrayList<ProdottoBean>>) request.getSession().getAttribute("categorie");
 	if(categorie == null) {
-		response.sendRedirect("./home?page=Switch.jsp");	
+		response.sendRedirect("./home?page=Aiuto.jsp");	
 		return;
 	}
 %>
@@ -18,11 +18,11 @@
 
 <body>
 <%@ include file="../fragments/header.jsp" %>
-	
+<div align=center>	
 <a
-  href="mailto:buyintelligently@gmail.com?subject=The%20object%20of%20the%20email&body=Describe%20your%20problem">
-  <br>   &#34 CLICCA QUI PER CONTATTARCI &#34
+  href="mailto:buyintelligently@gmail.com?subject=The%20object%20of%20the%20email&body=Describe%20your%20problem" style="color:red">
+  <br><br><br><br><br>   &#34 <u>CLICCA QUI PER CONTATTARCI</u> &#34
 </a>
-	
+</div>
 </body>
 </html>

@@ -126,15 +126,17 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
         try (Connection connection = ds.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
         	 preparedStatement.setString(1, product.getNome());
-             preparedStatement.setString(2, product.getCategoria());
-             preparedStatement.setString(3, product.getDescrizione());
+        	 preparedStatement.setInt(2, product.getQuantita());
+        	 preparedStatement.setString(3, product.getDescrizione());
              preparedStatement.setDouble(4, product.getPrezzo());
-             preparedStatement.setInt(5, product.getQuantita());
+             preparedStatement.setString(5, product.getCategoria());
              preparedStatement.setBoolean(6, product.isInVendita());
              preparedStatement.setString(7, product.getIva());
              preparedStatement.setString(8, product.getImmagine());
              preparedStatement.setString(9, product.getTaglie());
              preparedStatement.setInt(10, product.getvendite());
+             
+             preparedStatement.setInt(11, product.getIdProdotto());
             
 
             preparedStatement.executeUpdate();

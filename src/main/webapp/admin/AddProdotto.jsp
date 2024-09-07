@@ -48,29 +48,24 @@
 		</div>
 		<div class="tableRow">
 			<p>Taglie:</p>
-			<p><input type="text" name="img" value="" required></p>
+			<p><input type="text" name="Taglie" value="" required></p>
 		</div>
 		<div class="tableRow">
 			<p>Vendite:</p>
-			<p><input type="number" name="quantita" placeholder="quantita cifra intera senza virgola o punto" class="formInput" required></p>
+			<p><input type="number" name="Vendite" placeholder="quantita cifra intera senza virgola o punto" class="formInput" required></p>
 		</div>
 		<div class="tableRow">
     <p>Categoria:</p>
     <p>
         <label for="Categoria"></label>
         <select id="Categoria" name="Categoria" class="formInput" required>
-            <option value="Alimentazione">Alimentazione</option>
+            <option value="Abbigliamento">Abbigliamento</option>
             <option value="Accessori" >Accessori</option>
             <option value="Elettronica">Elettronica</option>
-            <option value="Gioielli">Gioielli</option>
-            <option value="Giochi e Giocattoli">Giochi e Giocattoli</option>
+            <option value="Giochi/Giocattoli">Giochi e Giocattoli</option>
         </select>
     </p>
 </div>
-		<div class="tableRow">	
-			<p>Descrizione dettagliata:</p>
-			<p><input type="text" name="descDett" value=""></p>
-		</div>
 		<div class="tableRow">
 			<p></p>
 			<p><input type="submit" value="aggiungi"></p>

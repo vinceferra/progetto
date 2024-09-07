@@ -58,21 +58,20 @@
 		</div>
 		<div class="tableRow">
 			<p>Taglie:</p>
-			<p><input type="text" name="img" value="<%=bean.getTaglie() %>" required></p>
+			<p><input type="text" name="taglie" value="<%=bean.getTaglie() %>" required></p>
 		</div>
 		<div class="tableRow">
 			<p>Vendite:</p>
-			<p><input type="number" name="quantita" value="<%=bean.getvendite() %>"placeholder="quantita cifra intera senza virgola o punto" class="formInput" required></p>
+			<p><input type="number" name="vendite" value="<%=bean.getvendite() %>"placeholder="quantita cifra intera senza virgola o punto" class="formInput" required></p>
 		</div>
 		<div class="tableRow">
     <p>Categoria:</p>
     <p>
         <label for="Categoria"></label>
         <select id="Categoria" name="Categoria" class="formInput" required>
-            <option value="Alimentazione" <%= bean.getCategoria().equals("Alimentazione") ? "selected" : "" %>>Alimentazione</option>
+            <option value="Abbigliamento" <%= bean.getCategoria().equals("Abbigliamento") ? "selected" : "" %>>Abbigliamento</option>
             <option value="Accessori" <%= bean.getCategoria().equals("Accessori") ? "selected" : "" %>>Accessori</option>
             <option value="Elettronica" <%= bean.getCategoria().equals("Elettronica") ? "selected" : "" %>>Elettronica</option>
-            <option value="Gioielli" <%= bean.getCategoria().equals("Gioielli") ? "selected" : "" %>>Gioielli</option>
             <option value="Giochi e Giocattoli" <%= bean.getCategoria().equals("Giochi e Giocattoli") ? "selected" : "" %>>Giochi e Giocattoli</option>
         </select>
     </p>

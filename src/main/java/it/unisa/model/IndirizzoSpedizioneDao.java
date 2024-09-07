@@ -67,6 +67,26 @@ public class IndirizzoSpedizioneDao implements IndirizzoSpedizioneDaoInterfaccia
 		}
 	}
 
+	 @Override
+	    public void doUpdate(IndirizzoSpedizioneBean bean) throws SQLException {
+	        String updateSQL = "UPDATE " + IndirizzoSpedizioneDao.TABLE_NAME
+	                + " SET TELEFONO = ? , PROVINCIA = ? , NOME = ?, COGNOME = ?, CITTA = ?"
+	                + " WHERE INDIRIZZO = ? AND CAP = ?";
+
+	        try (Connection connection = ds.getConnection();
+	             PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
+	        	 preparedStatement.setString(1, bean.getTelefono());
+	             preparedStatement.setString(2, bean.getProvincia());
+	             preparedStatement.setString(3, bean.getNome());
+	             preparedStatement.setString(4, bean.getCognome());
+	             preparedStatement.setString(5, bean.getCitta());
+	             
+	             preparedStatement.setString(6, bean.getIndirizzo());
+	             preparedStatement.setString(7, bean.getCap());
+	            
+	            preparedStatement.executeUpdate();
+	        }
+	    }
 	
 	@Override
 	public synchronized IndirizzoSpedizioneBean doRetrieveByKey(String indirizzo, String cap) throws SQLException {

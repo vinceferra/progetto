@@ -4,7 +4,7 @@
     <%
 	ArrayList<ArrayList<ProdottoBean>> categorie = (ArrayList<ArrayList<ProdottoBean>>) request.getSession().getAttribute("categorie");
 	if(categorie == null) {
-		response.sendRedirect("./home?page=Switch.jsp");	
+		response.sendRedirect("./home?page=Elettronica.jsp");	
 		return;
 	}
 %>
@@ -46,13 +46,13 @@
 </div>
 	
 	<%
-	ArrayList<ProdottoBean> nswitch = categorie.get(2);%>
+	ArrayList<ProdottoBean> elettron = categorie.get(2);%>
 	
 	<div id="main" class="clear">
 	
 		<%
-			if (nswitch != null && nswitch.size() != 0) {
-				Iterator<?> it = nswitch.iterator();
+			if (elettron != null && elettron.size() != 0) {
+				Iterator<?> it = elettron.iterator();
 				while (it.hasNext()) {
 					ProdottoBean bean = (ProdottoBean) it.next();
 		%>
@@ -61,7 +61,7 @@
 			<li><a href="dettagli?id=<%=bean.getIdProdotto()%>"><img src="<%=bean.getImmagine()%>" height="130" width="130"></a></li>
 			<li><%=bean.getNome()%></li>
 			<li>prezzo: &euro;<%=bean.getPrezzo()%></li>
-			<li><a href="carrello?action=addC&id=<%=bean.getIdProdotto()%>&page=Switch.jsp"><button>Aggiungi al carrello</button></a></li>
+			<li><a href="carrello?action=addC&id=<%=bean.getIdProdotto()%>&page=Elettronica.jsp"><button>Aggiungi al carrello</button></a></li>
 		 </ul>
 		</div>
 		<%

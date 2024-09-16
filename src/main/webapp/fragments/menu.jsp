@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <div id="menu">
 	<ul class="tabs">
 		<li><a href="<%= request.getContextPath() %>/Home.jsp">HOME</a></li>

@@ -4,7 +4,7 @@
     <%
 	ArrayList<ArrayList<ProdottoBean>> categorie = (ArrayList<ArrayList<ProdottoBean>>) request.getSession().getAttribute("categorie");
 	if(categorie == null) {
-		response.sendRedirect("./home?page=Ps4.jsp");	
+		response.sendRedirect("./home?page=Bestseller.jsp");	
 		return;
 	}
 %>
@@ -46,15 +46,15 @@
 </div>
 	
 	<%
-	ArrayList<ProdottoBean> abbigliamento = categorie.get(3);%>
+	ArrayList<ProdottoBean> Bestseller = categorie.get(3);%>
 	
 	<div id="main" class="clear">
 	
 	<h2 id=>PRODOTTI PIU' VENDUTI</h2>
 	
 		<%
-			if (abbigliamento != null && abbigliamento.size() != 0) {
-				Iterator<?> it = abbigliamento.iterator();
+			if (Bestseller != null && Bestseller.size() != 0) {
+				Iterator<?> it = Bestseller.iterator();
 				while (it.hasNext()) {
 					ProdottoBean bean = (ProdottoBean) it.next();
 		%>

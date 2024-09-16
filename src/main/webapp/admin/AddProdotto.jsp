@@ -48,11 +48,11 @@
 		</div>
 		<div class="tableRow">
 			<p>Taglie:</p>
-			<p><input type="text" name="Taglie" value="" required></p>
+			<p><input type="text" name="Taglie" placeholder="Non inserire se non è un abbigliamento" value="" required></p>
 		</div>
 		<div class="tableRow">
 			<p>Vendite:</p>
-			<p><input type="number" name="Vendite" placeholder="quantita cifra intera senza virgola o punto" class="formInput" required></p>
+			<p><input type="number" name="Vendite" class="formInput" required></p>
 		</div>
 		<div class="tableRow">
     <p>Categoria:</p>

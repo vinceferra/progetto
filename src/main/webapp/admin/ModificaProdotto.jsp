@@ -62,7 +62,7 @@
 		</div>
 		<div class="tableRow">
 			<p>Vendite:</p>
-			<p><input type="number" name="vendite" value="<%=bean.getvendite() %>"placeholder="quantita cifra intera senza virgola o punto" class="formInput" required></p>
+			<p><input type="number" name="vendite" value="<%=bean.getvendite() %>"placeholder="Non inserire se non è un abbigliamento" class="formInput" required></p>
 		</div>
 		<div class="tableRow">
     <p>Categoria:</p>
@@ -72,7 +72,7 @@
             <option value="Abbigliamento" <%= bean.getCategoria().equals("Abbigliamento") ? "selected" : "" %>>Abbigliamento</option>
             <option value="Accessori" <%= bean.getCategoria().equals("Accessori") ? "selected" : "" %>>Accessori</option>
             <option value="Elettronica" <%= bean.getCategoria().equals("Elettronica") ? "selected" : "" %>>Elettronica</option>
-            <option value="Giochi e Giocattoli" <%= bean.getCategoria().equals("Giochi e Giocattoli") ? "selected" : "" %>>Giochi e Giocattoli</option>
+            <option value="Giochi/Giocattoli" <%= bean.getCategoria().equals("Giochi/Giocattoli") ? "selected" : "" %>>Giochi/Giocattoli</option>
         </select>
     </p>
 </div>

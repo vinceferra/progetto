@@ -20,11 +20,11 @@
 	<%@ include file="../fragments/menu.jsp" %>
 	
 	<%
-	ArrayList<ProdottoBean> Abbigliamento = categorie.get(0);%>
+	ArrayList<ProdottoBean> Abbigliamento = categorie.get(5);%>
 	
 	<div id="main" class="clear">
 	
-	<h2>ABBIGLIAMENTO</h2>
+	
 	
 	
 <div class="filter-section">
@@ -92,7 +92,7 @@
 
     </form>
 </div>
-	
+	<h2>ABBIGLIAMENTO</h2>
 		<%
 			if (Abbigliamento != null && Abbigliamento.size() != 0) {
 				Iterator<?> it = Abbigliamento.iterator();
@@ -106,7 +106,7 @@
 			<li><a href="dettagli?id=<%=bean.getIdProdotto()%>"><img src="<%=bean.getImmagine()%>" height="130" width="130"></a></li>
 			<li><%=bean.getNome()%></li>
 			<li>prezzo: &euro;<%=bean.getPrezzo()%></li>
-			<li><a href="carrello?action=addC&id=<%=bean.getIdProdotto()%>&page=Ps5.jsp"><button>Aggiungi al carrello</button></a></li>
+			<li><a href="carrello?action=addC&id=<%=bean.getIdProdotto()%>&page=Abbigliamento.jsp"><button>Aggiungi al carrello</button></a></li>
 		 </ul>
 		</div>
 		<%
@@ -124,15 +124,6 @@
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		
-		<script>
-			$(document).ready(function(){
-				$("img").hover(function(){
-					$(this).css({"height": "135px", "width" :"135px"});
-				}, function(){
-						$(this).css({"height" : "130px", "width" : "130px"});
-					});
-				});
-			</script>
 		
 	
 </body>

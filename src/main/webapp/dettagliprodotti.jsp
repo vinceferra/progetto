@@ -22,17 +22,17 @@
 		<h2><%=product.getNome() %></h2>
 			<div id="image"><img src="<%=product.getImmagine()%>" height="270" width="250">
 			</div>
-			<div id="listDettagli">
+			<div id="listdettagliprodotti">
 				<ul>	
-					<li><span class="dettagli"><%=product.getNome()%></span></li>
-					<li><span class="dettagli">Categoria</span>: <%=product.getCategoria()%></li>
-					<li><span class="dettagli">Prezzo</span>: &euro;<%=product.getPrezzo()%></li>
+					<li><span class="dettagliprodotti"><%=product.getNome()%></span></li>
+					<li><span class="dettagliprodotti">Categoria</span>: <%=product.getCategoria()%></li>
+					<li><span class="dettagliprodotti">Prezzo</span>: &euro;<%=product.getPrezzo()%></li>
 					<% if(product.isInVendita()) {%>
-						<li><span class="dettagli">Disponibilità Immediata</span></li>
+						<li><span class="dettagliprodotti">Disponibilità Immediata</span></li>
 					<%}else{ %>
-						<li><span class="dettagli">Non disponibile</span></li>
+						<li><span class="dettagliprodotti">Non disponibile</span></li>
 					<%}%>
-					<li><a href="carrello?action=addC&id=<%=product.getIdProdotto()%>&page=Dettagli.jsp"><button>Aggiungi al carrello</button></a></li>
+					<li><a href="carrello?action=addC&id=<%=product.getIdProdotto()%>&page=dettagliprodotti.jsp"><button>Aggiungi al carrello</button></a></li>
 				</ul>
 			</div>
 	<%}%>

@@ -28,6 +28,7 @@ public class AccountServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		
+		
 		String redirectedPage = request.getParameter("page");
 		
 		UserDao daoUser = new UserDao();

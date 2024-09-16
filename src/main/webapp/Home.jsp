@@ -64,7 +64,7 @@
 					ProdottoBean bean = categorie.get(i).get(j);%>
 					 <div class="item">
 						<ul>
-							<li><a href="dettagliprodotti?id=<%=bean.getIdProdotto()%>"><img src="<%=bean.getImmagine()%>" height="130" width="130"></a></li>
+							<li><a href="dettagliprodotti.jsp?id=<%=bean.getIdProdotto()%>"><img src="<%=bean.getImmagine()%>" height="130" width="130"></a></li>
 							<li><b><%=bean.getNome()%></b></li>
 							<li>prezzo: &euro;<%=bean.getPrezzo()%></li>
 							<li><a href="carrello?action=addC&id=<%=bean.getIdProdotto()%>&page=Home.jsp"><button>Aggiungi al carrello</button></a></li>

@@ -55,7 +55,7 @@
 			<%for(int i = 0 ; i < categorie.size() ; i++){%>
 				<div class="categoria categoria<%=i%>">
 				<%switch(i){
-					case 0 : %> <h2>ULTIMI ACQUISTI</h2><a href="example.jsp" id="orange">vedi tutta la categoria</a> <hr>
+					case 0 : %> <h2>ULTIMI ACQUISTI</h2><a href="MieiOrdini.jsp" id="orange">vedi tutta la categoria</a> <hr>
 								<%break;
 					case 1 : %> <h2>PRODOTTI CHE FANNO PER TE</h2> <hr>
 								<%break;

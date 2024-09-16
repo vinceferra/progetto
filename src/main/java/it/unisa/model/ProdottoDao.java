@@ -29,6 +29,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
     }
 
     private static final String TABLE_NAME = "prodotto";
+    private static final String TABLE_NAME1 = "composizione";
 
     @Override
     public void doSave(ProdottoBean product) throws SQLException {
@@ -177,6 +178,40 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
         return prodotti;
     }
 }
+    @Override
+    public ArrayList<ProdottoBean> doRetrieveLastBuy() throws SQLException {
+        ArrayList<ProdottoBean> prodotti = new ArrayList<>();
+        
+        // Ottenere la connessione dal DataSource
+        try (Connection conn = ds.getConnection()) {
+            
+            // Prima query: Recuperiamo gli id_prodotto dalla tabella composizione
+            String queryComposizione = "SELECT id_prodotto FROM composizione";
+            try (PreparedStatement psComposizione = conn.prepareStatement(queryComposizione);
+                 ResultSet rsComposizione = psComposizione.executeQuery()) {
+
+                // Iteriamo su tutti gli id_prodotto trovati
+                while (rsComposizione.next()) {
+                    int idProdotto = rsComposizione.getInt("id_prodotto");
+
+                    // Seconda query: Recuperiamo i dettagli del prodotto dalla tabella prodotto
+                    String queryProdotto = "SELECT id_prodotto, nome, descrizione, prezzo, quantita, iva, in_vendita, immagine, categoria, taglie, vendite FROM prodotto WHERE id_prodotto = ?";
+                    try (PreparedStatement psProdotto = conn.prepareStatement(queryProdotto)) {
+                        psProdotto.setInt(1, idProdotto);
+                        try (ResultSet rsProdotto = psProdotto.executeQuery()) {
+
+                            // Se troviamo il prodotto, lo aggiungiamo alla lista
+                            if (rsProdotto.next()) {
+                                ProdottoBean prodotto = mapResultSetToBean(rsProdotto);
+                                prodotti.add(prodotto);
+                            }
+                        }
+                    }
+                }
+            }
+        } 
+        return prodotti;
+    }
     
 	@Override
 	public ArrayList<ProdottoBean> doRetrieveRandomProducts(int numProducts) throws SQLException {
@@ -196,6 +231,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
 	        return prodotti;
 	    }
 	}
+	
 
     private ProdottoBean mapResultSetToBean(ResultSet rs) throws SQLException {
         ProdottoBean bean = new ProdottoBean();

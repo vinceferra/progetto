@@ -22,4 +22,6 @@ public interface ProdottoDaoInterfaccia {
 	public ArrayList<ProdottoBean> doRetrieveBestSellers() throws SQLException;
 	
 	public ArrayList<ProdottoBean> doRetrieveRandomProducts(int numProducts) throws SQLException;
+	
+	public ArrayList<ProdottoBean> doRetrieveLastBuy() throws SQLException;
 }

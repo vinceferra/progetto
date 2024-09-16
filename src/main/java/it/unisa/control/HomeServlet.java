@@ -30,19 +30,26 @@ public class HomeServlet extends HttpServlet {
 		String redirectedPage = request.getParameter("page");
 		
 		try {
+			ArrayList<ProdottoBean> Buy = dao.doRetrieveLastBuy();
+			ArrayList<ProdottoBean> Pref = dao.doRetrieveRandomProducts(5);
+			ArrayList<ProdottoBean> Best = dao.doRetrieveBestSellers();
 			ArrayList<ProdottoBean> Giochi = dao.doRetrieveByCategoria("Giochi/Giocattoli");
 			ArrayList<ProdottoBean> Elec = dao.doRetrieveByCategoria("Elettronica");
 			ArrayList<ProdottoBean> Acc = dao.doRetrieveByCategoria("Accessori");
 			ArrayList<ProdottoBean> Abb = dao.doRetrieveByCategoria("Abbagliamento");
-			ArrayList<ProdottoBean> Best = dao.doRetrieveBestSellers();
-			ArrayList<ProdottoBean> Pref = dao.doRetrieveRandomProducts(10);
 			
+			categorie.add(Buy);
+			categorie.add(Pref);
+			categorie.add(Best);
 			categorie.add(Giochi);
 			categorie.add(Elec);
 			categorie.add(Acc);
 			categorie.add(Abb);
-			categorie.add(Best);
-			categorie.add(Pref);
+			
+			
+			
+			
+			
 			
 			request.getSession().setAttribute("categorie", categorie);
 			

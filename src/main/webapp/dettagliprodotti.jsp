@@ -7,6 +7,7 @@
 <title>Dettagli</title>
 <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">
 </head>
+
 <body>
 
 	<%@ include file="./fragments/header.jsp" %>
@@ -22,15 +23,15 @@
 		<h2><%=product.getNome() %></h2>
 			<div id="image"><img src="<%=product.getImmagine()%>" height="270" width="250">
 			</div>
-			<div id="listdettagliprodotti">
+			<div id="listdettagli">
 				<ul>	
-					<li><span class="dettagliprodotti"><%=product.getNome()%></span></li>
-					<li><span class="dettagliprodotti">Categoria</span>: <%=product.getCategoria()%></li>
-					<li><span class="dettagliprodotti">Prezzo</span>: &euro;<%=product.getPrezzo()%></li>
+					<li><span class="dettagli"><%=product.getNome()%></span></li>
+					<li><span class="dettagli">Categoria</span>: <%=product.getCategoria()%></li>
+					<li><span class="dettagli">Prezzo</span>: &euro;<%=product.getPrezzo()%></li>
 					<% if(product.isInVendita()) {%>
-						<li><span class="dettagliprodotti">Disponibilità Immediata</span></li>
+						<li><span class="dettagli">Disponibilità Immediata</span></li>
 					<%}else{ %>
-						<li><span class="dettagliprodotti">Non disponibile</span></li>
+						<li><span class="dettagli">Non disponibile</span></li>
 					<%}%>
 					<li><a href="carrello?action=addC&id=<%=product.getIdProdotto()%>&page=dettagliprodotti.jsp"><button>Aggiungi al carrello</button></a></li>
 				</ul>

@@ -36,7 +36,7 @@ public class HomeServlet extends HttpServlet {
 			ArrayList<ProdottoBean> Giochi = dao.doRetrieveByCategoria("Giochi/Giocattoli");
 			ArrayList<ProdottoBean> Elec = dao.doRetrieveByCategoria("Elettronica");
 			ArrayList<ProdottoBean> Acc = dao.doRetrieveByCategoria("Accessori");
-			ArrayList<ProdottoBean> Abb = dao.doRetrieveByCategoria("Abbagliamento");
+			ArrayList<ProdottoBean> Abb = dao.doRetrieveByCategoria("Abbigliamento");
 			
 			categorie.add(Buy);
 			categorie.add(Pref);

@@ -79,7 +79,7 @@
 		
 		<script>$(document).ready(function(){
 				$(".categoria0 .item").slice(6).hide();
-				$(".categoria1 .item").slice(5).hide();
+				$(".categoria1 .item").slice(6).hide();
 				$(".categoria2 .item").slice(0).hide();
 				$(".categoria3 .item").slice(0).hide();
 				$(".categoria4 .item").slice(0).hide();

@@ -47,7 +47,7 @@
 	
 	
 	<%
-	ArrayList<ProdottoBean> Giochiegiocattoli = categorie.get(2);%>
+	ArrayList<ProdottoBean> Giochiegiocattoli = categorie.get(3);%>
 	
 	<div id="main" class="clear">
 	

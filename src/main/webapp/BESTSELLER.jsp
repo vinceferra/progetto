@@ -46,7 +46,7 @@
 </div>
 	
 	<%
-	ArrayList<ProdottoBean> Bestseller = categorie.get(3);%>
+	ArrayList<ProdottoBean> Bestseller = categorie.get(2);%>
 	
 	<div id="main" class="clear">
 	
@@ -75,16 +75,6 @@
 		<%@ include file="./fragments/footer.jsp" %>
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		
-		<script>
-			$(document).ready(function(){
-				$("img").hover(function(){
-					$(this).css({"height": "135px", "width" :"135px"});
-				}, function(){
-						$(this).css({"height" : "130px", "width" : "130px"});
-					});
-				});
-			</script>
 
 </body>
 </html>

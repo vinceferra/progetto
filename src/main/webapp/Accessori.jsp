@@ -45,7 +45,7 @@
 </div>
 	
 	<%
-	ArrayList<ProdottoBean> Accessori = categorie.get(4);%>
+	ArrayList<ProdottoBean> Accessori = categorie.get(5);%>
 	
 	<div id="main" class="clear">
 	

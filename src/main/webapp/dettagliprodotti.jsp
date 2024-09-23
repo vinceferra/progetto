@@ -25,13 +25,13 @@
 			</div>
 			<div id="listdettagli">
 				<ul>	
-					<li><span class="dettagli"><%=product.getNome()%></span></li>
-					<li><span class="dettagli">Categoria</span>: <%=product.getCategoria()%></li>
-					<li><span class="dettagli">Prezzo</span>: &euro;<%=product.getPrezzo()%></li>
+					<li><span class="DettagliProdotti"><%=product.getNome()%></span></li>
+					<li><span class="DettagliProdotti">Categoria</span>: <%=product.getCategoria()%></li>
+					<li><span class="DettagliProdotti">Prezzo</span>: &euro;<%=product.getPrezzo()%></li>
 					<% if(product.isInVendita()) {%>
-						<li><span class="dettagli">Disponibilità Immediata</span></li>
+						<li><span class="DettagliProdotti">Disponibilità Immediata</span></li>
 					<%}else{ %>
-						<li><span class="dettagli">Non disponibile</span></li>
+						<li><span class="DettagliProdotti">Non disponibile</span></li>
 					<%}%>
 					<li><a href="carrello?action=addC&id=<%=product.getIdProdotto()%>&page=dettagliprodotti.jsp"><button>Aggiungi al carrello</button></a></li>
 				</ul>

@@ -20,7 +20,7 @@
 	<%@ include file="../fragments/menu.jsp" %>
 	
 	<%
-	ArrayList<ProdottoBean> Abbigliamento = categorie.get(5);%>
+	ArrayList<ProdottoBean> Abbigliamento = categorie.get(6);%>
 	
 	<div id="main" class="clear">
 	

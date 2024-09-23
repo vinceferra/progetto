@@ -32,7 +32,7 @@ public class DettagliProdottiServlet extends HttpServlet {
 			System.out.println("Error:" + e.getMessage());
 		}
 		
-		/*RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Prodottospecifico.jsp");
+		/*RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/dettagliprodotti.jsp");
 		dispatcher.forward(request, response);*/
 		response.sendRedirect(request.getContextPath() + "/dettagliprodotti.jsp");
 	}

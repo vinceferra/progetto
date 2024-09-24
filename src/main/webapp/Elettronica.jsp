@@ -50,6 +50,8 @@
 	
 	<div id="main" class="clear">
 	
+		<h2>ELETTRONICA</h2>
+	
 		<%
 			if (elettron != null && elettron.size() != 0) {
 				Iterator<?> it = elettron.iterator();

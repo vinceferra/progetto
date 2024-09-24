@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -29,7 +31,6 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
     }
 
     private static final String TABLE_NAME = "prodotto";
-    private static final String TABLE_NAME1 = "composizione";
 
     @Override
     public void doSave(ProdottoBean product) throws SQLException {
@@ -181,10 +182,11 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
     @Override
     public ArrayList<ProdottoBean> doRetrieveLastBuy() throws SQLException {
         ArrayList<ProdottoBean> prodotti = new ArrayList<>();
-        
+        Set<Integer> prodottiVisti = new HashSet<>();  // Set per evitare duplicati
+
         // Ottenere la connessione dal DataSource
         try (Connection conn = ds.getConnection()) {
-            
+
             // Prima query: Recuperiamo gli id_prodotto dalla tabella composizione
             String queryComposizione = "SELECT id_prodotto FROM composizione";
             try (PreparedStatement psComposizione = conn.prepareStatement(queryComposizione);
@@ -194,16 +196,21 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
                 while (rsComposizione.next()) {
                     int idProdotto = rsComposizione.getInt("id_prodotto");
 
-                    // Seconda query: Recuperiamo i dettagli del prodotto dalla tabella prodotto
-                    String queryProdotto = "SELECT id_prodotto, nome, descrizione, prezzo, quantita, iva, in_vendita, immagine, categoria, taglie, vendite FROM prodotto WHERE id_prodotto = ?";
-                    try (PreparedStatement psProdotto = conn.prepareStatement(queryProdotto)) {
-                        psProdotto.setInt(1, idProdotto);
-                        try (ResultSet rsProdotto = psProdotto.executeQuery()) {
+                    // Controlliamo se l'id_prodotto è già stato processato
+                    if (!prodottiVisti.contains(idProdotto)) {
+                        prodottiVisti.add(idProdotto);  // Aggiungiamo l'id al Set
 
-                            // Se troviamo il prodotto, lo aggiungiamo alla lista
-                            if (rsProdotto.next()) {
-                                ProdottoBean prodotto = mapResultSetToBean(rsProdotto);
-                                prodotti.add(prodotto);
+                        // Seconda query: Recuperiamo i dettagli del prodotto dalla tabella prodotto
+                        String queryProdotto = "SELECT id_prodotto, nome, descrizione, prezzo, quantita, iva, in_vendita, immagine, categoria, taglie, vendite FROM prodotto WHERE id_prodotto = ?";
+                        try (PreparedStatement psProdotto = conn.prepareStatement(queryProdotto)) {
+                            psProdotto.setInt(1, idProdotto);
+                            try (ResultSet rsProdotto = psProdotto.executeQuery()) {
+
+                                // Se troviamo il prodotto, lo aggiungiamo alla lista
+                                if (rsProdotto.next()) {
+                                    ProdottoBean prodotto = mapResultSetToBean(rsProdotto);
+                                    prodotti.add(prodotto);
+                                }
                             }
                         }
                     }
@@ -212,6 +219,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
         } 
         return prodotti;
     }
+
     
 	@Override
 	public ArrayList<ProdottoBean> doRetrieveRandomProducts(int numProducts) throws SQLException {

@@ -7,7 +7,6 @@
 <title>Dettagli</title>
 <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">
 </head>
-
 <body>
 
 	<%@ include file="./fragments/header.jsp" %>
@@ -23,17 +22,18 @@
 		<h2><%=product.getNome() %></h2>
 			<div id="image"><img src="<%=product.getImmagine()%>" height="270" width="250">
 			</div>
-			<div id="listdettagli">
+			<div id="listDettagli">
 				<ul>	
-					<li><span class="DettagliProdotti"><%=product.getNome()%></span></li>
-					<li><span class="DettagliProdotti">Categoria</span>: <%=product.getCategoria()%></li>
-					<li><span class="DettagliProdotti">Prezzo</span>: &euro;<%=product.getPrezzo()%></li>
+					<li><span class="dettagli"><%=product.getNome()%></span></li>
+					<li><span class="dettagli">Descrizione</span>: <%=product.getDescrizione()%></li>
+					<li><span class="dettagli">Categoria</span>: <%=product.getCategoria()%></li>
+					<li><span class="dettagli">Prezzo</span>: &euro;<%=product.getPrezzo()%></li>
 					<% if(product.isInVendita()) {%>
-						<li><span class="DettagliProdotti">Disponibilità Immediata</span></li>
+						<li><span class="dettagli">Disponibilità Immediata</span></li>
 					<%}else{ %>
-						<li><span class="DettagliProdotti">Non disponibile</span></li>
+						<li><span class="dettagli">Non disponibile</span></li>
 					<%}%>
-					<li><a href="carrello?action=addC&id=<%=product.getIdProdotto()%>&page=dettagliprodotti.jsp"><button>Aggiungi al carrello</button></a></li>
+					<li><a href="carrello?action=addC&id=<%=product.getIdProdotto()%>&page=Dettagli.jsp"><button>Aggiungi al carrello</button></a></li>
 				</ul>
 			</div>
 	<%}%>

@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import it.unisa.model.Carrello;
 import it.unisa.model.ProdottoDao;
 
-@WebServlet("/DettagliProdotti")
-public class DettagliProdottiServlet extends HttpServlet {
+@WebServlet("/Dettagli")
+public class DettagliServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	
@@ -32,9 +32,9 @@ public class DettagliProdottiServlet extends HttpServlet {
 			System.out.println("Error:" + e.getMessage());
 		}
 		
-		/*RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/dettagliprodotti.jsp");
+		/*RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Dettagli.jsp");
 		dispatcher.forward(request, response);*/
-		response.sendRedirect(request.getContextPath() + "/dettagliprodotti.jsp");
+		response.sendRedirect(request.getContextPath() + "/Dettagli.jsp");
 	}
 
 	

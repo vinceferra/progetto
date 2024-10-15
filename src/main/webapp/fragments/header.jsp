@@ -54,33 +54,34 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
-	$(document).ready(function(){
-		$("#searchbar").keyup(function(){
-			var x = $("#searchbar").val();
-			if(x != ""){
-				$.get("./RicercaProdotto", {"query": x}, function(data){
-					if(data!= ""){
-						$(".risultati").empty();
-						$(".risultati").css({"display" : "block"});
-						$.each(data, function(i,item){
-							$(".risultati").append("<div id='item-r' class='item"+i+"'><img id='pic' width='65' height='65' src='" + item.immagine + "'/><p id='name'>" +item.nome + "</p></div>");
-							$(".item"+i).click(function(){
-								$.get("./dettagli",{"id" : item.idProdotto}, function(){
-									window.location = "./Dettagli.jsp";
-								});
-							});
-						});
-					}
-				});
-						
-				}else{
-					$(".risultati").css({"display" : "none"});
-				};
-			});
-	});
-	
-	
+        $(document).ready(function(){
+            var $searchbar = $("#searchbar");
+            var $risultati = $(".risultati");
 
-</script>
+            $searchbar.keyup(function(){
+                var query = $searchbar.val();
+                if(query.trim() !== ""){
+                    $.get("./RicercaProdotto", {"query": query}, function(data){
+                        if(data && data.length > 0){
+                            $risultati.empty();
+                            $risultati.show();
+                            $.each(data, function(i, item){
+                                var itemDiv = $("<div id='item-r' class='item" + i + "'><img id='pic' width='65' height='65' src='" + item.immagine + "'/><p id='name'>" + item.nome + "</p></div>");
+                                itemDiv.on('click', function(){
+                                    window.location = "./Dettagli.jsp?id=" + item.idProdotto;
+                                });
+                                $risultati.append(itemDiv);
+                            });
+                        }
+                    }).fail(function(){
+                        console.error("Errore durante la ricerca del prodotto.");
+                    });
+                } else {
+                    $risultati.hide();
+                }
+            });
+        });
+    </script>
+
 
 </body>

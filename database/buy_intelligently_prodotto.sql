@@ -33,7 +33,7 @@ CREATE TABLE `prodotto` (
   `immagine` varchar(100) NOT NULL,
   `Categoria` varchar(100) NOT NULL,
   `Taglie` varchar(3) DEFAULT NULL,
-  `n.vendite` int NOT NULL DEFAULT '0',
+  `vendite` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_prodotto`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

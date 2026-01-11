@@ -44,7 +44,7 @@
 							</li>										
 			<%}else{ %>
 				<li><a href="<%= request.getContextPath() %>/Login.jsp">ACCEDI</a></li><%} %>
-				<li><a href= "<%= request.getContextPath() %>/Carrello.jsp"><img src="images/carrello.png" height="22" weidth="32"></a></li>
+				<li><a href= "<%= request.getContextPath() %>/Carrello.jsp"><img src="${pageContext.request.contextPath}/images/carrello.png" height="22" width="32"></a></li>
 			</ul>
 		</nav>
 	</div>

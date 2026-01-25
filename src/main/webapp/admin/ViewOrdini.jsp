@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"  import="it.unisa.model.OrdineBean, java.util.*"%>
+    
+    <%
+    UserBean User = (UserBean) session.getAttribute("currentSessionUser");
+
+    if (User== null || !User.isAmministratore()) {
+        response.sendRedirect(request.getContextPath() + "/Login.jsp");
+        return;
+    }
+
+%>
 <!DOCTYPE html>
 <html>
 <head>

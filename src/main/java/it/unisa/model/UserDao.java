@@ -12,280 +12,214 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import it.unisa.control.PasswordUtil;
+
 public class UserDao implements UserDaoInterfaccia {
 
-	private static DataSource ds;
+    private static DataSource ds;
 
-	static {
-		try {
-			Context initCtx = new InitialContext();
-			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+    static {
+        try {
+            Context initCtx = new InitialContext();
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            ds = (DataSource) envCtx.lookup("jdbc/buy_intelligently");
+        } catch (NamingException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
 
-			ds = (DataSource) envCtx.lookup("jdbc/buy_intelligently");
+    private static final String TABLE_NAME = "cliente";
 
-		} 
-		catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
-		}
-	}
-	
-	private static final String TABLE_NAME = "cliente";
-	
-	
-	@Override
-	public synchronized void doSave(UserBean user) throws SQLException {
-		
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
+    // ===================== SAVE (REGISTRAZIONE) =====================
+    @Override
+    public synchronized void doSave(UserBean user) throws SQLException {
 
-		String insertSQL = "INSERT INTO " + UserDao.TABLE_NAME 
-						+ " (NOME, COGNOME, USERNAME, PWD, EMAIL, DATA_NASCITA, CARTA_CREDITO, INDIRIZZO, CAP, AMMINISTRATORE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
-		
-		try {
-			connection = ds.getConnection();
-			connection.setAutoCommit(false);
-			preparedStatement = connection.prepareStatement(insertSQL);
-			preparedStatement.setString(1, user.getNome());
-			preparedStatement.setString(2, user.getCognome());
-			preparedStatement.setString(3, user.getUsername());
-			preparedStatement.setString(4, user.getPassword());
-			preparedStatement.setString(5, user.getEmail());
-			preparedStatement.setDate(6, (Date) user.getDataDiNascita());
-			preparedStatement.setString(7, user.getCartaDiCredito());
-			preparedStatement.setString(8, user.getIndirizzo());
-			preparedStatement.setString(9, user.getCap());
-			preparedStatement.setBoolean(10, user.isAmministratore());
-		
-			preparedStatement.executeUpdate();
+        String insertSQL =
+                "INSERT INTO " + TABLE_NAME +
+                " (NOME, COGNOME, USERNAME, PWD, EMAIL, DATA_NASCITA, CARTA_CREDITO, INDIRIZZO, CAP, AMMINISTRATORE) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-			connection.commit();
-		}
-		 finally {
-				try {
-					if (preparedStatement != null)
-						preparedStatement.close();
-				} 
-				finally {
-					if (connection != null)
-						connection.close();
-				}
-		 }
-	}
+        try (Connection connection = ds.getConnection();
+             PreparedStatement ps = connection.prepareStatement(insertSQL)) {
 
+            connection.setAutoCommit(false);
 
-	@Override
-	public synchronized UserBean doRetrieve(String username, String password) throws SQLException {
-		//preparing some objects for connecNon 
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		
-		UserBean user = new UserBean();
-		
-		String searchQuery = "select * from " + UserDao.TABLE_NAME 
-							+ "	where username = ? "
-							+ " AND pwd = ? ";
-		
-		try
-			{
-			//connect to DB 
-			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(searchQuery);
-			preparedStatement.setString(1, username);
-			preparedStatement.setString(2, password);
-			ResultSet rs = preparedStatement.executeQuery();
-			boolean more = rs.next();
-			// if user does not exist set the isValid variable to false
-				if (!more) 
-					user.setValid(false);
-		
-				//if user exists set the isValid variable to true
-				else if (more) 
-				{
-					user.setUsername(rs.getString("username"));
-					user.setPassword(rs.getString("pwd"));
-					user.setEmail(rs.getString("email"));
-					user.setNome(rs.getString("nome"));
-					user.setCognome(rs.getString("cognome"));
-					user.setDataDiNascita(rs.getDate("data_nascita"));
-					user.setCartaDiCredito(rs.getString("carta_credito"));
-					user.setIndirizzo(rs.getString("indirizzo"));
-					user.setCap(rs.getString("cap"));
-					user.setAmministratore(rs.getBoolean("amministratore"));
-					user.setValid(true);
-				}
-			}
-			catch (Exception ex) 
-			{
-				System.out.println("Log In failed: An Exception has occurred! " + ex); 
-			}
-			finally {
-				try {
-					if (preparedStatement != null)
-							preparedStatement.close();
-					} 
-			finally {
-				if (connection != null)
-					connection.close();
-			}
-	 }
+            ps.setString(1, user.getNome());
+            ps.setString(2, user.getCognome());
+            ps.setString(3, user.getUsername());
 
-		return user;
-	}
-	
-	@Override
-	public synchronized ArrayList<UserBean> doRetrieveAll(String order) throws SQLException {
-	
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
+            // 🔐 HASH PASSWORD
+            String hashedPassword = PasswordUtil.hashPassword(user.getPassword());
+            ps.setString(4, hashedPassword);
 
-		ArrayList<UserBean> users = new ArrayList<UserBean>();
+            ps.setString(5, user.getEmail());
+            ps.setDate(6, (Date) user.getDataDiNascita());
+            ps.setString(7, user.getCartaDiCredito());
+            ps.setString(8, user.getIndirizzo());
+            ps.setString(9, user.getCap());
+            ps.setBoolean(10, user.isAmministratore());
 
-		String selectSQL = "SELECT * FROM " + UserDao.TABLE_NAME;
+            ps.executeUpdate();
+            connection.commit();
+        }
+    }
 
-		if (order != null && !order.equals("")) {
-			selectSQL += " ORDER BY " + order;
-		}
+    // ===================== LOGIN =====================
+    @Override
+    public synchronized UserBean doRetrieve(String username, String hashedPassword) throws SQLException {
 
-		try {
-			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(selectSQL);
+        UserBean user = new UserBean();
 
-			ResultSet rs = preparedStatement.executeQuery();
-			
-			while (rs.next()) {
-				UserBean user = new UserBean();
-				user.setUsername(rs.getString("username"));
-				user.setPassword(rs.getString("pwd"));
-				user.setEmail(rs.getString("email"));
-				user.setNome(rs.getString("nome"));
-				user.setCognome(rs.getString("cognome"));
-				user.setDataDiNascita(rs.getDate("data_nascita"));
-				user.setCartaDiCredito(rs.getString("carta_credito"));
-				user.setIndirizzo(rs.getString("indirizzo"));
-				user.setCap(rs.getString("cap"));
-				user.setAmministratore(rs.getBoolean("amministratore"));
-				user.setValid(true);
-				users.add(user);
-			}
-		}
-		finally {
-			try {
-				if (preparedStatement != null)
-					preparedStatement.close();
-			} 
-			finally {
-				if (connection != null)
-					connection.close();
-			}
-		}
-		
-		return users;
-	}
-	
-	public synchronized void doUpdateSpedizione(String email, String indirizzo, String cap) throws SQLException {
-	    String updateSQL = "UPDATE " + UserDao.TABLE_NAME
-	            + " SET INDIRIZZO = ?, CAP = ?"
-	            + " WHERE EMAIL = ?";
+        String query =
+                "SELECT * FROM " + TABLE_NAME +
+                " WHERE USERNAME = ? AND PWD = ?";
 
-	    // Usa try-with-resources per garantire che le risorse siano chiuse correttamente
-	    try (Connection connection = ds.getConnection();
-	         PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
+        try (Connection connection = ds.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
 
-	        connection.setAutoCommit(false); // Disabilita l'auto-commit
+            ps.setString(1, username);
+            ps.setString(2, hashedPassword);
 
-	        preparedStatement.setString(1, indirizzo);
-	        preparedStatement.setString(2, cap);
-	        preparedStatement.setString(3, email);
+            ResultSet rs = ps.executeQuery();
 
-	        int rowsAffected = preparedStatement.executeUpdate();
+            if (rs.next()) {
+                user.setUsername(rs.getString("username"));
+                user.setEmail(rs.getString("email"));
+                user.setNome(rs.getString("nome"));
+                user.setCognome(rs.getString("cognome"));
+                user.setDataDiNascita(rs.getDate("data_nascita"));
+                user.setCartaDiCredito(rs.getString("carta_credito"));
+                user.setIndirizzo(rs.getString("indirizzo"));
+                user.setCap(rs.getString("cap"));
+                user.setAmministratore(rs.getBoolean("amministratore"));
+                user.setValid(true);
+            } else {
+                user.setValid(false);
+            }
+        }
 
-	        if (rowsAffected > 0) {
-	            connection.commit(); // Commit se l'aggiornamento ha successo
-	        } else {
-	            connection.rollback(); // Rollback se non sono state aggiornate righe
-	            throw new SQLException("Nessuna riga aggiornata. Verifica l'email.");
-	        }
-	    } catch (SQLException e) {
-	        // Gestione delle eccezioni con rollback
-	        throw new SQLException("Errore durante l'aggiornamento della spedizione.", e);
-	    }
-	}
+        return user;
+    }
 
-	
-	public synchronized void doUpdatePagamento(String email, String carta) throws SQLException {
-		
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
+    // ===================== RETRIEVE ALL =====================
+    @Override
+    public synchronized ArrayList<UserBean> doRetrieveAll(String order) throws SQLException {
 
-		String updateSQL = "UPDATE " + UserDao.TABLE_NAME
-				+ " SET CARTA_CREDITO = ?"
-				+ " WHERE EMAIL = ? ";
-		
-		try {
-			connection = ds.getConnection();
-			connection.setAutoCommit(false);
-			preparedStatement = connection.prepareStatement(updateSQL);
-			preparedStatement.setString(1, carta);
-			preparedStatement.setString(2, email);
-			preparedStatement.executeUpdate();
+        ArrayList<UserBean> users = new ArrayList<>();
+        String selectSQL = "SELECT * FROM " + TABLE_NAME;
 
-			connection.commit();
-		} finally {
-			try {
-				if (preparedStatement != null)
-					preparedStatement.close();
-			} finally {
-				if (connection != null)
-					connection.close();
-			}
-		}
-	}
-	
-	public synchronized void doUpdatePassword(String email, String newPassword) throws SQLException {
-	    String updateSQL = "UPDATE Cliente SET PWD = ? WHERE EMAIL = ?";
+        if (order != null && !order.isEmpty()) {
+            selectSQL += " ORDER BY " + order;
+        }
 
-	    try (Connection connection = ds.getConnection();
-	         PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) 
-	    {
+        try (Connection connection = ds.getConnection();
+             PreparedStatement ps = connection.prepareStatement(selectSQL)) {
 
-	        connection.setAutoCommit(false); // Disabilita l'auto-commit
+            ResultSet rs = ps.executeQuery();
 
-	        preparedStatement.setString(1, newPassword);
-	        preparedStatement.setString(2, email);
+            while (rs.next()) {
+                UserBean user = new UserBean();
+                user.setUsername(rs.getString("username"));
+                user.setEmail(rs.getString("email"));
+                user.setNome(rs.getString("nome"));
+                user.setCognome(rs.getString("cognome"));
+                user.setDataDiNascita(rs.getDate("data_nascita"));
+                user.setCartaDiCredito(rs.getString("carta_credito"));
+                user.setIndirizzo(rs.getString("indirizzo"));
+                user.setCap(rs.getString("cap"));
+                user.setAmministratore(rs.getBoolean("amministratore"));
+                user.setValid(true);
+                users.add(user);
+            }
+        }
 
-	        int rowsAffected = preparedStatement.executeUpdate();
+        return users;
+    }
 
-	        if (rowsAffected > 0) {
-	            connection.commit(); // Commit se l'aggiornamento ha successo
-	        } else {
-	            connection.rollback(); // Rollback se non sono state aggiornate righe
-	            throw new SQLException("Nessuna riga aggiornata. Verifica l'email.");
-	        }
-	    } catch (SQLException e) {
-	        throw new SQLException("Errore durante l'aggiornamento della password.", e);
-	    }
-	}
-	
-	public Boolean checkPassword(String email, String password) throws SQLException 
-	{
-	    String query = "SELECT PASSWORD FROM users WHERE EMAIL = ?";
+    // ===================== UPDATE SPEDIZIONE =====================
+    public synchronized void doUpdateSpedizione(String email, String indirizzo, String cap) throws SQLException {
 
-	    try (Connection connection = ds.getConnection();
-	         PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        String updateSQL =
+                "UPDATE " + TABLE_NAME +
+                " SET INDIRIZZO = ?, CAP = ? WHERE EMAIL = ?";
 
-	        preparedStatement.setString(1, email);
-	        ResultSet rs = preparedStatement.executeQuery();
+        try (Connection connection = ds.getConnection();
+             PreparedStatement ps = connection.prepareStatement(updateSQL)) {
 
-	        if (rs.next()) {
-	            String storedPassword = rs.getString("PASSWORD");
-	            return storedPassword.equals(password); // Confronta gli hash
-	        }
-	    } catch (SQLException e) {
-	        throw new SQLException("Errore durante la verifica della password.", e);
-	    }
+            connection.setAutoCommit(false);
 
-	    return false; // Se l'utente non esiste o la password non corrisponde
+            ps.setString(1, indirizzo);
+            ps.setString(2, cap);
+            ps.setString(3, email);
 
-	}
+            ps.executeUpdate();
+            connection.commit();
+        }
+    }
+
+    // ===================== UPDATE PAGAMENTO =====================
+    public synchronized void doUpdatePagamento(String email, String carta) throws SQLException {
+
+        String updateSQL =
+                "UPDATE " + TABLE_NAME +
+                " SET CARTA_CREDITO = ? WHERE EMAIL = ?";
+
+        try (Connection connection = ds.getConnection();
+             PreparedStatement ps = connection.prepareStatement(updateSQL)) {
+
+            connection.setAutoCommit(false);
+
+            ps.setString(1, carta);
+            ps.setString(2, email);
+
+            ps.executeUpdate();
+            connection.commit();
+        }
+    }
+
+    // ===================== UPDATE PASSWORD =====================
+    public synchronized void doUpdatePassword(String email, String newPassword) throws SQLException {
+
+        String updateSQL =
+                "UPDATE " + TABLE_NAME +
+                " SET PWD = ? WHERE EMAIL = ?";
+
+        try (Connection connection = ds.getConnection();
+             PreparedStatement ps = connection.prepareStatement(updateSQL)) {
+
+            connection.setAutoCommit(false);
+
+            // 🔐 HASH NUOVA PASSWORD
+            String hashedPassword = PasswordUtil.hashPassword(newPassword);
+            ps.setString(1, hashedPassword);
+            ps.setString(2, email);
+
+            ps.executeUpdate();
+            connection.commit();
+        }
+    }
+
+    // ===================== CHECK PASSWORD =====================
+    public Boolean checkPassword(String email, String plainPassword) throws SQLException {
+
+        String query =
+                "SELECT PWD FROM " + TABLE_NAME + " WHERE EMAIL = ?";
+
+        try (Connection connection = ds.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String storedHash = rs.getString("PWD");
+                String inputHash = PasswordUtil.hashPassword(plainPassword);
+                return storedHash.equals(inputHash);
+            }
+        }
+
+        return false;
+    }
 }
+
 

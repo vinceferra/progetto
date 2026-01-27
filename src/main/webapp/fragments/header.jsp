@@ -68,7 +68,7 @@
                             $.each(data, function(i, item){
                                 var itemDiv = $("<div id='item-r' class='item" + i + "'><img id='pic' width='65' height='65' src='" + item.immagine + "'/><p id='name'>" + item.nome + "</p></div>");
                                 itemDiv.on('click', function(){
-                                    window.location = "./Dettagli.jsp?id=" + item.idProdotto;
+                                	window.location = "./Dettagli?id=" + item.idProdotto;
                                 });
                                 $risultati.append(itemDiv);
                             });

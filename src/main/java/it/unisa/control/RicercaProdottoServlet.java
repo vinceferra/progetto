@@ -20,48 +20,50 @@ import it.unisa.model.ProdottoDao;
  */
 @WebServlet("/RicercaProdotto")
 public class RicercaProdottoServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-   
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		
-		String query = request.getParameter("query");
-		
-		ArrayList<ProdottoBean> risultato = new ArrayList<>();
-		ProdottoDao dao = new ProdottoDao();
-		ArrayList<ProdottoBean> prodotti;
-		
-		try {
-			prodotti = dao.doRetrieveAll(null);
-			for(ProdottoBean p : prodotti) {
-				for(int i=0; i<p.getNome().length() - 1;i++) {
-					for(int j=i+1; j<p.getNome().length(); j++) {
-						if(((String) p.getNome().subSequence(i,j)).equalsIgnoreCase(query) && !risultato.contains(p)){
-							risultato.add(p);
-						}
+    private static final long serialVersionUID = 1L;
 
-					}
-					
-				}
-			}
-			
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
-		
-		
-		String json = new Gson().toJson(risultato);
-		
-		response.getWriter().write(json);
-		
-	}
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		doGet(request, response);
-	}
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
+        String query = request.getParameter("query");
+
+        ArrayList<ProdottoBean> risultato = new ArrayList<>();
+        ProdottoDao dao = new ProdottoDao();
+
+        if (query == null || query.trim().isEmpty()) {
+            response.getWriter().write("[]");
+            return;
+        }
+
+        query = query.toLowerCase();
+
+        try {
+            ArrayList<ProdottoBean> prodotti = dao.doRetrieveAll(null);
+
+            for (ProdottoBean p : prodotti) {
+                if (p.getNome() != null &&
+                    p.getNome().toLowerCase().contains(query)) {
+
+                    risultato.add(p);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        String json = new Gson().toJson(risultato);
+        response.getWriter().write(json);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        doGet(request, response);
+    }
 }

@@ -20,43 +20,11 @@
 		<%@ include file="../fragments/header.jsp" %>
 		<%@ include file="../fragments/menu.jsp" %>
 		
-		<div class="filter-section">
-    <h2>Filtro ricerca</h2>
-    <form action="risultati_ricerca.html" method="GET">
-
-        <!-- Prezzo -->
-        <div class="filter-group">
-            <label for="price">Prezzo massimo: <span id="price-value">5000</span>&#8364</label>
-            <input type="range" id="price" name="price" min="0" max="5000" value="5000" oninput="document.getElementById('price-value').innerText = this.value">
-        </div>
-
-        <!-- Marca -->
-        <div class="filter-group">
-            <label for="brand">Marca:</label>
-            <input type="text" id="brand" name="brand" placeholder="Inserisci marca">
-        </div>
-
-        <!-- Disponibilità -->
-        <div class="filter-group">
-            <input type="checkbox" id="available" name="available">
-            <label for="available">Solo prodotti disponibili</label>
-        </div>
-
-        <!-- Pulsante di ricerca -->
-        <div class="filter-group">
-            <input type="submit" value="Cerca">
-        </div>
-
-    </form>
-</div>
-		
 		<div id="main" class="clear">
 			
 			<%for(int i = 0 ; i < categorie.size() ; i++){%>
 				<div class="categoria categoria<%=i%>">
 				<%switch(i){
-					case 0 : %> <h2>ULTIMI ACQUISTI</h2><a href="MieiOrdini.jsp" id="orange">vedi tutta la categoria</a> <hr>
-								<%break;
 					case 1 : %> <h2>PRODOTTI CHE FANNO PER TE</h2> <hr>
 								<%break;
 				

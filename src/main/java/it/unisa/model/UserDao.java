@@ -30,7 +30,6 @@ public class UserDao implements UserDaoInterfaccia {
 
     private static final String TABLE_NAME = "cliente";
 
-    // ===================== SAVE (REGISTRAZIONE) =====================
     @Override
     public synchronized void doSave(UserBean user) throws SQLException {
 
@@ -63,8 +62,6 @@ public class UserDao implements UserDaoInterfaccia {
             connection.commit();
         }
     }
-
-    // ===================== LOGIN =====================
     @Override
     public synchronized UserBean doRetrieve(String username, String hashedPassword) throws SQLException {
 
@@ -100,8 +97,6 @@ public class UserDao implements UserDaoInterfaccia {
 
         return user;
     }
-
-    // ===================== RETRIEVE ALL =====================
     @Override
     public synchronized ArrayList<UserBean> doRetrieveAll(String order) throws SQLException {
 
@@ -135,8 +130,7 @@ public class UserDao implements UserDaoInterfaccia {
 
         return users;
     }
-
-    // ===================== UPDATE SPEDIZIONE =====================
+    
     public synchronized void doUpdateSpedizione(String email, String indirizzo, String cap) throws SQLException {
 
         String updateSQL =
@@ -156,8 +150,7 @@ public class UserDao implements UserDaoInterfaccia {
             connection.commit();
         }
     }
-
-    // ===================== UPDATE PAGAMENTO =====================
+    
     public synchronized void doUpdatePagamento(String email, String carta) throws SQLException {
 
         String updateSQL =
@@ -177,7 +170,6 @@ public class UserDao implements UserDaoInterfaccia {
         }
     }
 
-    // ===================== UPDATE PASSWORD =====================
     public synchronized void doUpdatePassword(String email, String newPassword) throws SQLException {
 
         String updateSQL =
@@ -199,7 +191,6 @@ public class UserDao implements UserDaoInterfaccia {
         }
     }
 
-    // ===================== CHECK PASSWORD =====================
     public Boolean checkPassword(String email, String plainPassword) throws SQLException {
 
         String query =

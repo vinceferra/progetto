@@ -29,9 +29,7 @@ public class CheckUsernameServlet extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	/*	response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");*/
+	
 		
 		UserDao dao = new UserDao();
 		String us = request.getParameter("us");
@@ -41,14 +39,10 @@ public class CheckUsernameServlet extends HttpServlet {
 			users = dao.doRetrieveAll(null);
 			for(UserBean user: users) {
 				if(user.getUsername().equals(us)){
-					/*String json = new Gson().toJson("not valid");
-					response.getWriter().write(json);*/
 					response.getWriter().write("0");
 					return;
 				}
 		}
-		/*	String json = new Gson().toJson("valid");
-			response.getWriter().write(json);*/
 			response.getWriter().write("1");
 
 			return;

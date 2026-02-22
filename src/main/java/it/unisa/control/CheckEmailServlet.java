@@ -30,8 +30,6 @@ public class CheckEmailServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		/*response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");*/
 		
 		UserDao dao = new UserDao();
 		String email = request.getParameter("em");
@@ -41,13 +39,10 @@ public class CheckEmailServlet extends HttpServlet {
 			users = dao.doRetrieveAll(null);
 			for(UserBean user: users) {
 				if(user.getEmail().equals(email)){
-					//String json = new Gson().toJson("not valid");
-					//response.getWriter().write(json);
 					response.getWriter().write("0");
 					return;
 				}
 		}
-			//String json = new Gson().toJson("valid");
 			response.getWriter().write("1");
 			return;
 		} catch (SQLException e) {

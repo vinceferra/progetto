@@ -45,15 +45,9 @@ public class HomeServlet extends HttpServlet {
 			categorie.add(Elec);
 			categorie.add(Acc);
 			categorie.add(Abb);
-			
-			
-			
-			
-			
-			
+		
 			request.getSession().setAttribute("categorie", categorie);
 			
-
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -62,7 +56,6 @@ public class HomeServlet extends HttpServlet {
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/" + redirectedPage);
 		dispatcher.forward(request, response);
 	}
-
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -30,10 +30,8 @@ public class LoginServlet extends HttpServlet {
 			String username = request.getParameter("un");
 			String password = request.getParameter("pw");
 
-			// 🔐 PASSO 3: HASH DELLA PASSWORD
 			String hashedPassword = PasswordUtil.hashPassword(password);
 
-			// Recupero utente con password hashata
 			UserBean user = usDao.doRetrieve(username, hashedPassword);
 
 			String checkout = request.getParameter("checkout");

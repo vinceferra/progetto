@@ -58,7 +58,7 @@
 		</div>
 		<div class="tableRow">
 			<p>Taglie:</p>
-			<p><input type="text" name="Taglie" placeholder="Non inserire se non è un abbigliamento" value="" required></p>
+			<p><input type="text" name="Taglie" placeholder="Non inserire se non è un abbigliamento" value=""></p>
 		</div>
 		<div class="tableRow">
 			<p>Vendite:</p>

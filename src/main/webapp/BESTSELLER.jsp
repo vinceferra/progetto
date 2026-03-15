@@ -39,6 +39,7 @@
 			<li>prezzo: &euro;<%=bean.getPrezzo()%></li>
 			<li><a href="carrello?action=addC&id=<%=bean.getIdProdotto()%>&page=BESTSELLER.jsp"><button>Aggiungi al carrello</button></a></li>
 		 </ul>
+		 </div>
 		
 		<%
 				}

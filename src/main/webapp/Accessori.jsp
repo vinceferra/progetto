@@ -46,7 +46,7 @@
 			} else {
 		%>
 		
-			<h2>No products available</h2>
+			<h2>Non ci sono prodotti disponibili</h2>
 		<%
 			}
 		%>

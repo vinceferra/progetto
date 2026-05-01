@@ -24,7 +24,6 @@
 			
 				<table class = "ordini">
 				<tr>
-					<th>Id</th>
 					<th>Data</th>
 					<th>Importo totale</th>
 					<th></th>
@@ -37,7 +36,6 @@
 				%>
 		
 		<tr>
-			<td> <%= bean.getIdOrdine() %></td>
 			<td> <%= bean.getData() %></td>
 			<td> &euro;<%=String.format("%.2f",bean.getImportoTotale())%></td>
 			<td> <a href="Ordine?action=dettagliOrdine&id=<%= bean.getIdOrdine() %>"> dettagli</a></td>

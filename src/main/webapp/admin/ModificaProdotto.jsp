@@ -32,7 +32,8 @@
 		ProdottoBean bean = null;
 	for(ProdottoBean prodotto : prodotti){
 		if(prodotto.getIdProdotto() == id){
-			bean = prodotto;} 
+			bean = prodotto;
+			break;} 
 			}%>
 	
 	<form action="../catalogo" method="post" id="myform">

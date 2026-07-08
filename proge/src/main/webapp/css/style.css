@@ -125,7 +125,7 @@ div.tableRow p:first-child{
 }
 
 #searchbar{
-	width:auto;
+	width:100%;
 	padding: 10px;
 	display: block;
 	border:1px solid rgb(132, 0, 255);

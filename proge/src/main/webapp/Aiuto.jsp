@@ -20,7 +20,7 @@
 <%@ include file="../fragments/header.jsp" %>
 <div align=center>	
 <a
-  href="mailto:buyintelligently@gmail.com?subject=The%20object%20of%20the%20email&body=Describe%20your%20problem" style="color:red">
+  href="https://mail.google.com/mail/?view=cm&fs=1&to=vincyferry97@gmail.com&su=The%20object%20of%20the%20email&body=Describe%20your%20problem" target="_blank" style="color:red">
   <br><br><br><br><br>   &#34 <u>CLICCA QUI PER CONTATTARCI</u> &#34
 </a>
 </div>

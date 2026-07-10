@@ -28,7 +28,7 @@ table {
 	width: 90%;
 }
 
-
+/*intestazioni*/
 th {
 	background-color: rgb(255, 255, 255);
 	color: rgb(0, 0, 0);
@@ -39,16 +39,15 @@ th {
 	font-style: italic;
 }
 
-
+/*celle tabelle*/
 td {
-	margin: 20;
+	margin: 20px;
 	padding: 5px;
-	height: auto;
 	color: black;
 }
-
+/*righe*/
 tr{
-	border-bottom: 1px solid rgb(128, 128, 128);
+	border-bottom: 29px solid rgb(0, 0, 0);
 }
 
 div.center{
@@ -135,13 +134,13 @@ div.tableRow p:first-child{
 .risultati{                                                                    /* barra di ricerca */
 	position: absolute;
 	padding: 10px;
-	width:150%;
-
+	width:60%;
 	background-color: #ffffff;
 	border: 1px solid rgb(132, 0, 255);
 	border-radius: 3px;
 	display: none;
 	box-shadow: 0px 8px 16px 0px rgb(132, 0, 255);
+	z-index: 100;
 }
 
 #item-r{
@@ -168,7 +167,6 @@ nav ul {                                                               /* blocco
   margin: 0;
   overflow: hidden;
   background-color: #8000ff;
-  align-items: center;
 }
 
 nav li {
@@ -319,7 +317,7 @@ div.account{
 }
 
 #footer {                                                                /* barra finale */
-	position: sticky;
+	position: static;
 	top: 100%;
 	background-color: rgb(132, 0, 255);
 	color: white;

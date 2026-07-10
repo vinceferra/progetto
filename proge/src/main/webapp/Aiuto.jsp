@@ -18,11 +18,14 @@
 
 <body>
 <%@ include file="../fragments/header.jsp" %>
+<%@ include file="../fragments/menu.jsp" %>
+
 <div align=center>	
 <a
   href="https://mail.google.com/mail/?view=cm&fs=1&to=vincyferry97@gmail.com&su=The%20object%20of%20the%20email&body=Describe%20your%20problem" target="_blank" style="color:red">
   <br><br><br><br><br>   &#34 <u>CLICCA QUI PER CONTATTARCI</u> &#34
 </a>
-</div>
+</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<%@ include file="../fragments/footer.jsp" %>
 </body>
 </html>

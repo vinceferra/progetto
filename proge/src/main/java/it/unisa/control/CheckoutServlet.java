@@ -117,7 +117,7 @@ public class CheckoutServlet extends HttpServlet {
 
 		request.getSession().setAttribute("messaggio", "Ordine avvenuto con successo!");
 
-		response.sendRedirect(request.getContextPath() + "/Home.jsp");
+		response.sendRedirect(request.getContextPath() + "/Ordine?action=mieiOrdini");
 	}
 
 	

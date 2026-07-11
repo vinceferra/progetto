@@ -11,19 +11,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%
-String messaggio = (String) session.getAttribute("messaggio");
-if (messaggio != null) {
-%>
 
-<p style="text-align:center; color:green; font-weight:bold;">
-    <%= messaggio %>
-</p>
-
-<%
-    session.removeAttribute("messaggio");
-}
-%>
 <meta charset="ISO-8859-1">
 	<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">	
 <title>BUY INTELLIGENTLY</title>

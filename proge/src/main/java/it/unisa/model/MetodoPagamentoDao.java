@@ -66,41 +66,40 @@ public class MetodoPagamentoDao implements MetodoPagamentoDaoInterfaccia{
 	
 	@Override
 	public synchronized MetodoPagamentoBean doRetrieveByKey(String numeroCarta) throws SQLException {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
 
-		MetodoPagamentoBean bean = new MetodoPagamentoBean();
+	    String selectSQL = "SELECT * FROM " + MetodoPagamentoDao.TABLE_NAME
+	            + " WHERE NUMERO_CARTA = ?";
 
-		String selectSQL = "SELECT * FROM " + MetodoPagamentoDao.TABLE_NAME 
-						+ " WHERE NUMERO_CARTA = ?";
+	    try {
+	        connection = ds.getConnection();
+	        preparedStatement = connection.prepareStatement(selectSQL);
+	        preparedStatement.setString(1, numeroCarta);
 
-		try {
-			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(selectSQL);
-			preparedStatement.setString(1, numeroCarta);
+	        ResultSet rs = preparedStatement.executeQuery();
 
-			ResultSet rs = preparedStatement.executeQuery();
+	        if (rs.next()) {
+	            MetodoPagamentoBean bean = new MetodoPagamentoBean();
 
-			while (rs.next()) {
-				bean.setTitolare(rs.getString("TITOLARE_CARTA"));
-				bean.setScadenza(rs.getString("SCADENZA_CARTA"));
-				bean.setNumero(rs.getString("NUMERO_CARTA"));
+	            bean.setTitolare(rs.getString("TITOLARE_CARTA"));
+	            bean.setScadenza(rs.getString("SCADENZA_CARTA"));
+	            bean.setNumero(rs.getString("NUMERO_CARTA"));
 
-			}
+	            return bean;
+	        }
 
-		} 
-		finally {
-			try {
-				if (preparedStatement != null)
-					preparedStatement.close();
-			} 
-			finally {
-				if (connection != null)
-					connection.close();
-			}
-		}
-		
-		return bean;
+	        return null;
+
+	    } finally {
+	        try {
+	            if (preparedStatement != null)
+	                preparedStatement.close();
+	        } finally {
+	            if (connection != null)
+	                connection.close();
+	        }
+	    }
 	}
 	
 	

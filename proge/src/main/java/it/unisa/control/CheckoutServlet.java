@@ -114,7 +114,9 @@ public class CheckoutServlet extends HttpServlet {
 		}
 		
 		request.getSession().removeAttribute("cart");
-		
+
+		request.getSession().setAttribute("messaggio", "Ordine avvenuto con successo!");
+
 		response.sendRedirect(request.getContextPath() + "/Home.jsp");
 	}
 

@@ -88,79 +88,73 @@ public class IndirizzoSpedizioneDao implements IndirizzoSpedizioneDaoInterfaccia
 	        }
 	    }
 	
-	@Override
-	public synchronized IndirizzoSpedizioneBean doRetrieveByKey(String indirizzo, String cap) throws SQLException {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
+	 @Override
+	 public synchronized IndirizzoSpedizioneBean doRetrieveByKey(String indirizzo, String cap) throws SQLException {
+	     Connection connection = null;
+	     PreparedStatement preparedStatement = null;
 
-		IndirizzoSpedizioneBean bean = new IndirizzoSpedizioneBean();
+	     String selectSQL = "SELECT * FROM " + IndirizzoSpedizioneDao.TABLE_NAME
+	             + " WHERE INDIRIZZO = ? AND CAP = ?";
 
-		String selectSQL = "SELECT * FROM " + IndirizzoSpedizioneDao.TABLE_NAME 
-						+ " WHERE INDIRIZZO = ? AND CAP = ?";
+	     try {
+	         connection = ds.getConnection();
+	         preparedStatement = connection.prepareStatement(selectSQL);
+	         preparedStatement.setString(1, indirizzo);
+	         preparedStatement.setString(2, cap);
 
-		try {
-			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(selectSQL);
-			preparedStatement.setString(1, indirizzo);
-			preparedStatement.setString(2, cap);
+	         ResultSet rs = preparedStatement.executeQuery();
 
-			ResultSet rs = preparedStatement.executeQuery();
+	         if (rs.next()) {
+	             IndirizzoSpedizioneBean bean = new IndirizzoSpedizioneBean();
 
-			while (rs.next()) {
-				bean.setTelefono(rs.getString("TELEFONO"));
-				bean.setProvincia(rs.getString("PROVINCIA"));
-				bean.setNome(rs.getString("NOME"));
-				bean.setCognome(rs.getString("COGNOME"));
-				bean.setCitta(rs.getString("CITTA"));
-				bean.setIndirizzo(rs.getString("INDIRIZZO"));
-				bean.setCap(rs.getString("CAP"));
+	             bean.setTelefono(rs.getString("TELEFONO"));
+	             bean.setProvincia(rs.getString("PROVINCIA"));
+	             bean.setNome(rs.getString("NOME"));
+	             bean.setCognome(rs.getString("COGNOME"));
+	             bean.setCitta(rs.getString("CITTA"));
+	             bean.setIndirizzo(rs.getString("INDIRIZZO"));
+	             bean.setCap(rs.getString("CAP"));
 
-				
-			}
+	             return bean;
+	         }
 
-		} 
-		finally {
-			try {
-				if (preparedStatement != null)
-					preparedStatement.close();
-			} 
-			finally {
-				if (connection != null)
-					connection.close();
-			}
-		}
-		
-		return bean;
-	}
-	
-	
-	public synchronized void doDelete(IndirizzoSpedizioneBean bean) throws SQLException {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		
-		String query = "DELETE FROM " + IndirizzoSpedizioneDao.TABLE_NAME
-				+ " WHERE INDIRIZZO = ? AND CAP = ? ";
-		
-		try {
-			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, bean.getIndirizzo());
-			preparedStatement.setString(2, bean.getCap());
+	         return null;
 
-			preparedStatement.executeUpdate();
-		
-		}
-		finally {
-			try {
-				if (preparedStatement != null)
-					preparedStatement.close();
-			} 
-			finally {
-				if (connection != null)
-					connection.close();
-			}
-		}
-	}
-	
-	
-}
+	     } finally {
+	         try {
+	             if (preparedStatement != null)
+	                 preparedStatement.close();
+	         } finally {
+	             if (connection != null)
+	                 connection.close();
+	         }
+	     }
+	 }
+
+	 @Override
+	 public synchronized void doDelete(IndirizzoSpedizioneBean bean) throws SQLException {
+	     Connection connection = null;
+	     PreparedStatement preparedStatement = null;
+
+	     String query = "DELETE FROM " + TABLE_NAME +
+	                    " WHERE INDIRIZZO = ? AND CAP = ?";
+
+	     try {
+	         connection = ds.getConnection();
+	         preparedStatement = connection.prepareStatement(query);
+	         preparedStatement.setString(1, bean.getIndirizzo());
+	         preparedStatement.setString(2, bean.getCap());
+
+	         preparedStatement.executeUpdate();
+
+	     } finally {
+	         try {
+	             if (preparedStatement != null)
+	                 preparedStatement.close();
+	         } finally {
+	             if (connection != null)
+	                 connection.close();
+	         }
+	     }
+	 }
+  }

@@ -2,11 +2,12 @@
     pageEncoding="ISO-8859-1"  import="it.unisa.model.*, java.util.*"%>
     
     <%
-	ArrayList<ArrayList<ProdottoBean>> categorie = (ArrayList<ArrayList<ProdottoBean>>) request.getSession().getAttribute("categorie");
-	if(categorie == null) {
-		response.sendRedirect("./home?page=Bestseller.jsp");	
-		return;
-	}
+    ArrayList<ArrayList<ProdottoBean>> categorie =
+    (ArrayList<ArrayList<ProdottoBean>>) request.getSession().getAttribute("categorie");
+    if(categorie == null) {
+        out.println("Categorie NULL");
+        return;
+    }
 %>
 <!DOCTYPE html>
 <html>

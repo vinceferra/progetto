@@ -164,21 +164,30 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
     }
     
     @Override
- public ArrayList<ProdottoBean> doRetrieveBestSellers() throws SQLException {
-    String selectSQL = "SELECT * FROM " + TABLE_NAME + " ORDER BY VENDITE"; 
+    public ArrayList<ProdottoBean> doRetrieveBestSellers() throws SQLException {
 
-    try (Connection connection = ds.getConnection();
-         PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
+        String selectSQL =
+            "SELECT p.*, SUM(c.QUANTITA) AS totale_venduti " +
+            "FROM prodotto p " +
+            "JOIN composizione c ON p.ID_PRODOTTO = c.ID_PRODOTTO " +
+            "GROUP BY p.ID_PRODOTTO, p.NOME, p.CATEGORIA, p.DESCRIZIONE, " +
+            "p.PREZZO, p.QUANTITA, p.IN_VENDITA, p.IVA, p.IMMAGINE, p.TAGLIE, p.VENDITE " +
+            "ORDER BY totale_venduti DESC " +
+            "LIMIT 5";
 
-        ResultSet rs = preparedStatement.executeQuery();
+        try (Connection connection = ds.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
+             ResultSet rs = preparedStatement.executeQuery()) {
 
-        ArrayList<ProdottoBean> prodotti = new ArrayList<>();
-        while (rs.next()) {
-            prodotti.add(mapResultSetToBean(rs));
+            ArrayList<ProdottoBean> prodotti = new ArrayList<>();
+
+            while (rs.next()) {
+                prodotti.add(mapResultSetToBean(rs));
+            }
+
+            return prodotti;
         }
-        return prodotti;
     }
-}
     @Override
     public ArrayList<ProdottoBean> doRetrieveLastBuy() throws SQLException {
         ArrayList<ProdottoBean> prodotti = new ArrayList<>();

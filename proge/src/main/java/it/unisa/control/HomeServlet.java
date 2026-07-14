@@ -28,6 +28,10 @@ public class HomeServlet extends HttpServlet {
 		
 		ArrayList<ArrayList<ProdottoBean>> categorie = new ArrayList<>();
 		String redirectedPage = request.getParameter("page");
+
+		if (redirectedPage == null || redirectedPage.isEmpty()) {
+		    redirectedPage = "index.jsp";
+		}
 		
 		try {
 			ArrayList<ProdottoBean> Buy = dao.doRetrieveLastBuy();
@@ -46,14 +50,17 @@ public class HomeServlet extends HttpServlet {
 			categorie.add(Acc);
 			categorie.add(Abb);
 		
+			request.getSession().removeAttribute("categorie");
 			request.getSession().setAttribute("categorie", categorie);
 			
 			
 		}catch(SQLException e) {
-			e.printStackTrace();
+		    throw new ServletException("Errore caricamento prodotti", e);
 		}
-		
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/" + redirectedPage);
+
+		RequestDispatcher dispatcher = getServletContext()
+		        .getRequestDispatcher("/" + redirectedPage);
+
 		dispatcher.forward(request, response);
 	}
 

@@ -38,7 +38,7 @@
                                     <a href="<%= request.getContextPath() %>/Aiuto.jsp">AIUTO</a>
                                     <% } %>	
                                     <%if(user.isAmministratore()){ %>
-									<a href="<%= request.getContextPath() %>/admin/GestioneCatalogo.jsp">GESTIONE CATALOGO</a>
+									<a href="<%= request.getContextPath() %>/catalogo?action=admin&page=admin/GestioneCatalogo.jsp">GESTIONE CATALOGO</a>
 									<a href="<%= request.getContextPath() %>/admin/ViewOrdini.jsp">ORDINI</a>
 											
 									<%} %>

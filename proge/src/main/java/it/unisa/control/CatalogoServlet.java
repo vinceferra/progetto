@@ -26,7 +26,10 @@ public class CatalogoServlet extends HttpServlet {
 		ProdottoBean bean = new ProdottoBean();
 		String sort = request.getParameter("sort");
 		String action = request.getParameter("action");
-		String redirectedPage = request.getParameter("page");;
+		String redirectedPage = request.getParameter("page");
+		if (redirectedPage == null || redirectedPage.isEmpty()) {
+		    redirectedPage = "admin/GestioneCatalogo.jsp";
+		}
 	
 		try {
 			if(action!=null) {
@@ -54,8 +57,9 @@ public class CatalogoServlet extends HttpServlet {
 					bean.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
 					bean.setQuantita(Integer.parseInt(request.getParameter("quantita")));
 					bean.setCategoria(request.getParameter("Categoria"));
-					if(request.getParameter("Categoria")=="abbigliamento")
-						bean.setTaglie(request.getParameter("Taglia"));
+					if ("abbigliamento".equalsIgnoreCase(request.getParameter("Categoria"))) {
+					    bean.setTaglie(request.getParameter("Taglia"));
+					}
 					bean.setImmagine(request.getParameter("img"));
 					bean.setInVendita(true);
 					prodDao.doUpdate(bean);	

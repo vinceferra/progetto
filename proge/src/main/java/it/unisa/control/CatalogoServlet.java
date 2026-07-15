@@ -68,7 +68,7 @@ public class CatalogoServlet extends HttpServlet {
 				else if(action.equalsIgnoreCase("Elimina"))
 				{
 				    int id = Integer.parseInt(request.getParameter("id"));
-				    prodDao.doDelete(id);
+				    prodDao.doUpdateVendita(id, false);
 				}
 				request.getSession().removeAttribute("categorie");
 

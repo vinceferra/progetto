@@ -70,6 +70,27 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
             }
         }
     }
+    
+    @Override
+    public ProdottoBean doRetrieveByIdOrdine(int idProdotto) throws SQLException {
+
+        String sql = "SELECT * FROM prodotto WHERE ID_PRODOTTO = ?";
+
+        try(Connection connection = ds.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+
+            ps.setInt(1, idProdotto);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()) {
+                return mapResultSetToBean(rs);
+            }
+
+        }
+
+        return null;
+    }
 
     @Override
     public boolean doDelete(int idProdotto) throws SQLException {
@@ -86,6 +107,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
 
     @Override
     public ArrayList<ProdottoBean> doRetrieveAll(String order) throws SQLException {
+
         String selectSQL = "SELECT * FROM " + TABLE_NAME;
 
         if (order != null && !order.equals("")) {
@@ -97,13 +119,57 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
              ResultSet rs = preparedStatement.executeQuery()) {
 
             ArrayList<ProdottoBean> products = new ArrayList<>();
+
             while (rs.next()) {
                 products.add(mapResultSetToBean(rs));
             }
+
             return products;
         }
     }
+    
+    @Override
+    public ArrayList<ProdottoBean> doRetrieveAllDisponibili(String order) throws SQLException {
 
+        String selectSQL = "SELECT * FROM prodotto WHERE IN_VENDITA = true";
+
+        if(order != null && !order.equals("")) {
+            selectSQL += " ORDER BY " + order;
+        }
+
+        try(Connection connection = ds.getConnection();
+            PreparedStatement ps = connection.prepareStatement(selectSQL);
+            ResultSet rs = ps.executeQuery()) {
+
+            ArrayList<ProdottoBean> prodotti = new ArrayList<>();
+
+            while(rs.next()) {
+                prodotti.add(mapResultSetToBean(rs));
+            }
+
+            return prodotti;
+        }
+    }
+
+    public ArrayList<ProdottoBean> doRetrieveAllProducts() throws SQLException {
+
+        String selectSQL = "SELECT * FROM prodotto";
+
+        try(Connection connection = ds.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
+            ResultSet rs = preparedStatement.executeQuery()) {
+
+            ArrayList<ProdottoBean> prodotti = new ArrayList<>();
+
+            while(rs.next()) {
+                prodotti.add(mapResultSetToBean(rs));
+            }
+
+            return prodotti;
+        }
+    }
+    
+    
     @Override
     public void doUpdateQnt(int id, int qnt) throws SQLException {
         String updateSQL = "UPDATE " + TABLE_NAME
@@ -145,9 +211,27 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
         }
     }
 
+    
+    @Override
+    public void doUpdateVendita(int idProdotto, boolean inVendita) throws SQLException {
+
+        String updateSQL = 
+            "UPDATE prodotto SET IN_VENDITA = ? WHERE ID_PRODOTTO = ?";
+
+        try (Connection connection = ds.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
+
+            preparedStatement.setBoolean(1, inVendita);
+            preparedStatement.setInt(2, idProdotto);
+
+            preparedStatement.executeUpdate();
+        }
+    }
+    
+    
     @Override
     public ArrayList<ProdottoBean> doRetrieveByCategoria(String categoria) throws SQLException {
-        String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE CATEGORIA = ?";
+    	String selectSQL ="SELECT * FROM " + TABLE_NAME + " WHERE CATEGORIA = ? AND IN_VENDITA = true";
 
         try (Connection connection = ds.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
@@ -166,14 +250,14 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
     @Override
     public ArrayList<ProdottoBean> doRetrieveBestSellers() throws SQLException {
 
-        String selectSQL =
-            "SELECT p.*, SUM(c.QUANTITA) AS totale_venduti " +
-            "FROM prodotto p " +
-            "JOIN composizione c ON p.ID_PRODOTTO = c.ID_PRODOTTO " +
-            "GROUP BY p.ID_PRODOTTO, p.NOME, p.CATEGORIA, p.DESCRIZIONE, " +
-            "p.PREZZO, p.QUANTITA, p.IN_VENDITA, p.IVA, p.IMMAGINE, p.TAGLIE, p.VENDITE " +
-            "ORDER BY totale_venduti DESC " +
-            "LIMIT 5";
+    	String selectSQL =
+    			"SELECT p.* " +
+    			"FROM prodotto p " +
+    			"JOIN composizione c ON p.ID_PRODOTTO = c.ID_PRODOTTO " +
+    			"WHERE p.IN_VENDITA = true " +
+    			"GROUP BY p.ID_PRODOTTO " +
+    			"ORDER BY SUM(c.QUANTITA) DESC " +
+    			"LIMIT 5";
 
         try (Connection connection = ds.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);

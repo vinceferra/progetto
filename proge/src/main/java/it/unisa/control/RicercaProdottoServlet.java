@@ -42,7 +42,7 @@ public class RicercaProdottoServlet extends HttpServlet {
         query = query.toLowerCase();
 
         try {
-            ArrayList<ProdottoBean> prodotti = dao.doRetrieveAll(null);
+            ArrayList<ProdottoBean> prodotti = dao.doRetrieveAllDisponibili(null);
 
             for (ProdottoBean p : prodotti) {
                 if (p.getNome() != null &&

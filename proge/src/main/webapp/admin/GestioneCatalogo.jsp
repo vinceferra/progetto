@@ -45,7 +45,8 @@
                 <th>Nome</th>
                 <th>Categoria</th>
                 <th>Quantità</th>
-                <th colspan="2">Azione</th>
+                <th>Stato</th>
+                <th style="text-align:center;">Azione</th>                
             </tr>
 
             <%
@@ -56,21 +57,24 @@
                     <td><%= bean.getNome() %></td>
                     <td><%= bean.getCategoria() %></td>
                     <td><%= bean.getQuantita() %></td>
-
-                    <td>
-                        <a href="ModificaProdotto.jsp?prodotto=<%= bean.getIdProdotto() %>">
-                            <button><b>Modifica</b></button>
-                        </a>
+                    <td> 
+                        <%= bean.isInVendita() ? "Disponibile" : "Non in vendita" %>
                     </td>
+                    
+                    <td style="text-align:center;">
+                       <a href="ModificaProdotto.jsp?prodotto=<%= bean.getIdProdotto() %>">
+                          <button><b>Modifica</b></button>
+                       </a>
 
-                    <td>
-                        <form action="../catalogo" method="post">
-                            <input type="hidden" name="action" value="Elimina">
-                            <input type="hidden" name="id" value="<%= bean.getIdProdotto() %>">
-                            <input type="hidden" name="page" value="admin/GestioneCatalogo.jsp">
-                            <button type="submit"><b>Elimina</b></button>
-                        </form>
-                    </td>
+                      <form action="../catalogo" method="post" style="display:inline;">
+                           <input type="hidden" name="action" value="Elimina">
+                           <input type="hidden" name="id" value="<%= bean.getIdProdotto() %>">
+                           <input type="hidden" name="page" value="admin/GestioneCatalogo.jsp">
+                           
+                           <button type="submit"><b>Rimuovi</b></button>
+                      </form>
+                     </td>
+                                        
                 </tr>
             <%
                 }

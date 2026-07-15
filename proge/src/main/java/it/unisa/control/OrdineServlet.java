@@ -1,5 +1,7 @@
 package it.unisa.control;
 
+import it.unisa.model.ProdottoDao;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -47,11 +49,13 @@ public class OrdineServlet extends HttpServlet {
 				}
 				
 				else if(action.equalsIgnoreCase("dettagliOrdine")) {
-					int id = Integer.parseInt(request.getParameter("id"));
-					request.getSession().removeAttribute("composzione");
-					request.getSession().setAttribute("composizione", compDao.doRetrieveByOrdine(id));
-					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/ComposizioneOrdine.jsp");
-					dispatcher.forward(request, response);				
+				    int id = Integer.parseInt(request.getParameter("id"));
+				    request.getSession().setAttribute("composizione",compDao.doRetrieveByOrdine(id));
+				    ProdottoDao prodDao = new ProdottoDao();
+				    request.getSession().setAttribute("products",prodDao.doRetrieveAllProducts());
+
+				    RequestDispatcher dispatcher =getServletContext().getRequestDispatcher("/ComposizioneOrdine.jsp");
+				    dispatcher.forward(request, response);
 				}
 			}
 			

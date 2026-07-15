@@ -35,17 +35,19 @@
 			<th>Prezzo totale</th>
 			<th>Iva</th>
 		</tr>
-		<%	String nomeP = null;
-			double prezzoUnitario = 0;
 		
-		   for(ComposizioneBean comp : composizione){ 
-			   for(ProdottoBean p: prodotti){
-				   if(p.getIdProdotto()==comp.getIdProdotto()){
-					   nomeP = p.getNome();
-					   prezzoUnitario = p.getPrezzo();
-				   }
-			   }
-		%>
+ <%
+   String nomeP = null;
+   double prezzoUnitario = 0;
+
+   for(ComposizioneBean comp : composizione){ 
+     for(ProdottoBean p: prodotti){
+	   if(p.getIdProdotto()==comp.getIdProdotto()){
+		   nomeP = p.getNome();
+		   prezzoUnitario = p.getPrezzo();
+	   }
+    }
+ %>
 		
 		<tr>
 			<td> <%= nomeP%></td>

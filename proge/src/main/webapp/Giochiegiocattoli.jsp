@@ -13,7 +13,7 @@
 <head>
 <meta charset="ISO-8859-1">
 	<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">
-<title>giochi / giocattoli</title>
+<title>GIOCHI/GIOCATTOLI</title>
 </head>
 <body>
 

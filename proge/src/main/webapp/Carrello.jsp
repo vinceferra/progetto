@@ -29,42 +29,98 @@
 		</tr>
 		<% 
 			ArrayList<ItemCarrello> prodcart = cart.getProdotti(); 	
-		   for(ItemCarrello itemcart: prodcart){
-		%>
+		   for(ItemCarrello itemcart: prodcart){			   
+			    boolean disponibile = itemcart.getProdotto().isInVendita();
+			%>
+		
 		<tr>
 			<td><img src="<%=itemcart.getProdotto().getImmagine()%>" height="100" width="100"></td>
-			<td><%=itemcart.getProdotto().getNome()%></td>
+			<td>
+                <%=itemcart.getProdotto().getNome()%>
+                <% if(!disponibile){ %>
+                <br>
+                <span style="color:red;">Prodotto non disponibile</span>
+                <% } %>
+            </td>
 			<td> <form action="carrello">
 					<input type="hidden" name="Id" value="<%=itemcart.getId()%>">
 					<input type="hidden" name="page" value="Carrello.jsp">
-					<select name="qnt" id="qnt">
+					
+					<select name="qnt" id="qnt" <% if(!disponibile){ %> disabled <% } %>>
 						<%for(int i = 0; i < itemcart.getProdotto().getQuantita();i++) {%>
-						<option value="<%=i+1%>" <%if( (i+1)==itemcart.getQuantitaCarrello()){ %> selected="selected" <%} %>> <%=i+1%> </option> <%} %>
-						
+						<option value="<%=i+1%>" <%if( (i+1)==itemcart.getQuantitaCarrello()){ %> selected="selected" <%} %>> <%=i+1%> </option> <%} %>					
 					</select>
-					<input type="submit" value="update">
+					
+					    <% if(disponibile){ %>
+                           <input type="submit" value="update">
+                        <% } %>
 				</form>
 			</td>
+			
 			<td><%=String.format("%.2f",itemcart.getTotalPrice())%>&euro;</td>
 			<td><a href="carrello?action=deleteC&id=<%=itemcart.getId()%>&page=Carrello.jsp"><button>X</button></a></td>
 		</tr>
 		<% } %>
 	</table><br>
 	<span class="price">Totale provvisorio: &euro;<%=String.format("%.2f",cart.calcolaCosto())%></span>
-		
-	<div class="center">
-			<a <%if(request.getSession().getAttribute("currentSessionUser")!= null){ %>
-					href="account?page=Checkout.jsp"> <%}else{%>href="Login.jsp?action=checkout"> <%} %><button>Acquista</button> </a>
-		</div>
 	
-	<%}else{%> 
-		<h2>Carrello vuoto</h2>
-		<%} %>
-		<br><br>
+	<%
+      boolean tuttiDisponibili = true;
+
+      for(ItemCarrello item : prodcart){
+        if(!item.getProdotto().isInVendita()){
+           tuttiDisponibili = false;
+        }
+      }
+    %>
 		
-		</div>
-		
-		<%@ include file="./fragments/footer.jsp" %>
-		
+<div class="center">
+
+<% if(tuttiDisponibili){ 
+
+    if(request.getSession().getAttribute("currentSessionUser") != null){ 
+%>
+
+    <a href="account?page=Checkout.jsp">
+        <button>Acquista</button>
+    </a>
+
+<%
+    } else {
+%>
+
+    <a href="Login.jsp?action=checkout">
+        <button>Acquista</button>
+    </a>
+
+<%
+    }
+
+} else {
+%>
+
+<p style="color:red;">
+Rimuovi i prodotti non disponibili prima di acquistare
+</p>
+
+<%
+}
+%>
+
+</div>
+
+<%
+} else {
+%>
+
+<h2>Carrello vuoto</h2>
+
+<%
+}
+%>
+</div>
+<%@ include file="./fragments/footer.jsp" %>
+
+
 </body>
 </html>

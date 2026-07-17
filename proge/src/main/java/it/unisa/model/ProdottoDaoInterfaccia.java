@@ -23,7 +23,7 @@ public interface ProdottoDaoInterfaccia {
 	
 	public ArrayList<ProdottoBean> doRetrieveRandomProducts(int numProducts) throws SQLException;
 	
-	public ArrayList<ProdottoBean> doRetrieveLastBuy() throws SQLException;
+	public ArrayList<ProdottoBean> doRetrieveLastBuy(String email) throws SQLException;
 	
 	public void doUpdateVendita(int idProdotto, boolean inVendita) throws SQLException;
 	

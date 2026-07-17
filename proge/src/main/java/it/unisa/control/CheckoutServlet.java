@@ -101,10 +101,13 @@ public class CheckoutServlet extends HttpServlet {
 			ordine.setStato("confermato");
 			ordine.setImportoTotale(prezzoTot);
 			daoOrd.doSave(ordine);
-			
-			ArrayList<OrdineBean> ordini = daoOrd.doRetrieveByEmail(user.getEmail());
-			int newId = ordini.get(ordini.size() - 1).getIdOrdine();
-			
+
+			ArrayList<OrdineBean> ordini =daoOrd.doRetrieveByEmail(user.getEmail());
+
+			if (ordini.isEmpty()) {
+			    throw new SQLException("Ordine appena creato non trovato");
+			}
+			int newId = ordini.get(0).getIdOrdine();
 			
 			for(int i = 0; i < cart.size() ; i++) {
 				int qnt = cart.get(i).getQuantitaCarrello();

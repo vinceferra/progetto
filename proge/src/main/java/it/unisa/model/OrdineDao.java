@@ -124,7 +124,7 @@ public class OrdineDao implements OrdineDaoInterfaccia {
 		ArrayList<OrdineBean> ordini = new ArrayList<OrdineBean>();
 		
 		String selectSQL = "SELECT * FROM " + OrdineDao.TABLE_NAME
-						+ " WHERE EMAIL = ? ";
+                + " WHERE EMAIL = ? ORDER BY ID_ORDINE DESC";
 		
 		try {
 			connection = ds.getConnection();

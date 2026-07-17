@@ -273,40 +273,38 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
         }
     }
     @Override
-    public ArrayList<ProdottoBean> doRetrieveLastBuy() throws SQLException {
+    public ArrayList<ProdottoBean> doRetrieveLastBuy(String email) throws SQLException {
+
         ArrayList<ProdottoBean> prodotti = new ArrayList<>();
-        Set<Integer> prodottiVisti = new HashSet<>(); 
+        Set<Integer> prodottiVisti = new HashSet<>();
 
-        try (Connection conn = ds.getConnection()) {
-        	
-        	String queryComposizione ="SELECT c.id_prodotto " +"FROM composizione c " +"JOIN prodotto p ON c.id_prodotto = p.id_prodotto ";
-            try (PreparedStatement psComposizione = conn.prepareStatement(queryComposizione);
-                 ResultSet rsComposizione = psComposizione.executeQuery()) {
-            	
-                while (rsComposizione.next()) {
-                    int idProdotto = rsComposizione.getInt("id_prodotto");
+        String sql =
+            "SELECT p.* " +
+            "FROM prodotto p " +
+            "JOIN composizione c ON p.ID_PRODOTTO = c.ID_PRODOTTO " +
+            "JOIN ordine o ON c.ID_ORDINE = o.ID_ORDINE " +
+            "WHERE o.EMAIL = ? " +
+            "ORDER BY o.DATA_ORDINE DESC, o.ID_ORDINE DESC";
 
-                    if (!prodottiVisti.contains(idProdotto)) {
-                        prodottiVisti.add(idProdotto);
+        try (Connection conn = ds.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
 
-                        String queryProdotto ="SELECT id_prodotto, nome, descrizione, prezzo, quantita, iva, in_vendita, immagine, categoria, taglie, vendite " +"FROM prodotto " +"WHERE id_prodotto = ? AND IN_VENDITA = true";
-                        try (PreparedStatement psProdotto = conn.prepareStatement(queryProdotto)) {
-                            psProdotto.setInt(1, idProdotto);
-                            try (ResultSet rsProdotto = psProdotto.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
 
-                                if (rsProdotto.next()) {
-                                    ProdottoBean prodotto = mapResultSetToBean(rsProdotto);
-                                    prodotti.add(prodotto);
-                                }
-                            }
-                        }
+                while (rs.next()) {
+                    int id = rs.getInt("ID_PRODOTTO");
+
+                    if (prodottiVisti.add(id)) {
+                        prodotti.add(mapResultSetToBean(rs));
                     }
                 }
             }
-        } 
+        }
+
         return prodotti;
     }
-
+    
     
 	@Override
 	public ArrayList<ProdottoBean> doRetrieveRandomProducts(int numProducts) throws SQLException {

@@ -2,11 +2,11 @@
     pageEncoding="ISO-8859-1"  import="it.unisa.model.*, java.util.*"%>
     
     <%
-	ArrayList<ArrayList<ProdottoBean>> categorie = (ArrayList<ArrayList<ProdottoBean>>) request.getSession().getAttribute("categorie");
-	if(categorie == null) {
-		response.sendRedirect("./home?page=Home.jsp");	
-		return;
-	}
+    ArrayList<ArrayList<ProdottoBean>> categorie =(ArrayList<ArrayList<ProdottoBean>>)request.getSession().getAttribute("categorie");
+    if (categorie == null) {
+        response.sendRedirect(request.getContextPath() + "/home?page=Home.jsp");
+        return;
+    }
 %>
 <!DOCTYPE html>
 <html>

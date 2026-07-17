@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import it.unisa.model.ProdottoBean;
 import it.unisa.model.ProdottoDao;
+import it.unisa.model.UserBean;
 
 /**
  * Servlet implementation class HomeServlet
@@ -33,8 +34,15 @@ public class HomeServlet extends HttpServlet {
 		    redirectedPage = "index.jsp";
 		}
 		
+		UserBean user = (UserBean) request.getSession().getAttribute("currentSessionUser");
+		
 		try {
-			ArrayList<ProdottoBean> Buy = dao.doRetrieveLastBuy();
+			ArrayList<ProdottoBean> Buy;
+		    if(user != null) {
+		        Buy = dao.doRetrieveLastBuy(user.getEmail());
+		    } else {
+		        Buy = new ArrayList<>();
+		    }
 			ArrayList<ProdottoBean> Pref = dao.doRetrieveRandomProducts(5);
 			ArrayList<ProdottoBean> Best = dao.doRetrieveBestSellers();
 			ArrayList<ProdottoBean> Giochi = dao.doRetrieveByCategoria("Giochi/Giocattoli");

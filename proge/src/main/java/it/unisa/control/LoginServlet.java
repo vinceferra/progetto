@@ -38,20 +38,32 @@ public class LoginServlet extends HttpServlet {
 
 			if (user.isValid()) {
 
-				HttpSession session = request.getSession(true);
-				session.setAttribute("currentSessionUser", user);
+			    HttpSession session = request.getSession(true);
+			    session.setAttribute("currentSessionUser", user);
+			    session.removeAttribute("categorie");
 
-				if (checkout != null)
-					response.sendRedirect(request.getContextPath() + "/account?page=Checkout.jsp");
-				else
-					response.sendRedirect(request.getContextPath() + "/Home.jsp");
+			    if (checkout != null) {
+			        response.sendRedirect(
+			            request.getContextPath() + "/account?page=Checkout.jsp"
+			        );
+			    } else {
+			        response.sendRedirect(
+			            request.getContextPath() + "/home?page=Home.jsp"
+			        );
+			    }
+
+			    return;
 
 			} else {
-				response.sendRedirect(request.getContextPath() + "/Login.jsp?action=error");
+			    response.sendRedirect(
+			        request.getContextPath() + "/Login.jsp?action=error"
+			    );
+			    return;
 			}
 
-		} catch (SQLException e) {
-			System.out.println("Error: " + e.getMessage());
-		}
+			} catch (SQLException e) {
+			    e.printStackTrace();
+			    throw new ServletException("Errore durante il login", e);
+			}
 	}
-}
+ }

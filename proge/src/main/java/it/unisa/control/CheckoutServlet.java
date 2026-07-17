@@ -37,7 +37,25 @@ public class CheckoutServlet extends HttpServlet {
 		MetodoPagamentoBean pag = new MetodoPagamentoBean();
 	
 		Carrello cart = (Carrello) request.getSession().getAttribute("cart");
-		Double prezzoTot = cart.calcolaCosto();
+
+		if(cart == null || cart.isEmpty()) {
+		    response.sendRedirect("Carrello.jsp");
+		    return;
+		}
+
+		try {
+
+			for(ItemCarrello item : cart.getProdotti()) {
+			    ProdottoBean prodotto = daoProd.doRetrieveByKey(item.getId());
+
+			    if(prodotto == null || !prodotto.isInVendita() || prodotto.getQuantita() < item.getQuantitaCarrello()) {
+			        request.getSession().setAttribute("errore","Uno o più prodotti non sono più disponibili.");
+			        response.sendRedirect(request.getContextPath() + "/Carrello.jsp");
+			        return;
+			    }
+			}
+			
+		    Double prezzoTot = cart.calcolaCosto();
 		
 		Date now = new Date();
 		String pattern = "yyyy-MM-dd";
@@ -55,9 +73,6 @@ public class CheckoutServlet extends HttpServlet {
 		String tit = request.getParameter("tit");
 		String numC = request.getParameter("numC");
 		String scad = request.getParameter("scad");
-		
-		
-		try {
 			
 			 if(daoSped.doRetrieveByKey(ind,cap)==null){
 				 sped.setNome(nome);
@@ -93,10 +108,8 @@ public class CheckoutServlet extends HttpServlet {
 			
 			for(int i = 0; i < cart.size() ; i++) {
 				int qnt = cart.get(i).getQuantitaCarrello();
-				ProdottoBean prod = cart.get(i).getProdotto();
-				int newQnt = prod.getQuantita() - qnt;
 		
-				daoProd.doUpdateQnt(cart.get(i).getId(), newQnt);
+				daoProd.doUpdateQnt(cart.get(i).getId(), qnt);
 				
 				comp.setIdOrdine(newId);
 				comp.setIdProdotto(cart.get(i).getId());

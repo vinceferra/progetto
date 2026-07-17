@@ -48,17 +48,26 @@
                     <li><span class="dettagli">Non disponibile</span></li>
                 <% } %>
 
+                <% if(product.isInVendita() && product.getQuantita() > 0) { %>
+
                 <li>
-                    <a href="carrello?action=addC&id=<%= product.getIdProdotto() %>&page=Dettagli.jsp">
-                        <button>Aggiungi al carrello</button>
-                    </a>
+                   <a href="carrello?action=addC&id=<%= product.getIdProdotto() %>&page=Dettagli.jsp">
+                      <button>Aggiungi al carrello</button>
+                   </a>
                 </li>
-            </ul>
-        </div>
 
-    <% } %>
+                <% } else { %>
+                <li>
+                    <span style="color:red;">Prodotto non disponibile</span>
+                </li>
 
-    </div>
+                <% } %>
+                </ul>
+                </div>
+
+                <% } %>
+
+                </div>
 
     <%@ include file="/fragments/footer.jsp" %>
 

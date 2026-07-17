@@ -279,7 +279,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
 
         try (Connection conn = ds.getConnection()) {
         	
-            String queryComposizione = "SELECT id_prodotto FROM composizione";
+        	String queryComposizione ="SELECT c.id_prodotto " +"FROM composizione c " +"JOIN prodotto p ON c.id_prodotto = p.id_prodotto ";
             try (PreparedStatement psComposizione = conn.prepareStatement(queryComposizione);
                  ResultSet rsComposizione = psComposizione.executeQuery()) {
             	
@@ -289,7 +289,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
                     if (!prodottiVisti.contains(idProdotto)) {
                         prodottiVisti.add(idProdotto);
 
-                        String queryProdotto = "SELECT id_prodotto, nome, descrizione, prezzo, quantita, iva, in_vendita, immagine, categoria, taglie, vendite FROM prodotto WHERE id_prodotto = ?";
+                        String queryProdotto ="SELECT id_prodotto, nome, descrizione, prezzo, quantita, iva, in_vendita, immagine, categoria, taglie, vendite " +"FROM prodotto " +"WHERE id_prodotto = ? AND IN_VENDITA = true";
                         try (PreparedStatement psProdotto = conn.prepareStatement(queryProdotto)) {
                             psProdotto.setInt(1, idProdotto);
                             try (ResultSet rsProdotto = psProdotto.executeQuery()) {
@@ -310,7 +310,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
     
 	@Override
 	public ArrayList<ProdottoBean> doRetrieveRandomProducts(int numProducts) throws SQLException {
-	    String selectSQL = "SELECT * FROM " + TABLE_NAME + " ORDER BY RAND() LIMIT ?";
+		String selectSQL ="SELECT * FROM " + TABLE_NAME +" WHERE IN_VENDITA = true ORDER BY RAND() LIMIT ?";
 
 	    try (Connection connection = ds.getConnection();
 	         PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {

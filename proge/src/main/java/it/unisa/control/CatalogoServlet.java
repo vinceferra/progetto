@@ -82,15 +82,18 @@ public class CatalogoServlet extends HttpServlet {
 		try {
 			request.getSession().removeAttribute("products");
 			request.getSession().setAttribute("products", prodDao.doRetrieveAll(sort));
-		} catch (SQLException e) {
+		    } 
+		catch(SQLException e) {
 			System.out.println("Error:" + e.getMessage());
 		}
-		
-			
-			response.sendRedirect(request.getContextPath() + "/" +redirectedPage);
-		
-		
-	}
+					
+		if(action != null && action.equalsIgnoreCase("Elimina")) {
+		    response.sendRedirect(request.getContextPath() + "/home?page=Home.jsp");
+
+		} else {
+		    response.sendRedirect(request.getContextPath() + "/" + redirectedPage);
+		}
+	 }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

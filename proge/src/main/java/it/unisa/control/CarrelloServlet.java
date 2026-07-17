@@ -1,5 +1,6 @@
 package it.unisa.control;
 
+import it.unisa.model.ProdottoBean;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -24,6 +25,7 @@ public class CarrelloServlet extends HttpServlet{
 		
 		ProdottoDao prodDao = new ProdottoDao();
 		Carrello cart = (Carrello)request.getSession().getAttribute("cart");
+		
 		if(cart == null) {
 			cart = new Carrello();
 			request.getSession().setAttribute("cart", cart);
@@ -32,41 +34,69 @@ public class CarrelloServlet extends HttpServlet{
 		String action = request.getParameter("action");
 		String quantita = request.getParameter("qnt");
 		String redirectedPage = request.getParameter("page");
-		
-		
-		try {
-			if (action != null) {
-				if (action.equalsIgnoreCase("addC")) {
-					int id = Integer.parseInt(request.getParameter("id"));
-					cart.addProdotto(prodDao.doRetrieveByKey(id));
-				} else if (action.equalsIgnoreCase("deleteC")) {
-					int id = Integer.parseInt(request.getParameter("id"));
-					cart.deleteProdotto(prodDao.doRetrieveByKey(id));
-					
-				}
-			}
-				if(quantita!=null) {
-					int id = Integer.parseInt(request.getParameter("Id"));
-					ItemCarrello item = cart.getItem(id);
-					item.setQuantitaCarrello(Integer.parseInt(quantita));
-					
-				}
-			
-			
-		} catch (SQLException e) {
-			System.out.println("Error:" + e.getMessage());
+
+		if(redirectedPage == null || redirectedPage.isEmpty()) {
+		    redirectedPage = "Home.jsp";
 		}
 		
-	
-		
+		try {
+
+		    // aggiorna i prodotti del carrello con i dati presenti nel database
+		    if(cart != null) {
+		        for(ItemCarrello item : cart.getProdotti()) {
+
+		            ProdottoBean prodottoAggiornato = prodDao.doRetrieveByKey(item.getId());
+
+		            if(prodottoAggiornato != null) {
+		                item.setProdotto(prodottoAggiornato);
+		            }
+		        }
+		    }
+
+
+		    if (action != null && action.equalsIgnoreCase("addC")) {
+		        int id = Integer.parseInt(request.getParameter("id"));
+		        ProdottoBean prodotto = prodDao.doRetrieveByKey(id);
+
+		        if (prodotto != null && prodotto.isInVendita() && prodotto.getQuantita() > 0) {
+
+		            cart.addProdotto(prodotto);
+
+		        } else {
+
+		            request.getSession().setAttribute("errore",
+		                "Prodotto non disponibile");
+		        }
+		       }
+
+		    else if(action != null && action.equalsIgnoreCase("deleteC")) {
+		        int id = Integer.parseInt(request.getParameter("id"));
+		        ProdottoBean prodotto = prodDao.doRetrieveByKey(id);
+
+		        if(prodotto != null) {
+		            cart.deleteProdotto(prodotto);
+		        }
+		    }
+
+
+		     if(quantita != null) {
+		        int id = Integer.parseInt(request.getParameter("Id"));
+		        ItemCarrello item = cart.getItem(id);
+
+		        if(item != null) {
+		            item.setQuantitaCarrello(Integer.parseInt(quantita));
+		        }
+		     }
+		} catch (SQLException e) {
+		    e.printStackTrace();
+		}
+
 		request.getSession().setAttribute("cart", cart);
 		request.setAttribute("cart", cart);
-		
-		
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/" + redirectedPage);
-			dispatcher.forward(request, response);
 
-	}
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/" + redirectedPage);
+		dispatcher.forward(request, response);
+		 }
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

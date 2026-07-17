@@ -37,44 +37,68 @@ public class HomeServlet extends HttpServlet {
 		UserBean user = (UserBean) request.getSession().getAttribute("currentSessionUser");
 		
 		try {
-			ArrayList<ProdottoBean> Buy;
-		    if(user != null) {
+		    ArrayList<ProdottoBean> Buy;
+		    ArrayList<ProdottoBean> Pref;
+
+		    if (user != null) {
 		        Buy = dao.doRetrieveLastBuy(user.getEmail());
+		        Pref = dao.doRetrieveRecommendedProducts(user.getEmail());
+
+		        // Rimuove eventuali duplicati dai consigli
+		        ArrayList<ProdottoBean> prefSenzaDuplicati =
+		                new ArrayList<>();
+
+		        for (ProdottoBean prodotto : Pref) {
+		            boolean presente = false;
+
+		            for (ProdottoBean inserito : prefSenzaDuplicati) {
+
+		                if (inserito.getIdProdotto() == prodotto.getIdProdotto()) {
+		                    presente = true;
+		                    break;
+		                }
+		            }
+
+		            if (!presente) {
+		                prefSenzaDuplicati.add(prodotto);
+		            }
+		        }
+		        Pref = prefSenzaDuplicati;
+
 		    } else {
+
+		        // Non loggato:
+		        // niente ultimi acquisti e tutti i prodotti casuali disponibili
 		        Buy = new ArrayList<>();
+		        Pref = dao.doRetrieveRandomProducts();
 		    }
-			ArrayList<ProdottoBean> Pref = dao.doRetrieveRandomProducts(5);
-			ArrayList<ProdottoBean> Best = dao.doRetrieveBestSellers();
-			ArrayList<ProdottoBean> Giochi = dao.doRetrieveByCategoria("Giochi/Giocattoli");
-			ArrayList<ProdottoBean> Elec = dao.doRetrieveByCategoria("Elettronica");
-			ArrayList<ProdottoBean> Acc = dao.doRetrieveByCategoria("Accessori");
-			ArrayList<ProdottoBean> Abb = dao.doRetrieveByCategoria("Abbigliamento");
-			
-			categorie.add(Buy);
-			categorie.add(Pref);
-			categorie.add(Best);
-			categorie.add(Giochi);
-			categorie.add(Elec);
-			categorie.add(Acc);
-			categorie.add(Abb);
-		
-			request.getSession().removeAttribute("categorie");
-			request.getSession().setAttribute("categorie", categorie);
-			
-			
-		}catch(SQLException e) {
+
+		    ArrayList<ProdottoBean> Best =dao.doRetrieveBestSellers();
+		    ArrayList<ProdottoBean> Giochi =dao.doRetrieveByCategoria("Giochi/Giocattoli");
+		    ArrayList<ProdottoBean> Elec =dao.doRetrieveByCategoria("Elettronica");
+		    ArrayList<ProdottoBean> Acc =dao.doRetrieveByCategoria("Accessori");
+		    ArrayList<ProdottoBean> Abb =dao.doRetrieveByCategoria("Abbigliamento");
+
+		    categorie.add(Buy);
+		    categorie.add(Pref);
+		    categorie.add(Best);
+		    categorie.add(Giochi);
+		    categorie.add(Elec);
+		    categorie.add(Acc);
+		    categorie.add(Abb);
+
+		    request.getSession().removeAttribute("categorie");
+		    request.getSession().setAttribute("categorie", categorie);
+
+		} catch (SQLException e) {
 		    throw new ServletException("Errore caricamento prodotti", e);
 		}
 
-		RequestDispatcher dispatcher = getServletContext()
-		        .getRequestDispatcher("/" + redirectedPage);
-
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/" + redirectedPage);
 		dispatcher.forward(request, response);
 	}
 
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		doGet(request, response);
 	}
 

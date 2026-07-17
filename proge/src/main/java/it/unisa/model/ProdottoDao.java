@@ -305,25 +305,71 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
         return prodotti;
     }
     
+    @Override
+    public ArrayList<ProdottoBean> doRetrieveRecommendedProducts(String email)throws SQLException {
+        ArrayList<ProdottoBean> prodotti = new ArrayList<>();
+        Set<Integer> idVisti = new HashSet<>();
+
+        String sql =
+            "SELECT p.*, preferenze.totale_acquistato " +
+            "FROM prodotto p " +
+            "JOIN ( " +
+            "   SELECT p2.CATEGORIA, SUM(c.QUANTITA) AS totale_acquistato " +
+            "   FROM ordine o " +
+            "   JOIN composizione c ON o.ID_ORDINE = c.ID_ORDINE " +
+            "   JOIN prodotto p2 ON c.ID_PRODOTTO = p2.ID_PRODOTTO " +
+            "   WHERE o.EMAIL = ? " +
+            "   GROUP BY p2.CATEGORIA " +
+            ") preferenze ON p.CATEGORIA = preferenze.CATEGORIA " +
+            "WHERE p.IN_VENDITA = true " +
+            "AND p.QUANTITA > 0 " +
+            "ORDER BY preferenze.totale_acquistato DESC, RAND()";
+
+        try (Connection connection = ds.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+
+                    int id = rs.getInt("ID_PRODOTTO");
+
+                    if (idVisti.add(id)) {
+                        prodotti.add(mapResultSetToBean(rs));
+                    }
+                }
+            }
+        }
+        return prodotti;
+    }
     
-	@Override
-	public ArrayList<ProdottoBean> doRetrieveRandomProducts(int numProducts) throws SQLException {
-		String selectSQL ="SELECT * FROM " + TABLE_NAME +" WHERE IN_VENDITA = true ORDER BY RAND() LIMIT ?";
+    
+    
+    @Override
+    public ArrayList<ProdottoBean> doRetrieveRandomProducts()
+            throws SQLException {
 
-	    try (Connection connection = ds.getConnection();
-	         PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
+        String sql =
+            "SELECT * FROM prodotto " +
+            "WHERE IN_VENDITA = true " +
+            "AND QUANTITA > 0 " +
+            "ORDER BY RAND()";
 
-	        preparedStatement.setInt(1, numProducts);
+        try (Connection connection = ds.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-	        ResultSet rs = preparedStatement.executeQuery();
+            ArrayList<ProdottoBean> prodotti = new ArrayList<>();
 
-	        ArrayList<ProdottoBean> prodotti = new ArrayList<>();
-	        while (rs.next()) {
-	            prodotti.add(mapResultSetToBean(rs));
-	        }
-	        return prodotti;
-	    }
-	}
+            while (rs.next()) {
+                prodotti.add(mapResultSetToBean(rs));
+            }
+
+            return prodotti;
+        }
+    }
 	
 
     private ProdottoBean mapResultSetToBean(ResultSet rs) throws SQLException {

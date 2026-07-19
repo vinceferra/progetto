@@ -4,7 +4,7 @@
     <%
 	ArrayList<ArrayList<ProdottoBean>> categorie = (ArrayList<ArrayList<ProdottoBean>>) request.getSession().getAttribute("categorie");
 	if(categorie == null) {
-		response.sendRedirect("./home?page=Elettronica.jsp");	
+		response.sendRedirect("./home?page=Abbigliamento.jsp");	
 		return;
 	}
 %>
@@ -13,31 +13,31 @@
 <head>
 <meta charset="ISO-8859-1">
 	<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">
-<title>ELETTRONICA</title>
+<title>ABBIGLIAMENTO</title>
 </head>
 <body>
-
-<%@ include file="../fragments/header.jsp" %>
-	<%@ include file="../fragments/menu.jsp" %>
+<%@ include file="./fragments/header.jsp" %>
+	<%@ include file="./fragments/menu.jsp" %>
+	
 	<%
-	ArrayList<ProdottoBean> elettron = categorie.get(4);%>
+	ArrayList<ProdottoBean> Abbigliamento = categorie.get(6);%>
 	
 	<div id="main" class="clear">
-	
-		<h2>ELETTRONICA</h2>
-	
+	<h2>ABBIGLIAMENTO</h2>
 		<%
-			if (elettron != null && elettron.size() != 0) {
-				Iterator<?> it = elettron.iterator();
+			if (Abbigliamento != null && Abbigliamento.size() != 0) {
+				Iterator<?> it = Abbigliamento.iterator();
 				while (it.hasNext()) {
 					ProdottoBean bean = (ProdottoBean) it.next();
 		%>
+		
+		
 		<div class="item">
 			<ul>
 			<li><a href="Dettagli?id=<%=bean.getIdProdotto()%>"><img src="<%=bean.getImmagine()%>" height="130" width="130"></a></li>
 			<li><%=bean.getNome()%></li>
 			<li>prezzo: &euro;<%=bean.getPrezzo()%></li>
-			<li><a href="carrello?action=addC&id=<%=bean.getIdProdotto()%>&page=Elettronica.jsp"><button>Aggiungi al carrello</button></a></li>
+			<li><a href="carrello?action=addC&id=<%=bean.getIdProdotto()%>&page=Abbigliamento.jsp"><button>Aggiungi al carrello</button></a></li>
 		 </ul>
 		</div>
 		<%
@@ -54,6 +54,7 @@
 		<%@ include file="./fragments/footer.jsp" %>
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		
 		
 	
 </body>

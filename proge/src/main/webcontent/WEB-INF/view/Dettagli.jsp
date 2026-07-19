@@ -14,8 +14,8 @@
 
 <body>
 
-    <%@ include file="/fragments/header.jsp" %>
-    <%@ include file="/fragments/menu.jsp" %>
+    <%@ include file="./fragments/header.jsp" %>
+    <%@ include file="./fragments/menu.jsp" %>
 
     <div id="main" class="clear">
 
@@ -69,7 +69,7 @@
 
                 </div>
 
-    <%@ include file="/fragments/footer.jsp" %>
+    <%@ include file="./fragments/footer.jsp" %>
 
 </body>
 </html>

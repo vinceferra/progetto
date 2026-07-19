@@ -17,8 +17,8 @@
 </head>
 
 <body>
-<%@ include file="../fragments/header.jsp" %>
-<%@ include file="../fragments/menu.jsp" %>
+<%@ include file="./fragments/header.jsp" %>
+<%@ include file="./fragments/menu.jsp" %>
 
 <div align=center>	
 <a
@@ -26,6 +26,6 @@
   <br><br><br><br><br>   &#34 <u>CLICCA QUI PER CONTATTARCI</u> &#34
 </a>
 </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<%@ include file="../fragments/footer.jsp" %>
+<%@ include file="./fragments/footer.jsp" %>
 </body>
 </html>

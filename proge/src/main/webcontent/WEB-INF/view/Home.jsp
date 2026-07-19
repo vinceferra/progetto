@@ -18,8 +18,8 @@
 </head>
 <body>
 
-		<%@ include file="../fragments/header.jsp" %>
-		<%@ include file="../fragments/menu.jsp" %>
+		<%@ include file="./fragments/header.jsp" %>
+		<%@ include file="./fragments/menu.jsp" %>
 		
 <div id="main" class="clear">
 
@@ -90,7 +90,7 @@
 <%}%>
 </div>
 	
-		<%@ include file="../fragments/footer.jsp" %>
+		<%@ include file="./fragments/footer.jsp" %>
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		

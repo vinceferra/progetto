@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"  import="it.unisa.model.OrdineBean, java.util.*"%>
+<%@ page language="java"  contentType="text/html; charset=ISO-8859-1"  pageEncoding="ISO-8859-1" import="it.unisa.model.OrdineBean"
+    import="it.unisa.model.UserBean" import="java.util.*"%>
     
     <%
     UserBean User = (UserBean) session.getAttribute("currentSessionUser");

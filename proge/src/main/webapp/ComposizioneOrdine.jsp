@@ -37,22 +37,28 @@
 		</tr>
 		
  <%
-   String nomeP = null;
-   double prezzoUnitario = 0;
+ String nomeP = null;
+ 
+ for (ComposizioneBean comp : composizione) {
+     double prezzoUnitario = 0.0;
 
-   for(ComposizioneBean comp : composizione){ 
-     for(ProdottoBean p: prodotti){
-	   if(p.getIdProdotto()==comp.getIdProdotto()){
-		   nomeP = p.getNome();
-		   prezzoUnitario = p.getPrezzo();
-	   }
-    }
+     if (comp.getQuantita() > 0) {
+         prezzoUnitario =
+             comp.getPrezzoTotale() / comp.getQuantita();
+     }
+
+     for (ProdottoBean p : prodotti) {
+         if (p.getIdProdotto() == comp.getIdProdotto()) {
+             nomeP = p.getNome();
+             break;
+         }
+     }
  %>
 		
 		<tr>
 			<td> <%= nomeP%></td>
 			<td> <%= comp.getQuantita()%></td>
-			<td> &euro;<%= prezzoUnitario%></td>
+			<td>&euro;<%= String.format("%.2f", prezzoUnitario) %></td>
 			<td>  &euro;<%= String.format("%.2f",comp.getPrezzoTotale())%></td>
 			<td> <%= comp.getIva()%></td>
 		</tr>

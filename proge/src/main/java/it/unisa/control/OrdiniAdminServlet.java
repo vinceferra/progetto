@@ -3,13 +3,12 @@ package it.unisa.control;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import it.unisa.dao.OrdineDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import it.unisa.model.OrdineDao;
 
 /**
  * Servlet implementation class OrdiniAdminServlet

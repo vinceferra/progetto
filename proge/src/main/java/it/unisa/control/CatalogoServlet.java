@@ -7,9 +7,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import it.unisa.dao.ProdottoDao;
 import it.unisa.model.ProdottoBean;
-import it.unisa.model.ProdottoDao;
 
 @WebServlet("/catalogo")
 public class CatalogoServlet extends HttpServlet {

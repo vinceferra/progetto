@@ -9,9 +9,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import it.unisa.dao.UserDao;
 import it.unisa.model.UserBean;
-import it.unisa.model.UserDao;
 
 @WebServlet("/Registrazione")
 public class RegistrazioneServlet extends HttpServlet {

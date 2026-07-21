@@ -11,7 +11,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import it.unisa.dao.ComposizioneDao;
+import it.unisa.dao.IndirizzoSpedizioneDao;
+import it.unisa.dao.MetodoPagamentoDao;
+import it.unisa.dao.OrdineDao;
+import it.unisa.dao.ProdottoDao;
 import it.unisa.model.*;
 
 /**

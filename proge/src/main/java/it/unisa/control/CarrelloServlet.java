@@ -10,10 +10,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import it.unisa.dao.ProdottoDao;
 import it.unisa.model.Carrello;
 import it.unisa.model.ItemCarrello;
-import it.unisa.model.ProdottoDao;
 
 @WebServlet("/carrello")
 public class CarrelloServlet extends HttpServlet{

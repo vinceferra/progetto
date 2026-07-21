@@ -12,8 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import it.unisa.dao.ProdottoDao;
 import it.unisa.model.ProdottoBean;
-import it.unisa.model.ProdottoDao;
 
 /**
  * Servlet implementation class RicercaProdottoServlet

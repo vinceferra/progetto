@@ -1,6 +1,8 @@
-package it.unisa.model;
+package it.unisa.dao;
 
 import java.sql.SQLException;
+
+import it.unisa.model.MetodoPagamentoBean;
 
 public interface MetodoPagamentoDaoInterfaccia {
 

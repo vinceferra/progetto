@@ -9,10 +9,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import it.unisa.model.ComposizioneDao;
-import it.unisa.model.OrdineDao;
-import it.unisa.model.ProdottoDao;
+import it.unisa.dao.ComposizioneDao;
+import it.unisa.dao.OrdineDao;
+import it.unisa.dao.ProdottoDao;
 import it.unisa.model.UserBean;
 
 @WebServlet("/Ordine")

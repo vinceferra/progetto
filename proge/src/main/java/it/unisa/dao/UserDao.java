@@ -1,4 +1,4 @@
-package it.unisa.model;
+package it.unisa.dao;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -13,6 +13,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import it.unisa.control.PasswordUtil;
+import it.unisa.model.UserBean;
 
 public class UserDao implements UserDaoInterfaccia {
 

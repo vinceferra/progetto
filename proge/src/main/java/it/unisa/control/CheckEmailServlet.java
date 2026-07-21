@@ -12,8 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import it.unisa.dao.UserDao;
 import it.unisa.model.UserBean;
-import it.unisa.model.UserDao;
 
 /**
  * Servlet implementation class CheckEmailServlet

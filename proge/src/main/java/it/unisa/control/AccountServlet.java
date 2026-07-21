@@ -9,13 +9,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import it.unisa.dao.IndirizzoSpedizioneDao;
+import it.unisa.dao.MetodoPagamentoDao;
+import it.unisa.dao.UserDao;
 import it.unisa.model.IndirizzoSpedizioneBean;
-import it.unisa.model.IndirizzoSpedizioneDao;
 import it.unisa.model.MetodoPagamentoBean;
-import it.unisa.model.MetodoPagamentoDao;
 import it.unisa.model.UserBean;
-import it.unisa.model.UserDao;
 
 /**
  * Servlet implementation class AccountServlet

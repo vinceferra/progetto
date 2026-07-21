@@ -1,7 +1,9 @@
-package it.unisa.model;
+package it.unisa.dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import it.unisa.model.OrdineBean;
 
 public interface OrdineDaoInterfaccia {
 

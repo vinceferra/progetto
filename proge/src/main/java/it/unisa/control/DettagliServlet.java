@@ -29,14 +29,14 @@ public class DettagliServlet extends HttpServlet {
             ProdottoBean prodotto = prodDao.doRetrieveByKey(id);
 
             if (prodotto == null) {
-                response.sendRedirect(request.getContextPath() + "/Home.jsp");
+            	response.sendRedirect(request.getContextPath() + "/home?page=Home.jsp");
                 return;
             }
 
             request.setAttribute("product", prodotto);
 
             RequestDispatcher dispatcher =
-                    request.getRequestDispatcher("/Dettagli.jsp");
+            		request.getRequestDispatcher("/WEB-INF/view/Dettagli.jsp");
             dispatcher.forward(request, response);
 
         } catch (NumberFormatException | SQLException e) {

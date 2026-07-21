@@ -5,7 +5,7 @@
     UserBean User = (UserBean) session.getAttribute("currentSessionUser");
 
     if (User== null || !User.isAmministratore()) {
-        response.sendRedirect(request.getContextPath() + "/Login.jsp");
+    	response.sendRedirect(request.getContextPath() + "/Login");
         return;
     }
 
@@ -28,7 +28,7 @@
 		<h2>ORDINI</h2>
 		
 	<div class="account">
-		<form action="../ordiniAdmin">
+		<form action="${pageContext.request.contextPath}/ordiniAdmin" method="get">
 		
 			<div class="tableRow">
 				<p></p>
@@ -52,7 +52,7 @@
 		</div>
 			
 		<div class="account">
-			<form action="../ordiniAdmin">
+			<form action="${pageContext.request.contextPath}/ordiniAdmin" method="get">
 			
 			<div class="tableRow">
 				<p></p>
@@ -77,7 +77,7 @@
 		</div>
 			<% ArrayList<?> ordini = (ArrayList<?>) request.getSession().getAttribute("adminOrdini");
 	
-			if (ordini != null && ordini.size() != 0) {%>
+			if (ordini != null && !ordini.isEmpty()) {%>
 			
 				<table class = "ordini">
 				<tr>
@@ -97,7 +97,7 @@
 			<td> <%= bean.getIdOrdine() %></td>
 			<td> <%= bean.getData() %></td>
 			<td> &euro;<%=String.format("%.2f",bean.getImportoTotale())%></td>
-			<td> <a href="../Ordine?action=dettagliOrdine&id=<%= bean.getIdOrdine() %>"> dettagli</a></td>
+			<td> <a href="${pageContext.request.contextPath}/Ordine?action=dettagliOrdine&id=<%= bean.getIdOrdine() %>">dettagli</a></td>
 		</tr>
 		
 		<%}%></table>

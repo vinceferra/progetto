@@ -1,20 +1,16 @@
-<%@ page language="java"
-         contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="UTF-8"
-         import="java.util.*, it.unisa.model.ProdottoBean, it.unisa.model.UserBean" %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.util.*, it.unisa.model.ProdottoBean, it.unisa.model.UserBean" %>
 <%
     UserBean User = (UserBean) session.getAttribute("currentSessionUser");
 
     if (User== null || !User.isAmministratore()) {
-        response.sendRedirect(request.getContextPath() + "/Login.jsp");
+    	response.sendRedirect(request.getContextPath() + "/Login");
         return;
     }
 
     ArrayList<?> products = (ArrayList<?>) session.getAttribute("products");
 
     if (products == null) {
-        response.sendRedirect("../catalogo?action=admin");
+    	response.sendRedirect(request.getContextPath() + "/catalogo?page=admin/GestioneCatalogo.jsp");
         return;
     }
 %>
@@ -22,7 +18,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="ISO-8859-1">
+    <meta charset="UTF-8">
     <link href="${pageContext.request.contextPath}/css/style.css"
           rel="stylesheet" type="text/css">
     <title>Gestione catalogo</title>
@@ -62,11 +58,11 @@
                     </td>
                     
                     <td style="text-align:center;">
-                       <a href="ModificaProdotto.jsp?prodotto=<%= bean.getIdProdotto() %>">
-                          <button><b>Modifica</b></button>
+                       <a href="${pageContext.request.contextPath}/catalogo?page=admin/ModificaProdotto.jsp&prodotto=<%= bean.getIdProdotto() %>">
+                          <button type="button"><b>Modifica</b></button>
                        </a>
 
-                      <form action="../catalogo" method="post" style="display:inline;">
+                      <form action="${pageContext.request.contextPath}/catalogo" method="post" style="display:inline;">
                            <input type="hidden" name="action" value="Elimina">
                            <input type="hidden" name="id" value="<%= bean.getIdProdotto() %>">
                            <input type="hidden" name="page" value="admin/GestioneCatalogo.jsp">
@@ -91,8 +87,8 @@
     <br><br>
 
     <div class="center">
-        <a href="AddProdotto.jsp">
-            <button><b>Aggiungi prodotto</b></button>
+        <a href="${pageContext.request.contextPath}/catalogo?page=admin/AddProdotto.jsp">
+            <button type="button"><b>Aggiungi prodotto</b></button>
         </a>
     </div>
 

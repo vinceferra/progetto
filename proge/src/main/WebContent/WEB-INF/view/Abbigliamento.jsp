@@ -4,7 +4,7 @@
     <%
 	ArrayList<ArrayList<ProdottoBean>> categorie = (ArrayList<ArrayList<ProdottoBean>>) request.getSession().getAttribute("categorie");
 	if(categorie == null) {
-		response.sendRedirect("./home?page=Abbigliamento.jsp");	
+		response.sendRedirect(request.getContextPath() + "/home?page=Abbigliamento.jsp");
 		return;
 	}
 %>
@@ -34,10 +34,10 @@
 		
 		<div class="item">
 			<ul>
-			<li><a href="Dettagli?id=<%=bean.getIdProdotto()%>"><img src="<%=bean.getImmagine()%>" height="130" width="130"></a></li>
+			<li><a href="${pageContext.request.contextPath}/Dettagli?id=<%=bean.getIdProdotto()%>"><img src="<%=bean.getImmagine()%>" height="130" width="130"></a></li>
 			<li><%=bean.getNome()%></li>
 			<li>prezzo: &euro;<%=bean.getPrezzo()%></li>
-			<li><a href="carrello?action=addC&id=<%=bean.getIdProdotto()%>&page=Abbigliamento.jsp"><button>Aggiungi al carrello</button></a></li>
+			<li><a href="${pageContext.request.contextPath}/carrello?action=addC&id=<%=bean.getIdProdotto()%>&page=Abbigliamento.jsp"><button>Aggiungi al carrello</button></a></li>
 		 </ul>
 		</div>
 		<%

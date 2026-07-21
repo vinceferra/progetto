@@ -94,13 +94,13 @@ public class CarrelloServlet extends HttpServlet{
 		request.getSession().setAttribute("cart", cart);
 		request.setAttribute("cart", cart);
 
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/" + redirectedPage);
-		dispatcher.forward(request, response);
-		 }
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/" + redirectedPage);
+			dispatcher.forward(request, response);
+	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		super.doPost(request, response);
+	    doGet(request, response);
 	}
 	
 

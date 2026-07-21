@@ -50,7 +50,7 @@ if (messaggio != null) {
 		<tr>
 			<td> <%= bean.getData() %></td>
 			<td> &euro;<%=String.format("%.2f",bean.getImportoTotale())%></td>
-			<td> <a href="Ordine?action=dettagliOrdine&id=<%= bean.getIdOrdine() %>"> dettagli</a></td>
+			<td> <a href="${pageContext.request.contextPath}/Ordine?action=dettagliOrdine&id=<%= bean.getIdOrdine() %>">dettagli</a></td>
 		</tr>
 		
 		<%}%></table>

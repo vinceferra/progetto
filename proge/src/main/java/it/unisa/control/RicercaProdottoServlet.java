@@ -23,9 +23,8 @@ public class RicercaProdottoServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
@@ -45,9 +44,7 @@ public class RicercaProdottoServlet extends HttpServlet {
             ArrayList<ProdottoBean> prodotti = dao.doRetrieveAllDisponibili(null);
 
             for (ProdottoBean p : prodotti) {
-                if (p.getNome() != null &&
-                    p.getNome().toLowerCase().contains(query)) {
-
+                if (p.getNome() != null && p.getNome().toLowerCase().contains(query)) {
                     risultato.add(p);
                 }
             }
@@ -61,9 +58,7 @@ public class RicercaProdottoServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
 }

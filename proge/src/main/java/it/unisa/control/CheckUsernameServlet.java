@@ -10,8 +10,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
 import it.unisa.model.UserBean;
 import it.unisa.model.UserDao;
 
@@ -29,7 +27,8 @@ public class CheckUsernameServlet extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("UTF-8");
 		
 		UserDao dao = new UserDao();
 		String us = request.getParameter("us");
@@ -37,11 +36,11 @@ public class CheckUsernameServlet extends HttpServlet {
 		ArrayList<UserBean> users;
 		try {
 			users = dao.doRetrieveAll(null);
-			for(UserBean user: users) {
-				if(user.getUsername().equals(us)){
-					response.getWriter().write("0");
-					return;
-				}
+			for (UserBean user : users) {
+			    if (us.equalsIgnoreCase(user.getUsername())) {
+			        response.getWriter().write("0");
+			        return;
+			    }
 		}
 			response.getWriter().write("1");
 

@@ -40,7 +40,7 @@
                 <li><span class="dettagli">Nome</span>: <%= product.getNome() %></li>
                 <li><span class="dettagli">Descrizione</span>: <%= product.getDescrizione() %></li>
                 <li><span class="dettagli">Categoria</span>: <%= product.getCategoria() %></li>
-                <li><span class="dettagli">Prezzo</span>: &euro;<%= product.getPrezzo() %></li>
+                <li><span class="dettagli">Prezzo</span>: &euro;<%= String.format("%.2f", product.getPrezzo()) %></li>
 
                 <% if (product.isInVendita()) { %>
                     <li><span class="dettagli">Disponibilità immediata</span></li>
@@ -51,7 +51,7 @@
                 <% if(product.isInVendita() && product.getQuantita() > 0) { %>
 
                 <li>
-                   <a href="carrello?action=addC&id=<%= product.getIdProdotto() %>&page=Dettagli.jsp">
+                   <a href="${pageContext.request.contextPath}/carrello?action=addC&id=<%= product.getIdProdotto() %>&page=Dettagli.jsp">
                       <button>Aggiungi al carrello</button>
                    </a>
                 </li>

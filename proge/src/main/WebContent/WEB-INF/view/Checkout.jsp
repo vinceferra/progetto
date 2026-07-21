@@ -30,7 +30,7 @@
 
         <h2>Checkout</h2>
 
-        <form action="Checkout" method="post" id="myform">
+        <form action="${pageContext.request.contextPath}/Checkout" method="post" id="myform">
 
             <!-- DATI SPEDIZIONE -->
 
@@ -45,14 +45,11 @@
                 <p>
                     <input type="text"
                            name="nome"
+                           class="solo-lettere-capitale"
                            value="<%= spedizione != null ? spedizione.getNome() : "" %>"
                            pattern="^[A-ZÀ-Ý][a-zà-ÿA-ZÀ-Ý\s]*$"
                            title="Il nome deve contenere solo lettere e iniziare con la maiuscola"
-                           oninput="
-                           this.value =
-                           this.value.charAt(0).toUpperCase() +
-                           this.value.slice(1).replace(/[^a-zA-ZÀ-ÿ\s]/g,'')"
-                           required/>
+                           required>
                 </p>
             </div>
 
@@ -60,16 +57,13 @@
             <div class="tableRow">
                 <p>Cognome:</p>
                 <p>
-                    <input type="text"
-                           name="cognome"
-                           value="<%= spedizione != null ? spedizione.getCognome() : "" %>"
-                           pattern="^[A-ZÀ-Ý][a-zà-ÿA-ZÀ-Ý\s]*$"
-                           title="Il cognome deve contenere solo lettere e iniziare con la maiuscola"
-                           oninput="
-                           this.value =
-                           this.value.charAt(0).toUpperCase() +
-                           this.value.slice(1).replace(/[^a-zA-ZÀ-ÿ\s]/g,'')"
-                           required/>
+                   <input type="text"
+                          name="cognome"
+                          class="solo-lettere-capitale"
+                          value="<%= spedizione != null ? spedizione.getCognome() : "" %>"
+                          pattern="^[A-ZÀ-Ý][a-zà-ÿA-ZÀ-Ý\s]*$"
+                          title="Il nome deve contenere solo lettere e iniziare con la maiuscola"
+                          required>
                 </p>
             </div>
 
@@ -108,7 +102,7 @@
                            pattern="^\d{5}$"
                            maxlength="5"
                            title="Il CAP deve contenere 5 numeri"
-                           oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                           class="solo-numeri"
                            required/>
                 </p>
             </div>
@@ -146,16 +140,13 @@
             <div class="tableRow">
                 <p>Titolare carta:</p>
                 <p>
-                    <input type="text"
-                           name="tit"
-                           value="<%= pagamento != null ? pagamento.getTitolare() : "" %>"
-                           pattern="^[A-ZÀ-Ý][a-zà-ÿA-ZÀ-Ý\s]*$"
-                           title="Il titolare deve contenere solo lettere e iniziare con la maiuscola"
-                           oninput="
-                           this.value =
-                           this.value.charAt(0).toUpperCase() +
-                           this.value.slice(1).replace(/[^a-zA-ZÀ-ÿ\s]/g,'')"
-                           required/>
+                   <input type="text"
+                          name="tit"
+                          class="solo-lettere-capitale"
+                          value="<%= pagamento != null ? pagamento.getTitolare() : "" %>"
+                          pattern="^[A-ZÀ-Ý][a-zà-ÿA-ZÀ-Ý\s]*$"
+                          title="Il nome deve contenere solo lettere e iniziare con la maiuscola"
+                          required>
                 </p>
             </div>
 
@@ -169,7 +160,7 @@
                            pattern="^\d{15}$"
                            maxlength="15"
                            title="Il numero della carta deve contenere 15 numeri"
-                           oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                           class="solo-numeri"
                            required/>
                 </p>
             </div>
@@ -199,6 +190,7 @@
     </div>
 
     <%@ include file="./fragments/footer.jsp" %>
+    <script src="${pageContext.request.contextPath}/script/checkout.js"></script>
 
 </body>
 </html>

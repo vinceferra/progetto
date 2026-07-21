@@ -6,7 +6,7 @@
 	<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">
 </head>
 
-<body>
+<body data-context-path="<%= request.getContextPath() %>">
 
 <div align=right>
 <select id="language" name="language">
@@ -33,13 +33,13 @@
 									<a href="javascript:void(0)" class="dropbtn">ACCOUNT</a>
 							 		 <div class="dropdown-content">
 								    <a href="<%= request.getContextPath() %>/Ordine?action=mieiOrdini">I MIEI ORDINI</a>
-								    <a href="<%= request.getContextPath() %>/impostazioni.jsp">IMPOSTAZIONI</a>
+								    <a href="<%= request.getContextPath() %>/account?page=impostazioni.jsp">IMPOSTAZIONI</a>
 								    <% if(!user.isAmministratore()){ %>
-                                    <a href="<%= request.getContextPath() %>/Aiuto.jsp">AIUTO</a>
+                                    <a href="<%= request.getContextPath() %>/home?page=Aiuto.jsp">AIUTO</a>
                                     <% } %>	
                                     <%if(user.isAmministratore()){ %>
 									<a href="<%= request.getContextPath() %>/catalogo?action=admin&page=admin/GestioneCatalogo.jsp">GESTIONE CATALOGO</a>
-									<a href="<%= request.getContextPath() %>/admin/ViewOrdini.jsp">ORDINI</a>
+									<a href="<%= request.getContextPath() %>/ordiniAdmin">ORDINI</a>
 											
 									<%} %>
 									<a href="<%= request.getContextPath() %>/Logout">LOGOUT</a>
@@ -47,7 +47,7 @@
 								  </div>
 							</li>										
 			<%}else{ %>
-				<li><a href="<%= request.getContextPath() %>/Login.jsp">ACCEDI</a></li><%} %>
+				<li><a href="<%= request.getContextPath() %>/Login">ACCEDI</a></li><%} %>
 				<li><a href="<%= request.getContextPath() %>/carrello?page=Carrello.jsp"><img src="${pageContext.request.contextPath}/images/carrello.png" height="13" width="32"></a></li>
 			</ul>
 		</nav>
@@ -56,36 +56,7 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<script>
-        $(document).ready(function(){
-            var $searchbar = $("#searchbar");
-            var $risultati = $(".risultati");
-
-            $searchbar.keyup(function(){
-                var query = $searchbar.val();
-                if(query.trim() !== ""){
-                    $.get("./RicercaProdotto", {"query": query}, function(data){
-                        if(data && data.length > 0){
-                            $risultati.empty();
-                            $risultati.show();
-                            $.each(data, function(i, item){
-                                var itemDiv = $("<div id='item-r' class='item" + i + "'><img id='pic' width='65' height='65' src='" + item.immagine + "'/><p id='name'>" + item.nome + "</p></div>");
-                                itemDiv.on('click', function(){
-                                	window.location = "./Dettagli?id=" + item.idProdotto;
-                                });
-                                $risultati.append(itemDiv);
-                            });
-                        }
-                    }).fail(function(){
-                        console.error("Errore durante la ricerca del prodotto.");
-                    });
-                } else {
-                    $risultati.hide();
-                }
-            });
-        });
-    </script>
+<script src="<%= request.getContextPath() %>/script/header.js"></script>
 
 
 </body>

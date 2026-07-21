@@ -45,12 +45,13 @@
             <li>Email: <%= us.getEmail() %></li>
 
             <li>
-                <form action="password.jsp" method="get">
-                    <button type="submit">CAMBIA PASSWORD</button>
+                <form action="${pageContext.request.contextPath}/account" method="get">
+                      <input type="hidden" name="page" value="password.jsp">
+                      <button type="submit">CAMBIA PASSWORD</button>
                 </form>
             </li>
         </ul>
-
+        
     </div>
 
     <!-- INDIRIZZO SPEDIZIONE -->
@@ -61,7 +62,7 @@
 
         <h3>Indirizzo di spedizione predefinito</h3>
 
-        <form action="account" method="post">
+        <form action="${pageContext.request.contextPath}/account" method="post">
 
             <input type="hidden" name="action" value="addS">
             <input type="hidden" name="page" value="impostazioni.jsp">
@@ -75,10 +76,7 @@
                            name="nome"
                            pattern="^[A-ZÀ-Ý][a-zà-ÿA-ZÀ-Ý\s]*$"
                            title="Solo lettere e iniziale maiuscola"
-                           oninput="
-                           this.value =
-                           this.value.charAt(0).toUpperCase() +
-                           this.value.slice(1).replace(/[^a-zA-ZÀ-ÿ\s]/g,'')"
+                           class="solo-lettere-capitale"
                            required/>
                 </p>
             </div>
@@ -92,10 +90,7 @@
                            name="cognome"
                            pattern="^[A-ZÀ-Ý][a-zà-ÿA-ZÀ-Ý\s]*$"
                            title="Solo lettere e iniziale maiuscola"
-                           oninput="
-                           this.value =
-                           this.value.charAt(0).toUpperCase() +
-                           this.value.slice(1).replace(/[^a-zA-ZÀ-ÿ\s]/g,'')"
+                           class="solo-lettere-capitale"
                            required/>
                 </p>
             </div>
@@ -135,7 +130,7 @@
                            pattern="^\d{5}$"
                            maxlength="5"
                            title="Il CAP deve contenere 5 numeri"
-                           oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                           class="solo-numeri"
                            required/>
                 </p>
             </div>
@@ -184,7 +179,7 @@
 
         <h3>Metodo di pagamento predefinito</h3>
 
-        <form action="account" method="post">
+        <form action="${pageContext.request.contextPath}/account" method="post">
 
             <input type="hidden" name="page" value="impostazioni.jsp">
             <input type="hidden" name="action" value="addP">
@@ -198,10 +193,7 @@
                            name="tit"
                            pattern="^[A-ZÀ-Ý][a-zà-ÿA-ZÀ-Ý\s]*$"
                            title="Solo lettere e iniziale maiuscola"
-                           oninput="
-                           this.value =
-                           this.value.charAt(0).toUpperCase() +
-                           this.value.slice(1).replace(/[^a-zA-ZÀ-ÿ\s]/g,'')"
+                           class="solo-lettere-capitale"
                            required/>
                 </p>
             </div>
@@ -216,7 +208,7 @@
                            pattern="^\d{16}$"
                            maxlength="16"
                            title="La carta deve contenere 16 numeri"
-                           oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                           class="solo-numeri"
                            required/>
                 </p>
             </div>
@@ -249,6 +241,6 @@
 </div>
 
 <%@ include file="./fragments/footer.jsp" %>
-
+<script src="${pageContext.request.contextPath}/script/checkout.js"></script>
 </body>
 </html>

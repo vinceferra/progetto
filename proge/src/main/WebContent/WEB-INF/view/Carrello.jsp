@@ -42,7 +42,7 @@
                 <span style="color:red;">Prodotto non disponibile</span>
                 <% } %>
             </td>
-			<td> <form action="carrello">
+			<td> <form action="${pageContext.request.contextPath}/carrello" method="get">
 					<input type="hidden" name="Id" value="<%=itemcart.getId()%>">
 					<input type="hidden" name="page" value="Carrello.jsp">
 					
@@ -58,7 +58,7 @@
 			</td>
 			
 			<td><%=String.format("%.2f",itemcart.getTotalPrice())%>&euro;</td>
-			<td><a href="carrello?action=deleteC&id=<%=itemcart.getId()%>&page=Carrello.jsp"><button>X</button></a></td>
+			<td><a href="${pageContext.request.contextPath}/carrello?action=deleteC&id=<%=itemcart.getId()%>&page=Carrello.jsp"><button>X</button></a></td>
 		</tr>
 		<% } %>
 	</table><br>
@@ -81,7 +81,7 @@
     if(request.getSession().getAttribute("currentSessionUser") != null){ 
 %>
 
-    <a href="account?page=Checkout.jsp">
+    <a href="${pageContext.request.contextPath}/account?page=Checkout.jsp">
         <button>Acquista</button>
     </a>
 
@@ -89,7 +89,7 @@
     } else {
 %>
 
-    <a href="Login.jsp?action=checkout">
+    <a href="${pageContext.request.contextPath}/Login?checkout=true">
         <button>Acquista</button>
     </a>
 

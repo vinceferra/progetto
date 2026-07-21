@@ -76,14 +76,14 @@
             for (ProdottoBean bean : prodottiCategoria) {
         %>
 
-            <div class="item">
-                <ul>
-                    <li><a href="<%= request.getContextPath() %>/Dettagli?id=<%= bean.getIdProdotto() %>"><img src="<%= bean.getImmagine() %>" height="130" width="130" alt="<%= bean.getNome() %>"></a></li>
-                    <li><b><%= bean.getNome() %></b></li>
-                    <li>Prezzo: &euro;<%= bean.getPrezzo() %></li>
-                    <li><a href="<%= request.getContextPath() %>/carrello?action=addC&id=<%= bean.getIdProdotto() %>&page=Home.jsp"><button type="button">Aggiungi al carrello</button></a></li>
-                </ul>
-            </div>
+<div class="item">
+    <ul>
+        <li><a href="${pageContext.request.contextPath}/Dettagli?id=<%= bean.getIdProdotto() %>"><img src="<%= bean.getImmagine() %>" height="130" width="130" alt="<%= bean.getNome() %>"></a></li>
+        <li><b><%= bean.getNome() %></b></li>
+        <li>Prezzo: &euro;<%= String.format("%.2f", bean.getPrezzo()) %></li>
+        <li><a href="${pageContext.request.contextPath}/carrello?action=addC&id=<%= bean.getIdProdotto() %>&page=Home.jsp"><button type="button">Aggiungi al carrello</button></a></li>
+    </ul>
+</div>
         <%}%>
 
     </div>

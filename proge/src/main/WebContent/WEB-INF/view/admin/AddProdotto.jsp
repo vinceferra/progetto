@@ -1,11 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" import="it.unisa.model.UserBean" %>
     
  <%
     UserBean User = (UserBean) session.getAttribute("currentSessionUser");
 
     if (User== null || !User.isAmministratore()) {
-        response.sendRedirect(request.getContextPath() + "/Login.jsp");
+    	response.sendRedirect(request.getContextPath() + "/Login");
         return;
     }
 %>
@@ -29,7 +28,7 @@
 	
 		<h2>AGGIUNGI PRODOTTO</h2>
 
-	<form action="../catalogo" method="post" id="myform">
+	<form action="${pageContext.request.contextPath}/catalogo" method="post" id="myform">
 		<input type="hidden" name="action" value="add">
 		<input type="hidden" name="page" value="admin/GestioneCatalogo.jsp"><br><br>
 		<div class="tableRow">
@@ -57,8 +56,8 @@
 			<p><input type="text" name="img" value="" required></p>
 		</div>
 		<div class="tableRow">
-			<p>Taglie:</p>
-			<p><input type="text" name="Taglie" placeholder="Non inserire se non è un abbigliamento" value=""></p>
+			<p>Taglia:</p>
+			<p><input type="text" name="Taglia" placeholder="Non inserire se non è un abbigliamento" value=""></p>
 		</div>
 		<div class="tableRow">
 			<p>Vendite:</p>

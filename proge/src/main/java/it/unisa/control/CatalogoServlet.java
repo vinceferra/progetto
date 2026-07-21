@@ -2,10 +2,6 @@ package it.unisa.control;
 
 import java.io.IOException; 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -41,8 +37,10 @@ public class CatalogoServlet extends HttpServlet {
 					bean.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
 					bean.setQuantita(Integer.parseInt(request.getParameter("quantita")));
 					bean.setCategoria(request.getParameter("Categoria"));
-					if (request.getParameter("Categoria").equals("abbigliamento"))
-						bean.setTaglie(request.getParameter("Taglia"));
+					bean.setvendite(Integer.parseInt(request.getParameter("Vendite")));
+					if ("Abbigliamento".equalsIgnoreCase(request.getParameter("Categoria"))) {
+					    bean.setTaglie(request.getParameter("Taglia"));
+					}
 					bean.setImmagine(request.getParameter("img"));
 					bean.setInVendita(true);
 					prodDao.doSave(bean);
@@ -57,6 +55,7 @@ public class CatalogoServlet extends HttpServlet {
 					bean.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
 					bean.setQuantita(Integer.parseInt(request.getParameter("quantita")));
 					bean.setCategoria(request.getParameter("Categoria"));
+					bean.setvendite(Integer.parseInt(request.getParameter("Vendite")));
 					if ("abbigliamento".equalsIgnoreCase(request.getParameter("Categoria"))) {
 					    bean.setTaglie(request.getParameter("Taglia"));
 					}
@@ -74,25 +73,23 @@ public class CatalogoServlet extends HttpServlet {
 
 			}
 			
-		} catch (SQLException e) {
-			System.out.println("Error:" + e.getMessage());
-		}
+		} catch (SQLException | NumberFormatException e) {
+		    throw new ServletException("Errore durante la gestione del catalogo", e);
+		    }
 
 
 		try {
-			request.getSession().removeAttribute("products");
-			request.getSession().setAttribute("products", prodDao.doRetrieveAll(sort));
-		    } 
-		catch(SQLException e) {
-			System.out.println("Error:" + e.getMessage());
-		}
-					
-		if(action != null && action.equalsIgnoreCase("Elimina")) {
-		    response.sendRedirect(request.getContextPath() + "/home?page=Home.jsp");
+		    request.getSession().removeAttribute("products");
+		    request.getSession().setAttribute("products", prodDao.doRetrieveAll(sort)
+		    );
 
-		} else {
-		    response.sendRedirect(request.getContextPath() + "/" + redirectedPage);
+		} catch (SQLException e) {
+		    throw new ServletException("Errore nel caricamento dei prodotti", e);
 		}
+
+		request.getRequestDispatcher(
+		    "/WEB-INF/view/" + redirectedPage
+		).forward(request, response);
 	 }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -1,7 +1,5 @@
 package it.unisa.control;
 
-import it.unisa.model.ProdottoDao;
-
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -14,54 +12,73 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import it.unisa.model.ComposizioneDao;
 import it.unisa.model.OrdineDao;
+import it.unisa.model.ProdottoDao;
 import it.unisa.model.UserBean;
 
-/**
- * Servlet implementation class OrdineServlet
- */
 @WebServlet("/Ordine")
 public class OrdineServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-   
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
-	}
 
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		OrdineDao ordDao = new OrdineDao();
-		ComposizioneDao compDao = new ComposizioneDao();
-		UserBean user = (UserBean) request.getSession().getAttribute("currentSessionUser");
+    private static final long serialVersionUID = 1L;
 
-		String action = request.getParameter("action");
-		
-		try {
-			if(action!=null) {
-				if(action.equalsIgnoreCase("mieiOrdini")) {
-					String email = user.getEmail();
-					request.getSession().removeAttribute("ordini");
-					request.getSession().setAttribute("ordini", ordDao.doRetrieveByEmail(email));
-					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/MieiOrdini.jsp");
-					dispatcher.forward(request, response);
-				
-				}
-				
-				else if(action.equalsIgnoreCase("dettagliOrdine")) {
-				    int id = Integer.parseInt(request.getParameter("id"));
-				    request.getSession().setAttribute("composizione",compDao.doRetrieveByOrdine(id));
-				    ProdottoDao prodDao = new ProdottoDao();
-				    request.getSession().setAttribute("products",prodDao.doRetrieveAllProducts());
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-				    RequestDispatcher dispatcher =getServletContext().getRequestDispatcher("/ComposizioneOrdine.jsp");
-				    dispatcher.forward(request, response);
-				}
-			}
-			
-		}catch(SQLException e) {
-			System.out.println("Error:" + e.getMessage());
-		}
-	}
+        doPost(request, response);
+    }
 
+    @Override
+    protected void doPost(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+
+        OrdineDao ordDao = new OrdineDao();
+        ComposizioneDao compDao = new ComposizioneDao();
+
+        UserBean user = (UserBean) request.getSession().getAttribute("currentSessionUser");
+
+        if (user == null) {
+            response.sendRedirect(request.getContextPath() + "/Login");
+            return;
+        }
+
+        String action = request.getParameter("action");
+
+        try {
+            if (action == null) {
+                response.sendRedirect(request.getContextPath() + "/home?page=Home.jsp");
+                return;
+            }
+
+            if (action.equalsIgnoreCase("mieiOrdini")) {
+                request.getSession().removeAttribute("ordini");
+                request.getSession().setAttribute("ordini", ordDao.doRetrieveByEmail(user.getEmail()));
+
+                RequestDispatcher dispatcher =request.getRequestDispatcher("/WEB-INF/view/MieiOrdini.jsp");
+
+                dispatcher.forward(request, response);
+                return;
+            }
+
+            if (action.equalsIgnoreCase("dettagliOrdine")) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                request.getSession().setAttribute("composizione",compDao.doRetrieveByOrdine(id));
+
+                ProdottoDao prodDao = new ProdottoDao();
+
+                request.getSession().setAttribute("products",prodDao.doRetrieveAllProducts());
+                RequestDispatcher dispatcher =request.getRequestDispatcher("/WEB-INF/view/ComposizioneOrdine.jsp");
+                dispatcher.forward(request, response);
+                return;
+            }
+            response.sendRedirect(request.getContextPath() + "/home?page=Home.jsp"
+            );
+
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Identificativo ordine non valido");
+
+        } catch (SQLException e) {
+            throw new ServletException("Errore durante il caricamento degli ordini", e);
+        }
+    }
 }

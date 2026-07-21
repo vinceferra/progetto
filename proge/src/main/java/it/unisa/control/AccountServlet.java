@@ -113,8 +113,8 @@ public class AccountServlet extends HttpServlet {
 			}
 		}
 		
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/" + redirectedPage);
-		dispatcher.forward(request, response);
+		RequestDispatcher dispatcher =getServletContext().getRequestDispatcher("/WEB-INF/view/" + redirectedPage);
+			dispatcher.forward(request, response);
 
 	}
 

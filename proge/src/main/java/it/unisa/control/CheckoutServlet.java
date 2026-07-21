@@ -38,8 +38,8 @@ public class CheckoutServlet extends HttpServlet {
 	
 		Carrello cart = (Carrello) request.getSession().getAttribute("cart");
 
-		if(cart == null || cart.isEmpty()) {
-		    response.sendRedirect("Carrello.jsp");
+		if (cart == null || cart.isEmpty()) {
+		    request.getRequestDispatcher("/WEB-INF/view/Carrello.jsp").forward(request, response);
 		    return;
 		}
 
@@ -49,9 +49,9 @@ public class CheckoutServlet extends HttpServlet {
 			    ProdottoBean prodotto = daoProd.doRetrieveByKey(item.getId());
 
 			    if(prodotto == null || !prodotto.isInVendita() || prodotto.getQuantita() < item.getQuantitaCarrello()) {
-			        request.getSession().setAttribute("errore","Uno o più prodotti non sono più disponibili.");
-			        response.sendRedirect(request.getContextPath() + "/Carrello.jsp");
-			        return;
+			    	request.getSession().setAttribute( "errore", "Uno o più prodotti non sono più disponibili.");
+			    		request.getRequestDispatcher("/WEB-INF/view/Carrello.jsp").forward(request, response);
+			    		return;
 			    }
 			}
 			
@@ -137,9 +137,8 @@ public class CheckoutServlet extends HttpServlet {
 	}
 
 	
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		doPost(request, response);
+	    response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Il checkout richiede una richiesta POST");
 	}
-
 }

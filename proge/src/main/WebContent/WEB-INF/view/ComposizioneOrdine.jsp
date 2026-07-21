@@ -3,10 +3,10 @@
 
 <%
 	ArrayList<ProdottoBean> prodotti = (ArrayList<ProdottoBean>) request.getSession().getAttribute("products");
-	if(prodotti == null) {
-		response.sendRedirect("./catalogo?page=ComposizioneOrdine.jsp");		
-		return;
-	}
+    if (prodotti == null) {
+        response.sendRedirect(request.getContextPath() + "/home?page=Home.jsp");
+        return;
+     }
 %>
 
 <!DOCTYPE html>
@@ -23,7 +23,7 @@
 	<div id="main" class="clear">
 	
 		<%ArrayList<ComposizioneBean> composizione = (ArrayList<ComposizioneBean>) request.getSession().getAttribute("composizione");	
-		if(composizione!=null){
+		if (composizione != null && !composizione.isEmpty()) {
 		%>
 		
 		<h2> ORDINE #<%=composizione.get(0).getIdOrdine() %></h2>
@@ -37,9 +37,8 @@
 		</tr>
 		
  <%
- String nomeP = null;
- 
  for (ComposizioneBean comp : composizione) {
+	 String nomeP = "Prodotto non trovato";
      double prezzoUnitario = 0.0;
 
      if (comp.getQuantita() > 0) {
@@ -65,9 +64,12 @@
 		
 		<%}%>
 		</table>
-		    <% } %>
 		
-		
+		<%} else {%>
+
+          <h2>Nessun dettaglio disponibile per questo ordine</h2>
+
+<%}%>
 		
 	</div>
 	

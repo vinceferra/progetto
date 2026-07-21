@@ -31,7 +31,7 @@ public class HomeServlet extends HttpServlet {
 		String redirectedPage = request.getParameter("page");
 
 		if (redirectedPage == null || redirectedPage.isEmpty()) {
-		    redirectedPage = "index.jsp";
+		    redirectedPage = "Home.jsp";
 		}
 		
 		UserBean user = (UserBean) request.getSession().getAttribute("currentSessionUser");
@@ -94,8 +94,9 @@ public class HomeServlet extends HttpServlet {
 		    throw new ServletException("Errore caricamento prodotti", e);
 		}
 
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/" + redirectedPage);
-		dispatcher.forward(request, response);
+		RequestDispatcher dispatcher =
+			    request.getRequestDispatcher("/WEB-INF/view/" + redirectedPage);
+			dispatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		

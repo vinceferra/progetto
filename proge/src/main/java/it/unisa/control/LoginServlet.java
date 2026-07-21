@@ -10,60 +10,92 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import it.unisa.model.*;
+import it.unisa.model.UserBean;
+import it.unisa.model.UserDao;
 
 @WebServlet("/Login")
 public class LoginServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doPost(request, response);
-	}
+    private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+    @Override
+    protected void doGet(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
 
-		UserDao usDao = new UserDao();
+        request.getRequestDispatcher("/WEB-INF/view/Login.jsp")
+               .forward(request, response);
+    }
 
-		try {
-			String username = request.getParameter("un");
-			String password = request.getParameter("pw");
+    @Override
+    protected void doPost(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
 
-			String hashedPassword = PasswordUtil.hashPassword(password);
+        String username = request.getParameter("un");
+        String password = request.getParameter("pw");
+        String checkout = request.getParameter("checkout");
 
-			UserBean user = usDao.doRetrieve(username, hashedPassword);
+        // Controllo campi vuoti
+        if (username == null || username.isBlank()
+                || password == null || password.isBlank()) {
 
-			String checkout = request.getParameter("checkout");
+            request.setAttribute(
+                "erroreLogin",
+                "Inserisci username e password."
+            );
 
-			if (user.isValid()) {
+            request.getRequestDispatcher("/WEB-INF/view/Login.jsp")
+                   .forward(request, response);
+            return;
+        }
 
-			    HttpSession session = request.getSession(true);
-			    session.setAttribute("currentSessionUser", user);
-			    session.removeAttribute("categorie");
+        UserDao usDao = new UserDao();
 
-			    if (checkout != null) {
-			        response.sendRedirect(
-			            request.getContextPath() + "/account?page=Checkout.jsp"
-			        );
-			    } else {
-			        response.sendRedirect(
-			            request.getContextPath() + "/home?page=Home.jsp"
-			        );
-			    }
+        try {
+            String hashedPassword =
+                PasswordUtil.hashPassword(password);
 
-			    return;
+            UserBean user =
+                usDao.doRetrieve(username, hashedPassword);
 
-			} else {
-			    response.sendRedirect(
-			        request.getContextPath() + "/Login.jsp?action=error"
-			    );
-			    return;
-			}
+            // Controllo anche user != null
+            if (user != null && user.isValid()) {
 
-			} catch (SQLException e) {
-			    e.printStackTrace();
-			    throw new ServletException("Errore durante il login", e);
-			}
-	}
- }
+                HttpSession session = request.getSession(true);
+                session.setAttribute("currentSessionUser", user);
+                session.removeAttribute("categorie");
+
+                if (checkout != null) {
+                    response.sendRedirect(
+                        request.getContextPath()
+                        + "/account?page=Checkout.jsp"
+                    );
+                } else {
+                    response.sendRedirect(
+                        request.getContextPath()
+                        + "/home?page=Home.jsp"
+                    );
+                }
+
+                return;
+            }
+
+            request.setAttribute(
+                "erroreLogin",
+                "Username o password errati."
+            );
+
+            request.getRequestDispatcher("/WEB-INF/view/Login.jsp")
+                   .forward(request, response);
+
+        } catch (SQLException e) {
+            throw new ServletException(
+                "Errore durante il login",
+                e
+            );
+        }
+    }
+}

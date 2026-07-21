@@ -1,11 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1" import="it.unisa.model.ProdottoBean, java.util.*"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="it.unisa.model.ProdottoBean, it.unisa.model.UserBean, java.util.*" %>
     
   <%
     UserBean User = (UserBean) session.getAttribute("currentSessionUser");
 
     if (User== null || !User.isAmministratore()) {
-        response.sendRedirect(request.getContextPath() + "/Login.jsp");
+    	response.sendRedirect(request.getContextPath() + "/Login");
         return;
     }
 
@@ -36,7 +35,7 @@
 			break;} 
 			}%>
 	
-	<form action="../catalogo" method="post" id="myform">
+	<form action="${pageContext.request.contextPath}/catalogo"  method="post" id="myform">
 		<input type="hidden" name="action" value="modifica">
 		<input type="hidden" name="page" value="admin/GestioneCatalogo.jsp">
 		<div class="tableRow">
@@ -60,7 +59,7 @@
 			<p><input type="text" name="prezzo" value="<%=bean.getPrezzo() %>" required></p>
 		</div>		
 		<div class="tableRow">
-			<p>Quantità:</p>
+			<p>QuantitÃ :</p>
 			<p><input type="number" name="quantita" value="<%=bean.getQuantita() %>"placeholder="quantita cifra intera senza virgola o punto" class="formInput" required></p>
 		</div>
 		<div class="tableRow">
@@ -68,12 +67,12 @@
 			<p><input type="text" name="img" value="<%=bean.getImmagine() %>" required></p>
 		</div>
 		<div class="tableRow">
-			<p>Taglie:</p>
-			<p><input type="text" name="taglie" value="<%=bean.getTaglie() %>" required></p>
+			<p>Taglia:</p>
+			<p><input type="text" name="taglia" value="<%=bean.getTaglie() %>" required></p>
 		</div>
 		<div class="tableRow">
 			<p>Vendite:</p>
-			<p><input type="number" name="vendite" value="<%=bean.getvendite() %>"placeholder="Non inserire se non è un abbigliamento" class="formInput" required></p>
+			<p><input type="number" name="Vendite" value="<%=bean.getvendite() %>"placeholder="Non inserire se non Ã¨ un abbigliamento" class="formInput" required></p>
 		</div>
 		<div class="tableRow">
     <p>Categoria:</p>

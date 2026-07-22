@@ -1,4 +1,6 @@
 $(document).ready(function(){
+	const contextPath = document.body.dataset.contextPath;
+	
             var $searchbar = $("#searchbar");
             var $risultati = $(".risultati");
 

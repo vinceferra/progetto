@@ -157,8 +157,8 @@
                     <input type="text"
                            name="numC"
                            value="<%= pagamento != null ? pagamento.getNumero() : "" %>"
-                           pattern="^\d{15}$"
-                           maxlength="15"
+                           pattern="^\d{16}$"
+                           maxlength="16"
                            title="Il numero della carta deve contenere 15 numeri"
                            class="solo-numeri"
                            required/>

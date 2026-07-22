@@ -1,64 +1,136 @@
+let usernameDisponibile = false;
+let emailDisponibile = false;
+
 $(document).ready(function () {
     const contextPath = document.body.dataset.contextPath;
 
+    const nome = document.getElementsByName("nome")[0];
+    const cognome = document.getElementsByName("cognome")[0];
+    const email = document.getElementsByName("email")[0];
+    const data = document.getElementsByName("nascita")[0];
+    const username = document.getElementsByName("us")[0];
+    const password = document.getElementsByName("pw")[0];
+	
+	$("#us").on("input", function () {
+	    usernameDisponibile = false;
+	});
+
+	$("#em").on("input", function () {
+	    emailDisponibile = false;
+	});
+
+    nome.addEventListener("change", validaNome);
+    cognome.addEventListener("change", validaCognome);
+    data.addEventListener("change", validaData);
+    password.addEventListener("change", validaPassword);
+
     $("#myform").on("submit", function (event) {
         event.preventDefault();
-        validate(this);
+
+        const nomeValido = validaNome();
+        const cognomeValido = validaCognome();
+        const emailValida = validaEmail();
+        const dataValida = validaData();
+        const usernameValido = validaUsername();
+        const passwordValida = validaPassword();
+
+        const valid =
+            nomeValido &&
+            cognomeValido &&
+            emailValida &&
+            dataValida &&
+            usernameValido &&
+            passwordValida &&
+            usernameDisponibile &&
+            emailDisponibile;
+
+        if (valid) {
+            this.submit();
+        }
     });
 
-    $("#us").on("keyup", function () {
-        const username = $("#us").val();
+    $("#us").on("change", function () {
+        const valore = username.value.trim();
 
-        if (username === "") {
-            $("#errUser").html("");
+        if (!checkUserName(username)) {
+            usernameDisponibile = false;
+
+            $("#errUser")
+                .text("Username non valido")
+                .css("color", "red");
+
             return;
         }
 
         $.post(
             contextPath + "/CheckUsername",
-            { us: username },
+            { us: valore },
             function (data) {
                 if (data === "0") {
+                    usernameDisponibile = false;
+
                     $("#errUser")
-                        .html("Username già in uso")
+                        .text("Username già in uso")
                         .css("color", "red");
                 } else {
-                    $("#errUser").html("");
+                    usernameDisponibile = true;
+                    $("#errUser").text("");
                 }
             }
-        );
+        ).fail(function () {
+            usernameDisponibile = false;
+
+            $("#errUser")
+                .text("Impossibile verificare lo username")
+                .css("color", "red");
+        });
     });
 
-    $("#em").on("keyup", function () {
-        const email = $("#em").val();
+    $("#em").on("change", function () {
+        const valore = email.value.trim();
 
-        if (email === "") {
-            $("#errEmail").html("");
+        if (!checkEmail(email)) {
+            emailDisponibile = false;
+
+            $("#errEmail")
+                .text("Email non valida")
+                .css("color", "red");
+
             return;
         }
 
         $.post(
             contextPath + "/CheckEmail",
-            { em: email },
+            { em: valore },
             function (data) {
                 if (data === "0") {
+                    emailDisponibile = false;
+
                     $("#errEmail")
-                        .html("Email già in uso")
+                        .text("Email già in uso")
                         .css("color", "red");
                 } else {
-                    $("#errEmail").html("");
+                    emailDisponibile = true;
+                    $("#errEmail").text("");
                 }
             }
-        );
+        ).fail(function () {
+            emailDisponibile = false;
+
+            $("#errEmail")
+                .text("Impossibile verificare l'email")
+                .css("color", "red");
+        });
     });
 });
 
 function checkNomeCognome(input) {
-    return /^[A-Za-zÀ-ÿ\s]+$/.test(input.value);
+    return /^[A-Za-zÀ-ÿ\s]+$/.test(input.value.trim());
 }
 
 function checkEmail(input) {
-    return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(input.value);
+    return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/
+        .test(input.value.trim());
 }
 
 function checkData(input) {
@@ -66,84 +138,107 @@ function checkData(input) {
 }
 
 function checkUserName(input) {
-    return /^[A-Za-z0-9]+$/.test(input.value);
+    return /^[A-Za-z0-9]+$/.test(input.value.trim());
 }
 
 function checkPassword(input) {
-    return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(input.value);
+    return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+        .test(input.value);
 }
 
-function validate(form) {
-    let valid = true;
+function validaNome() {
+    const campo = document.getElementsByName("nome")[0];
+    const errore = document.getElementById("errNome");
 
-    const nome = document.getElementsByName("nome")[0];
-    const errNome = document.getElementById("errNome");
-
-    if (!checkNomeCognome(nome)) {
-        valid = false;
-        errNome.textContent = "Nome non valido";
-        errNome.style.color = "red";
-    } else {
-        errNome.textContent = "";
+    if (!checkNomeCognome(campo)) {
+        errore.textContent = "Nome non valido";
+        errore.style.color = "red";
+        return false;
     }
 
-    const cognome = document.getElementsByName("cognome")[0];
-    const errCognome = document.getElementById("errCognome");
+    errore.textContent = "";
+    return true;
+}
 
-    if (!checkNomeCognome(cognome)) {
-        valid = false;
-        errCognome.textContent = "Cognome non valido";
-        errCognome.style.color = "red";
-    } else {
-        errCognome.textContent = "";
+function validaCognome() {
+    const campo = document.getElementsByName("cognome")[0];
+    const errore = document.getElementById("errCognome");
+
+    if (!checkNomeCognome(campo)) {
+        errore.textContent = "Cognome non valido";
+        errore.style.color = "red";
+        return false;
     }
 
-    const email = document.getElementsByName("email")[0];
-    const errEmail = document.getElementById("errEmail");
+    errore.textContent = "";
+    return true;
+}
 
-	if (!checkEmail(email)) {
-	    valid = false;
-	    errEmail.textContent = "Email non valida";
-	    errEmail.style.color = "red";
-	} else {
-	    errEmail.textContent = "";
-	}
+function validaEmail() {
+    const campo = document.getElementsByName("email")[0];
+    const errore = document.getElementById("errEmail");
 
-    const data = document.getElementsByName("nascita")[0];
-    const errNascita = document.getElementById("errNascita");
-
-    if (!checkData(data)) {
-        valid = false;
-        errNascita.textContent = "Data non valida";
-        errNascita.style.color = "red";
-    } else {
-        errNascita.textContent = "";
+    if (!checkEmail(campo)) {
+        errore.textContent = "Email non valida";
+        errore.style.color = "red";
+        return false;
     }
 
-    const username = document.getElementsByName("us")[0];
-    const errUser = document.getElementById("errUser");
+    if (!emailDisponibile) {
+        errore.textContent = "Email già in uso";
+        errore.style.color = "red";
+        return false;
+    }
 
-    if (!checkUserName(username)) {
-        valid = false;
-        errUser.textContent = "Username non valido";
-        errUser.style.color = "red";
-    }		else {
-		    errUser.textContent = "";
-		}
+    errore.textContent = "";
+    return true;
+}
 
-    const password = document.getElementsByName("pw")[0];
-    const errPass = document.getElementById("errPass");
+function validaData() {
+    const campo = document.getElementsByName("nascita")[0];
+    const errore = document.getElementById("errNascita");
 
-    if (!checkPassword(password)) {
-        valid = false;
-        errPass.textContent =
+    if (!checkData(campo)) {
+        errore.textContent = "Data non valida";
+        errore.style.color = "red";
+        return false;
+    }
+
+    errore.textContent = "";
+    return true;
+}
+
+function validaUsername() {
+    const campo = document.getElementsByName("us")[0];
+    const errore = document.getElementById("errUser");
+
+    if (!checkUserName(campo)) {
+        errore.textContent = "Username non valido";
+        errore.style.color = "red";
+        return false;
+    }
+
+    if (!usernameDisponibile) {
+        errore.textContent = "Username già in uso";
+        errore.style.color = "red";
+        return false;
+    }
+
+    errore.textContent = "";
+    return true;
+}
+
+function validaPassword() {
+    const campo = document.getElementsByName("pw")[0];
+    const errore = document.getElementById("errPass");
+
+    if (!checkPassword(campo)) {
+        errore.textContent =
             "La password deve contenere almeno 8 caratteri, una maiuscola, una minuscola e un numero";
-        errPass.style.color = "red";
-    } else {
-        errPass.textContent = "";
+        errore.style.color = "red";
+        return false;
     }
 
-    if (valid) {
-        form.submit();
-    }
+    errore.textContent = "";
+    return true;
 }

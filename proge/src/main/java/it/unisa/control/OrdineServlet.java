@@ -54,24 +54,23 @@ public class OrdineServlet extends HttpServlet {
                 request.getSession().setAttribute("ordini", ordDao.doRetrieveByEmail(user.getEmail()));
 
                 RequestDispatcher dispatcher =request.getRequestDispatcher("/WEB-INF/view/MieiOrdini.jsp");
-
                 dispatcher.forward(request, response);
                 return;
             }
 
             if (action.equalsIgnoreCase("dettagliOrdine")) {
                 int id = Integer.parseInt(request.getParameter("id"));
-                request.getSession().setAttribute("composizione",compDao.doRetrieveByOrdine(id));
+
+                request.getSession().setAttribute("composizione", compDao.doRetrieveByOrdine(id));
+                request.getSession().setAttribute("ordineSelezionato", ordDao.doRetrieveByKey(id));
 
                 ProdottoDao prodDao = new ProdottoDao();
+                request.getSession().setAttribute("products", prodDao.doRetrieveAllProducts());
 
-                request.getSession().setAttribute("products",prodDao.doRetrieveAllProducts());
-                RequestDispatcher dispatcher =request.getRequestDispatcher("/WEB-INF/view/ComposizioneOrdine.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/ComposizioneOrdine.jsp");
                 dispatcher.forward(request, response);
                 return;
             }
-            response.sendRedirect(request.getContextPath() + "/home?page=Home.jsp"
-            );
 
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Identificativo ordine non valido");

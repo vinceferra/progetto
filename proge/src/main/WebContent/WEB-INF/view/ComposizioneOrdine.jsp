@@ -9,6 +9,8 @@
      }
 %>
 
+<% OrdineBean ordine = (OrdineBean) request.getSession().getAttribute("ordineSelezionato"); %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,6 +29,29 @@
 		%>
 		
 		<h2> ORDINE #<%=composizione.get(0).getIdOrdine() %></h2>
+		<% if (ordine != null) { %>
+
+<div class="account">
+    <h3>Indirizzo di spedizione</h3>
+
+    <p>
+        <strong>Indirizzo:</strong>
+        <%= ordine.getIndirizzo() %>
+    </p>
+    <p>
+        <strong>CAP:</strong>
+        <%= ordine.getCap() %>
+    </p>
+    <p>
+        <strong>Data ordine:</strong>
+        <%= ordine.getData() %>
+    </p>
+    <p>
+        <strong>Stato:</strong>
+        <%= ordine.getStato() %>
+    </p>
+</div>
+<% } %>
 		<table class = "ordini">
 		<tr>
 			<th>Prodotto</th>

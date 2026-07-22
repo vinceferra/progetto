@@ -1,5 +1,6 @@
 package it.unisa.control;
 
+import it.unisa.dao.UserDao;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -33,6 +34,7 @@ public class CheckoutServlet extends HttpServlet {
 		ComposizioneDao daoComp = new ComposizioneDao();
 		IndirizzoSpedizioneDao daoSped = new IndirizzoSpedizioneDao();
 		MetodoPagamentoDao daoPag = new MetodoPagamentoDao();
+		UserDao daoUser = new UserDao();
 		
 		UserBean user = (UserBean) request.getSession().getAttribute("currentSessionUser");
 		OrdineBean ordine = new OrdineBean();
@@ -89,12 +91,27 @@ public class CheckoutServlet extends HttpServlet {
 				 daoSped.doSave(sped);
 			 }
 			  
-			 if(daoPag.doRetrieveByKey(numC)==null){
-				 pag.setTitolare(tit);
-				 pag.setNumero(numC);
-				 pag.setScadenza(scad);
-				 daoPag.doSave(pag);
+
+			 MetodoPagamentoBean pagamentoEsistente =
+			     daoPag.doRetrieveByKey(numC);
+
+			 if (pagamentoEsistente == null) {
+
+			     pag.setTitolare(tit);
+			     pag.setNumero(numC);
+			     pag.setScadenza(scad);
+
+			     daoPag.doSave(pag);
 			 }
+			 
+			 daoUser.doUpdateSpedizione(user.getEmail(), ind, cap);
+					daoUser.doUpdatePagamento(user.getEmail(), numC);
+
+					user.setIndirizzo(ind);
+					user.setCap(cap);
+					user.setCartaDiCredito(numC);
+
+					request.getSession().setAttribute("currentSessionUser", user);
 			 
 			
 			ordine.setEmail(user.getEmail());
@@ -134,8 +151,9 @@ public class CheckoutServlet extends HttpServlet {
 		}
 		
 		request.getSession().removeAttribute("cart");
-
-		request.getSession().setAttribute("messaggio", "Ordine avvenuto con successo!");
+		request.getSession().removeAttribute("products");
+		request.getSession().removeAttribute("categorie");
+		request.getSession().setAttribute("messaggio","Ordine avvenuto con successo!");
 
 		response.sendRedirect(request.getContextPath() + "/Ordine?action=mieiOrdini");
 	}

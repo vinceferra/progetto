@@ -174,16 +174,28 @@ public class ProdottoDao implements ProdottoDaoInterfaccia {
     
     @Override
     public void doUpdateQnt(int id, int qnt) throws SQLException {
-        String updateSQL = "UPDATE " + TABLE_NAME
-                + " SET QUANTITA = QUANTITA - ? "
-                + " WHERE ID_PRODOTTO = ? ";
+
+        String updateSQL =
+            "UPDATE prodotto " +  "SET QUANTITA = QUANTITA - ?, " +
+            "VENDITE = VENDITE + ? " + "WHERE ID_PRODOTTO = ? " +
+            "AND QUANTITA >= ?";
 
         try (Connection connection = ds.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
-            preparedStatement.setInt(1, qnt);
-            preparedStatement.setInt(2, id);
+             PreparedStatement preparedStatement =
+                 connection.prepareStatement(updateSQL)) {
 
-            preparedStatement.executeUpdate();
+            preparedStatement.setInt(1, qnt);
+            preparedStatement.setInt(2, qnt);
+            preparedStatement.setInt(3, id);
+            preparedStatement.setInt(4, qnt);
+
+            int righeModificate = preparedStatement.executeUpdate();
+
+            if (righeModificate == 0) {
+                throw new SQLException(
+                    "Quantità insufficiente o prodotto non trovato"
+                );
+            }
         }
     }
 

@@ -23,7 +23,6 @@ public class HomeServlet extends HttpServlet {
        
  
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		ProdottoDao dao = new ProdottoDao();
 		
 		ArrayList<ArrayList<ProdottoBean>> categorie = new ArrayList<>();
@@ -41,33 +40,46 @@ public class HomeServlet extends HttpServlet {
 
 		    if (user != null) {
 		        Buy = dao.doRetrieveLastBuy(user.getEmail());
-		        Pref = dao.doRetrieveRecommendedProducts(user.getEmail());
 
-		        // Rimuove eventuali duplicati dai consigli
-		        ArrayList<ProdottoBean> prefSenzaDuplicati =
-		                new ArrayList<>();
+		        /*
+		         * Se l'utente non ha mai acquistato,
+		         * mostra gli stessi prodotti casuali
+		         * dell'utente non autenticato.
+		         */
+		        if (Buy == null || Buy.isEmpty()) {
+		            Buy = new ArrayList<>();
+		            Pref = dao.doRetrieveRandomProducts();
 
-		        for (ProdottoBean prodotto : Pref) {
-		            boolean presente = false;
+		        } else {
+		            Pref = dao.doRetrieveRecommendedProducts(user.getEmail());
 
-		            for (ProdottoBean inserito : prefSenzaDuplicati) {
+		            /*
+		             * Se per qualche motivo i consigli personalizzati
+		             * sono vuoti, usa comunque quelli casuali.
+		             */
+		            if (Pref == null || Pref.isEmpty()) {
+		                Pref = dao.doRetrieveRandomProducts();
+		            }
 
-		                if (inserito.getIdProdotto() == prodotto.getIdProdotto()) {
-		                    presente = true;
-		                    break;
+		            // Rimuove eventuali duplicati dai consigli
+		            ArrayList<ProdottoBean> prefSenzaDuplicati = new ArrayList<>();
+		            for (ProdottoBean prodotto : Pref) {
+		                boolean presente = false;
+
+		                for (ProdottoBean inserito : prefSenzaDuplicati) {
+		                    if (inserito.getIdProdotto() == prodotto.getIdProdotto()) {
+		                        presente = true;
+		                        break;
+		                    }
+		                }
+		                if (!presente) {
+		                    prefSenzaDuplicati.add(prodotto);
 		                }
 		            }
-
-		            if (!presente) {
-		                prefSenzaDuplicati.add(prodotto);
-		            }
+		            Pref = prefSenzaDuplicati;
 		        }
-		        Pref = prefSenzaDuplicati;
 
 		    } else {
-
-		        // Non loggato:
-		        // niente ultimi acquisti e tutti i prodotti casuali disponibili
 		        Buy = new ArrayList<>();
 		        Pref = dao.doRetrieveRandomProducts();
 		    }

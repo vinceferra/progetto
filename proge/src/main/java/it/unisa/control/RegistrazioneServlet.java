@@ -109,6 +109,8 @@ public class RegistrazioneServlet extends HttpServlet {
             user.setCartaDiCredito(null);
 
             dao.doSave(user);
+            
+            request.getSession().setAttribute("messaggio", "Registrazione effettuata con successo!");
 
             response.sendRedirect(request.getContextPath() + "/home?page=Home.jsp");
 

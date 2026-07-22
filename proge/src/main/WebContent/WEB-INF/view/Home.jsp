@@ -18,39 +18,50 @@
 </head>
 <body>
 
+<%
+String messaggio = (String) session.getAttribute("messaggio");
+if (messaggio != null) {
+%>
+<p style="text-align:center; color:green; font-weight:bold;"><%= messaggio %></p>
+<% session.removeAttribute("messaggio");
+}
+%>
+
 		<%@ include file="./fragments/header.jsp" %>
 		<%@ include file="./fragments/menu.jsp" %>
 		
 <div id="main" class="clear">
 
 <%
-    boolean utenteLoggato =
-        session.getAttribute("currentSessionUser") != null;
+boolean utenteLoggato = session.getAttribute("currentSessionUser") != null;
+boolean haEffettuatoAcquisti = categorie.size() > 0 && categorie.get(0) != null && !categorie.get(0).isEmpty();
+%>
 
-    for (int i = 0; i < categorie.size(); i++) {
+<%
+for (int i = 0; i < categorie.size(); i++) {
 
-        ArrayList<ProdottoBean> prodottiCategoria = categorie.get(i);
+    ArrayList<ProdottoBean> prodottiCategoria = categorie.get(i);
 
-        // Da non loggato non mostra Ultimi acquisti
-        if (i == 0 && !utenteLoggato) {
-            continue;
-        }
+    /*
+     * Utente loggato ma senza acquisti:
+     * non mostra la sezione Ultimi acquisti.
+     */
+    if (i == 0 && (!utenteLoggato || !haEffettuatoAcquisti)) {
+        continue;
+    }
 
-        // Non mostra sezioni vuote
-        if (prodottiCategoria == null || prodottiCategoria.isEmpty()) {
-            continue;
-        }
+    /*
+     * La Home mostra solamente:
+     * 0 = Ultimi acquisti
+     * 1 = Prodotti personalizzati/consigliati
+     */
+    if (i > 1) {
+        continue;
+    }
 
-        /*
-         * La Home visualizza solamente:
-         * 0 = Ultimi acquisti
-         * 1 = Prodotti personalizzati/casuali
-         *
-         * Le altre liste servono alle rispettive pagine del menu.
-         */
-        if (i > 1) {
-            continue;
-        }
+    if (prodottiCategoria == null || prodottiCategoria.isEmpty()) {
+        continue;
+    }
 %>
 
     <div class="categoria categoria<%= i %>">
@@ -60,17 +71,17 @@
             <h2>ULTIMI ACQUISTI</h2>
             <hr>
 
-        <% } else if (i == 1 && utenteLoggato) { %>
+ <% } else if (i == 1 && utenteLoggato && haEffettuatoAcquisti) { %>
 
-            <h2>PRODOTTI CHE FANNO PER TE</h2>
-            <hr>
+    <h2>PRODOTTI CHE FANNO PER TE</h2>
+    <hr>
 
-        <% } else if (i == 1) { %>
+<% } else if (i == 1) { %>
 
-            <h2>PRODOTTI CONSIGLIATI</h2>
-            <hr>
+    <h2>PRODOTTI CONSIGLIATI</h2>
+    <hr>
 
-        <% } %>
+<% } %>
 
         <%
             for (ProdottoBean bean : prodottiCategoria) {

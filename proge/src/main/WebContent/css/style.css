@@ -233,17 +233,12 @@ li.dropdown {
 	padding-left: 0;
 }
 
-.tabs li a {
-	text-decoration: none;
-}	
-
-.tabs li a:link {
-	font-weight: bold;
-}
-
-.tabs li a:visited {                                           /*scritte colore barra 2 */
-	color: white;
-	font-weight: bold;
+.tabs li a,
+.tabs li a:link,
+.tabs li a:visited {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
 }
 
 .tabs li a:hover {                                              /*selezione colore barra 2*/

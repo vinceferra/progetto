@@ -18,20 +18,16 @@ public class RegistrazioneServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected void doGet(
-            HttpServletRequest request,
-            HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         request.getRequestDispatcher("/WEB-INF/view/Registrazione.jsp")
                .forward(request, response);
     }
 
     @Override
-    protected void doPost(
-            HttpServletRequest request,
-            HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	
+    	request.setCharacterEncoding("UTF-8");
 
         String nome = request.getParameter("nome");
         String cognome = request.getParameter("cognome");
@@ -45,6 +41,51 @@ public class RegistrazioneServlet extends HttpServlet {
 
             request.setAttribute("erroreRegistrazione", "Compila tutti i campi.");
             request.getRequestDispatcher("/WEB-INF/view/Registrazione.jsp").forward(request, response);
+            return;
+        }
+        
+        nome = nome.trim();
+        cognome = cognome.trim();
+        email = email.trim();
+        username = username.trim();
+
+        if (!nome.matches("^[A-Za-zÀ-ÿ\\s]+$")) {
+            request.setAttribute("erroreRegistrazione", "Il nome può contenere solo lettere."
+            );
+
+            request.getRequestDispatcher("/WEB-INF/view/Registrazione.jsp").forward(request, response);
+
+            return;
+        }
+
+        if (!cognome.matches("^[A-Za-zÀ-ÿ\\s]+$")) {
+            request.setAttribute("erroreRegistrazione", "Il cognome può contenere solo lettere.");
+
+            request.getRequestDispatcher("/WEB-INF/view/Registrazione.jsp").forward(request, response);
+
+            return;
+        }
+
+        if (!email.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")) {
+            request.setAttribute("erroreRegistrazione", "Email non valida.");
+
+            request.getRequestDispatcher("/WEB-INF/view/Registrazione.jsp").forward(request, response);
+
+            return;
+        }
+
+        if (!username.matches("^[A-Za-z0-9]+$")) {
+            request.setAttribute("erroreRegistrazione", "Lo username può contenere solo lettere e numeri.");
+            request.getRequestDispatcher("/WEB-INF/view/Registrazione.jsp").forward(request, response);
+
+            return;
+        }
+
+        if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)" + "(?=.*[^A-Za-z0-9]).{8,}$")) {
+
+            request.setAttribute("erroreRegistrazione", "La password deve contenere almeno 8 caratteri, " + "una maiuscola, una minuscola, un numero " + "e un carattere speciale.");
+            request.getRequestDispatcher("/WEB-INF/view/Registrazione.jsp").forward(request, response);
+
             return;
         }
 
@@ -61,9 +102,7 @@ public class RegistrazioneServlet extends HttpServlet {
             user.setDataDiNascita(Date.valueOf(dataNascita));
             user.setUsername(username);
 
-            String hashedPassword = PasswordUtil.hashPassword(password);
-
-            user.setPassword(hashedPassword);
+            user.setPassword(password);
             user.setAmministratore(false);
             user.setCap(null);
             user.setIndirizzo(null);

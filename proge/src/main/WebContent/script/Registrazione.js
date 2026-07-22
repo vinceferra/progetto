@@ -13,16 +13,18 @@ $(document).ready(function () {
 	
 	$("#us").on("input", function () {
 	    usernameDisponibile = false;
+	    $("#errUser").text("");
 	});
 
 	$("#em").on("input", function () {
 	    emailDisponibile = false;
+	    $("#errEmail").text("");
 	});
 
-    nome.addEventListener("change", validaNome);
-    cognome.addEventListener("change", validaCognome);
-    data.addEventListener("change", validaData);
-    password.addEventListener("change", validaPassword);
+	nome.addEventListener("change", validaNome);
+	cognome.addEventListener("change", validaCognome);
+	data.addEventListener("change", validaData);
+	password.addEventListener("change", validaPassword);
 
     $("#myform").on("submit", function (event) {
         event.preventDefault();
@@ -142,7 +144,7 @@ function checkUserName(input) {
 }
 
 function checkPassword(input) {
-    return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/
         .test(input.value);
 }
 
@@ -233,9 +235,8 @@ function validaPassword() {
     const errore = document.getElementById("errPass");
 
     if (!checkPassword(campo)) {
-        errore.textContent =
-            "La password deve contenere almeno 8 caratteri, una maiuscola, una minuscola e un numero";
-        errore.style.color = "red";
+		errore.textContent ="Minimo 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale";
+        errore.style.color ="red";
         return false;
     }
 

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,19 +13,39 @@
 	
 		<div id="main" class="clear">
 	<h2>Registrazione</h2>
+	
+	<%
+String erroreRegistrazione = (String) request.getAttribute("erroreRegistrazione");
+if (erroreRegistrazione != null && !erroreRegistrazione.isBlank()) {
+%>
+<p style="color:red;"><%= erroreRegistrazione %></p>
+
+<%}%>
+	
 	<form action="${pageContext.request.contextPath}/Registrazione" method="post" id="myform">
 		
 		<div class="tableRow">
 			<p>Nome:</p>
-			<p><input type="text" name="nome" placeholder="Mario" required/></p>	
-		</div>
+			<p><input type="text"
+                      name="nome"
+                      placeholder="Mario"
+                      pattern="^[A-ZÀ-Ý][a-zà-ÿA-ZÀ-Ý\s]*$"
+                      title="Il nome deve contenere solo lettere e iniziare con la maiuscola"
+                      required></p>	
+		        </div>
 		<div class="tableRow">
 			<p></p>
 			<p id="errNome"></p> 
 		</div>
 		<div class="tableRow"> 
 			<p>Cognome:</p>
-			<p><input type="text" name="cognome" placeholder="Rossi" required/></p>
+			<p><input type="text"
+                      name="cognome"
+                      placeholder="Rossi"
+                      pattern="^[A-ZÀ-Ý][a-zà-ÿA-ZÀ-Ý\s]*$"
+                      title="Il cognome deve contenere solo lettere e iniziare con la maiuscola"
+                      required>
+            </p>
 		</div>
 		<div class="tableRow">
 			<p></p>
@@ -34,7 +53,13 @@
 		</div>
 		<div class="tableRow">
 			<p>Email:</p>
-			<p><input type="text" id="em" name="email" placeholder="MarioRossi@gmail.com" required/></p>	
+			<p><input type="email"
+                      id="em"
+                      name="email"
+                      placeholder="MarioRossi@gmail.com"
+                      title="Inserisci un indirizzo email valido"
+                      required>
+            </p>	
 		</div>
 		<div class="tableRow">
 			<p></p>
@@ -50,7 +75,14 @@
 		</div>
 		<div class="tableRow">
 			<p>Username:</p>
-			<p><input type="text" id="us" name="us" placeholder="MarioR87" required/></p>
+			<p><input type="text"
+                      id="us"
+                      name="us"
+                      placeholder="MarioR87"
+                      pattern="^[A-Za-z0-9]+$"
+                      title="Lo username deve contenere solo lettere e numeri"
+                      required>
+            </p>
 		</div>
 		<div class="tableRow">
 			<p></p>
@@ -58,7 +90,14 @@
 		</div>
 		<div class="tableRow">
 			<p>Password:</p>
-			<p><input type="password" name="pw" placeholder="********" required/></p>
+			<p><input type="password"
+                      id="pw"
+                      name="pw"
+                      placeholder="********"
+                      pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$"
+                      title="Minimo 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale"
+                      required>
+            </p>
 		</div>
 		<div class="tableRow">
 			<p></p>

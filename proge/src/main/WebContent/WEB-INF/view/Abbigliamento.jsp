@@ -13,6 +13,7 @@
 <head>
 <meta charset="ISO-8859-1">
 	<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">
+<link rel="icon"  href="${pageContext.request.contextPath}/images/favicon.ico">
 <title>ABBIGLIAMENTO</title>
 </head>
 <body>

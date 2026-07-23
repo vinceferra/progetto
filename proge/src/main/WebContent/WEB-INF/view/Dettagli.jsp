@@ -1,15 +1,14 @@
-<%@ page language="java"
-    contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"
-    import="it.unisa.model.ProdottoBean" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" import="it.unisa.model.ProdottoBean" %>
 
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="ISO-8859-1">
+<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">
+<link rel="icon"  href="${pageContext.request.contextPath}/images/favicon.ico">
 <title>Dettagli</title>
-<link href="${pageContext.request.contextPath}/css/style.css"
-      rel="stylesheet" type="text/css">
+ 
 </head>
 
 <body>

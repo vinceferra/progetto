@@ -19,8 +19,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link href="${pageContext.request.contextPath}/css/style.css"
-          rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">
+    <link rel="icon"  href="${pageContext.request.contextPath}/images/favicon.ico">
     <title>Gestione catalogo</title>
 </head>
 

@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>CARRELLO</title>
 <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">
-
+<link rel="icon"  href="${pageContext.request.contextPath}/images/favicon.ico">
+<title>CARRELLO</title>
 </head>
 <body>
 

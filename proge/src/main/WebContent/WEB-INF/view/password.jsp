@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
 
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">
-
+    <link rel="icon"  href="${pageContext.request.contextPath}/images/favicon.ico">
     <title>Cambio Password</title>
 </head>
 

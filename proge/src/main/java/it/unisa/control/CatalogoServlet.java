@@ -28,39 +28,105 @@ public class CatalogoServlet extends HttpServlet {
 	
 		try {
 			if(action!=null) {
-				if(action.equalsIgnoreCase("add")) 
-				{
-					bean.setNome(request.getParameter("nome"));
-					bean.setDescrizione(request.getParameter("descrizione"));
-					bean.setIva(request.getParameter("iva"));
-					bean.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
-					bean.setQuantita(Integer.parseInt(request.getParameter("quantita")));
-					bean.setCategoria(request.getParameter("Categoria"));
-					bean.setvendite(Integer.parseInt(request.getParameter("Vendite")));
-					if ("Abbigliamento".equalsIgnoreCase(request.getParameter("Categoria"))) {
-					    bean.setTaglie(request.getParameter("Taglia"));
-					}
-					bean.setImmagine(request.getParameter("img"));
-					bean.setInVendita(true);
-					prodDao.doSave(bean);
+				if (action.equalsIgnoreCase("add")) {
+				    String quantitaParam =request.getParameter("quantita");
+				    String tagliaParam =request.getParameter("Taglia");
+
+				    int quantita;
+
+				    try {
+				        quantita = Integer.parseInt(quantitaParam);
+
+				    } catch (NumberFormatException e) {
+				        request.setAttribute("erroreCatalogo", "La quantità deve essere un numero intero.");
+				        request.getRequestDispatcher("/WEB-INF/view/admin/AddProdotto.jsp").forward(request, response);
+
+				        return;
+				    }
+
+				    if (quantita < 0) {
+				        request.setAttribute("erroreCatalogo", "La quantità non può essere negativa.");
+				        request.getRequestDispatcher("/WEB-INF/view/admin/AddProdotto.jsp").forward(request, response);
+
+				        return;
+				    }
+
+				    if (tagliaParam != null && !tagliaParam.isBlank() && !tagliaParam.matches("^[A-Za-z,\\s]+$")) {
+				        request.setAttribute("erroreCatalogo", "La taglia può contenere solo lettere, spazi e virgole.");
+				        request.getRequestDispatcher("/WEB-INF/view/admin/AddProdotto.jsp").forward(request, response);
+
+				        return;
+				    }
+
+				    bean.setNome(request.getParameter("nome"));
+				    bean.setDescrizione(request.getParameter("descrizione"));
+				    bean.setIva(request.getParameter("iva"));
+				    bean.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
+				    bean.setQuantita(quantita);
+				    bean.setCategoria(request.getParameter("Categoria"));
+				    bean.setvendite(0);
+
+				    if ("Abbigliamento".equalsIgnoreCase(request.getParameter("Categoria"))) {
+				        bean.setTaglie(tagliaParam);
+
+				    } else {
+				        bean.setTaglie(null);
+				    }
+				    bean.setImmagine(request.getParameter("img"));
+				    bean.setInVendita(true);
+				    
+				    prodDao.doSave(bean);
 				}
 				
-				else if(action.equalsIgnoreCase("modifica")) {
+				else if (action.equalsIgnoreCase("modifica")) {
 					
-					bean.setIdProdotto(Integer.parseInt(request.getParameter("id")));
-					bean.setNome(request.getParameter("nome"));
-					bean.setDescrizione(request.getParameter("descrizione"));
-					bean.setIva(request.getParameter("iva"));
-					bean.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
-					bean.setQuantita(Integer.parseInt(request.getParameter("quantita")));
-					bean.setCategoria(request.getParameter("Categoria"));
-					bean.setvendite(Integer.parseInt(request.getParameter("Vendite")));
-					if ("abbigliamento".equalsIgnoreCase(request.getParameter("Categoria"))) {
-					    bean.setTaglie(request.getParameter("Taglia"));
-					}
-					bean.setImmagine(request.getParameter("img"));
-					bean.setInVendita(true);
-					prodDao.doUpdate(bean);	
+				    String quantitaParam = request.getParameter("quantita");
+				    String tagliaParam = request.getParameter("Taglia");
+				    int quantita;
+
+				    try {
+				        quantita = Integer.parseInt(quantitaParam);
+				        
+				    } catch (NumberFormatException e) {
+				        request.setAttribute("erroreCatalogo", "La quantità deve essere un numero intero.");
+				        request.getRequestDispatcher("/WEB-INF/view/admin/ModificaProdotto.jsp?prodotto=" + request.getParameter("id")).forward(request, response);
+				       
+				        return;
+				    }
+
+				    if (quantita < 0) {
+				        request.setAttribute("erroreCatalogo", "La quantità non può essere negativa.");
+				        request.getRequestDispatcher("/WEB-INF/view/admin/ModificaProdotto.jsp?prodotto=" + request.getParameter("id")).forward(request, response);
+
+				        return;
+				    }
+
+				    if (tagliaParam != null && !tagliaParam.isBlank() && !tagliaParam.matches("^[A-Za-z,\\s]+$")) {
+				        request.setAttribute("erroreCatalogo", "La taglia può contenere solo lettere, spazi e virgole.");
+				        request.getRequestDispatcher("/WEB-INF/view/admin/ModificaProdotto.jsp?prodotto=" + request.getParameter("id")).forward(request, response);
+
+				        return;
+				    }
+
+				    bean.setIdProdotto(Integer.parseInt(request.getParameter("id")));
+				    bean.setNome(request.getParameter("nome"));
+				    bean.setDescrizione(request.getParameter("descrizione"));
+				    bean.setIva(request.getParameter("iva"));
+				    bean.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
+				    bean.setQuantita(quantita);
+				    bean.setCategoria(request.getParameter("Categoria"));
+				    bean.setvendite(Integer.parseInt(request.getParameter("Vendite")));
+
+				    if ("Abbigliamento".equalsIgnoreCase(request.getParameter("Categoria"))) {
+				        bean.setTaglie(tagliaParam);
+				    } else {
+				        bean.setTaglie(null);
+				    }
+
+				    bean.setImmagine(request.getParameter("img"));
+				    bean.setInVendita(true);
+
+				    prodDao.doUpdate(bean);
 				}
 				
 				else if(action.equalsIgnoreCase("Elimina"))

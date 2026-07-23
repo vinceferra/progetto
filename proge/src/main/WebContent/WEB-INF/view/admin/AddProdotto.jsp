@@ -27,6 +27,13 @@
 	<div id="main" class="clear">
 	
 		<h2>AGGIUNGI PRODOTTO</h2>
+		
+<%
+String erroreCatalogo = (String) request.getAttribute("erroreCatalogo");
+if (erroreCatalogo != null) {
+%>
+<p class="error"><%= erroreCatalogo %></p>
+<%}%>
 
 	<form action="${pageContext.request.contextPath}/catalogo" method="post" id="myform">
 		<input type="hidden" name="action" value="add">
@@ -49,7 +56,7 @@
 		</div>		
 		<div class="tableRow">
 			<p>Quantità:</p>
-			<p><input type="number" name="quantita"placeholder="quantita cifra intera senza virgola o punto" class="formInput" required></p>
+			<p><input type="number" name="quantita" placeholder="cifra intera" class="formInput" min="0" step="1" title="La quantità deve essere un numero intero positivo" required></p>
 		</div>
 		<div class="tableRow">
 			<p>Immagine:</p>
@@ -57,11 +64,11 @@
 		</div>
 		<div class="tableRow">
 			<p>Taglia:</p>
-			<p><input type="text" name="Taglia" placeholder="Non inserire se non è un abbigliamento" value=""></p>
+			<p><input type="text" name="Taglia" placeholder="XS,S,M,L,XL" pattern="^[A-Za-z,\s]+$" title="Sono consentite solo lettere, spazi e virgole"></p>
 		</div>
 		<div class="tableRow">
 			<p>Vendite:</p>
-			<p><input type="number" name="Vendite" class="formInput" required></p>
+			<p><input type="number" name="Vendite" value="0" class="formInput" readonly></p>
 		</div>
 		<div class="tableRow">
     <p>Categoria:</p>

@@ -26,6 +26,13 @@
 	
 		<h2>MODIFICA PRODOTTO</h2>
 		
+<%
+String erroreCatalogo =(String) request.getAttribute("erroreCatalogo");
+if (erroreCatalogo != null) {
+%>
+<p class="error"><%= erroreCatalogo %></p>
+<%}%>
+		
 	<% int id = Integer.parseInt(request.getParameter("prodotto"));
 		ArrayList<ProdottoBean> prodotti = (ArrayList<ProdottoBean>) request.getSession().getAttribute("products");
 		ProdottoBean bean = null;
@@ -52,15 +59,15 @@
 		</div>
 		<div class="tableRow">
 			<p>Iva:</p>
-			<p><input type="text" name="iva" value="<%=bean.getIva() %>" required></p>
+			<p><input type="text" name="iva" value="<%=bean.getIva() %>" placeholder="solo numeri" required></p>
 		</div>
 		<div class="tableRow">
 			<p>Prezzo:</p>
-			<p><input type="text" name="prezzo" value="<%=bean.getPrezzo() %>" required></p>
+			<p><input type="text" name="prezzo" value="<%=bean.getPrezzo() %>" placeholder="solo numeri" required></p>
 		</div>		
 		<div class="tableRow">
 			<p>Quantità:</p>
-			<p><input type="number" name="quantita" value="<%=bean.getQuantita() %>"placeholder="quantita cifra intera senza virgola o punto" class="formInput" required></p>
+			<p><input type="number" name="quantita" value="<%= bean.getQuantita() %>" min="0" step="1" title="La quantità deve essere un numero intero positivo" required></p>
 		</div>
 		<div class="tableRow">
 			<p>Immagine:</p>
@@ -68,11 +75,11 @@
 		</div>
 		<div class="tableRow">
 			<p>Taglia:</p>
-			<p><input type="text" name="taglia" value="<%=bean.getTaglie() %>" required></p>
+			<p><input type="text" name="Taglia" value="<%= bean.getTaglie() != null ? bean.getTaglie() : "" %>" pattern="^[A-Za-z,\s]+$" placeholder="xs,s,m,xl.." title="Sono consentite solo lettere, spazi e virgole"></p>
 		</div>
 		<div class="tableRow">
-			<p>Vendite:</p>
-			<p><input type="number" name="Vendite" value="<%=bean.getvendite() %>"placeholder="Non inserire se non è un abbigliamento" class="formInput" required></p>
+			<p>Vendute:</p>
+			<p><input type="number" name="Vendite" value="<%=bean.getvendite() %>" class="formInput" readonly></p>
 		</div>
 		<div class="tableRow">
     <p>Categoria:</p>

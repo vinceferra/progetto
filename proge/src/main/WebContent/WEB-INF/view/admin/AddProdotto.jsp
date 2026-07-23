@@ -48,11 +48,11 @@ if (erroreCatalogo != null) {
 		</div>
 		<div class="tableRow">
 			<p>Iva:</p>
-			<p><input type="text" name="iva" value="" required></p>
+			<p><input type="number" name="iva" min="0" step="0.01" placeholder="22" title="Inserire un numero" required></p>
 		</div>
 		<div class="tableRow">
 			<p>Prezzo:</p>
-			<p><input type="text" name="prezzo" value="" required></p>
+			<p><input type="number" name="prezzo" min="0" step="0.01" value="" placeholder="solo numeri" title="Inserire un numero" required></p>
 		</div>		
 		<div class="tableRow">
 			<p>Quantità:</p>

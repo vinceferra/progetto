@@ -31,8 +31,42 @@ public class CatalogoServlet extends HttpServlet {
 				if (action.equalsIgnoreCase("add")) {
 				    String quantitaParam =request.getParameter("quantita");
 				    String tagliaParam =request.getParameter("Taglia");
-
+				    String ivaParam = request.getParameter("iva");				    
+				    String prezzoParam = request.getParameter("prezzo");
+				    double prezzo;
+				    double iva;
 				    int quantita;
+				    
+				    try {
+				        prezzo = Double.parseDouble(prezzoParam);
+				    } catch (NumberFormatException e) {
+				        request.setAttribute("erroreCatalogo", "Il prezzo deve essere un numero valido.");
+				        request.getRequestDispatcher("/WEB-INF/view/admin/AddProdotto.jsp").forward(request, response);
+				        return;
+				    }
+
+				    if (prezzo < 0) {
+				        request.setAttribute("erroreCatalogo", "Il prezzo non può essere negativo.");
+				        request.getRequestDispatcher("/WEB-INF/view/admin/AddProdotto.jsp").forward(request, response);
+				        return;
+				    }
+				    try {
+				        iva = Double.parseDouble(ivaParam);
+				    } catch (NumberFormatException e) {
+				        request.setAttribute("erroreCatalogo", "L'IVA deve essere un numero valido.");
+				        request.getRequestDispatcher("/WEB-INF/view/admin/AddProdotto.jsp").forward(request, response);
+
+				        return;
+				    }
+
+				    if (iva < 0) {
+				        request.setAttribute("erroreCatalogo", "L'IVA non può essere negativa.");
+				        request.getRequestDispatcher("/WEB-INF/view/admin/AddProdotto.jsp").forward(request, response);
+
+				        return;
+				    }
+
+
 
 				    try {
 				        quantita = Integer.parseInt(quantitaParam);
@@ -60,8 +94,8 @@ public class CatalogoServlet extends HttpServlet {
 
 				    bean.setNome(request.getParameter("nome"));
 				    bean.setDescrizione(request.getParameter("descrizione"));
-				    bean.setIva(request.getParameter("iva"));
-				    bean.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
+				    bean.setIva(ivaParam);
+				    bean.setPrezzo(prezzo);
 				    bean.setQuantita(quantita);
 				    bean.setCategoria(request.getParameter("Categoria"));
 				    bean.setvendite(0);
@@ -81,8 +115,43 @@ public class CatalogoServlet extends HttpServlet {
 				else if (action.equalsIgnoreCase("modifica")) {
 					
 				    String quantitaParam = request.getParameter("quantita");
-				    String tagliaParam = request.getParameter("Taglia");
-				    int quantita;
+				    String tagliaParam = request.getParameter("Taglia");				   
+				    String ivaParam = request.getParameter("iva");
+				    String prezzoParam = request.getParameter("prezzo");
+				    double iva;
+				    int quantita;				    
+				    double prezzo;
+
+				    try {
+				        prezzo = Double.parseDouble(prezzoParam);
+				    } catch (NumberFormatException e) {
+				        request.setAttribute("erroreCatalogo", "Il prezzo deve essere un numero valido.");
+				        request.getRequestDispatcher("/WEB-INF/view/admin/ModificaProdotto.jsp?prodotto=" + request.getParameter("id")).forward(request, response);
+				        return;
+				    }
+
+				    if (prezzo < 0) {
+				        request.setAttribute("erroreCatalogo", "Il prezzo non può essere negativo.");
+				        request.getRequestDispatcher("/WEB-INF/view/admin/ModificaProdotto.jsp?prodotto=" + request.getParameter("id")).forward(request, response);
+				        return;
+				    }
+
+				    
+				    try {
+				        iva = Double.parseDouble(ivaParam);
+				    } catch (NumberFormatException e) {
+				        request.setAttribute("erroreCatalogo", "L'IVA deve essere un numero valido.");
+				        request.getRequestDispatcher("/WEB-INF/view/admin/ModificaProdotto.jsp?prodotto="  + request.getParameter("id")).forward(request, response);
+
+				        return;
+				    }
+
+				    if (iva < 0) {
+				        request.setAttribute("erroreCatalogo", "L'IVA non può essere negativa.");
+				        request.getRequestDispatcher("/WEB-INF/view/admin/ModificaProdotto.jsp?prodotto="  + request.getParameter("id")).forward(request, response);
+
+				        return;
+				    }
 
 				    try {
 				        quantita = Integer.parseInt(quantitaParam);
@@ -111,8 +180,8 @@ public class CatalogoServlet extends HttpServlet {
 				    bean.setIdProdotto(Integer.parseInt(request.getParameter("id")));
 				    bean.setNome(request.getParameter("nome"));
 				    bean.setDescrizione(request.getParameter("descrizione"));
-				    bean.setIva(request.getParameter("iva"));
-				    bean.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
+				    bean.setIva(ivaParam);
+				    bean.setPrezzo(prezzo);
 				    bean.setQuantita(quantita);
 				    bean.setCategoria(request.getParameter("Categoria"));
 				    bean.setvendite(Integer.parseInt(request.getParameter("Vendite")));

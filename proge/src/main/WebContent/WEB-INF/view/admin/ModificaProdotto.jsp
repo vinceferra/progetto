@@ -59,11 +59,11 @@ if (erroreCatalogo != null) {
 		</div>
 		<div class="tableRow">
 			<p>Iva:</p>
-			<p><input type="text" name="iva" value="<%=bean.getIva() %>" placeholder="solo numeri" required></p>
+			<p><input type="number" name="iva" value="<%= bean.getIva() %>" min="0" step="0.01" placeholder="22" title="Inserire un numero" required></p>
 		</div>
 		<div class="tableRow">
 			<p>Prezzo:</p>
-			<p><input type="text" name="prezzo" value="<%=bean.getPrezzo() %>" placeholder="solo numeri" required></p>
+			<p><input type="number" name="prezzo" value="<%=bean.getPrezzo() %>" min="0" step="0.01" placeholder="solo numeri" title="Inserire un numero" required></p>
 		</div>		
 		<div class="tableRow">
 			<p>Quantità:</p>
